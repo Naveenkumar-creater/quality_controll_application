@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/boxwidget.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/topheaderwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/layoutwidget/boxwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/layoutwidget/topheaderwidget.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget_mapping_file.dart';
 
 class Hompagelayout3 extends StatefulWidget {

@@ -5,9 +5,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:qc_control_app/constatnt/Exception/network_exception.dart';
 
-class ApiConstant {
+class ApiConstant { 
 
-  static String baseUrl ="http://192.168.29.125:8080/AtmaIntegrationAPI/wsservice";  //  static String baseUrl ="http://159.69.188.148:8080/AtmaInterfaceAPI/wsservice";
+  static String baseUrl ="http://192.168.29.125:8081/AtmaIntegrationAPI/wsservice";  
+  //  static String baseUrl ="http://159.69.188.148:8080/AtmaInterfaceAPI/wsservice";
 
   static const String fromDate = "2023-08-01 10:00:00";
   static const String clientId = "vijay";
@@ -77,7 +78,9 @@ class ApiConstant {
         throw Exception("Invalid barcode");
       }
     } on TimeoutException {
+
       throw ("Sorry, the request took too long to process. Please try again later.");
+
     } on SocketException {
       throw NetworkException(
           'Failed to connect to the server. Please check your network connection.');

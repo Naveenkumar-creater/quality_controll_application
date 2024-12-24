@@ -9,4 +9,10 @@ class ProcessProvider extends ChangeNotifier {
     _user = process;
     notifyListeners();
   }
+
+    void reset() {
+    _user = null;
+    notifyListeners();
+  }
+
 }

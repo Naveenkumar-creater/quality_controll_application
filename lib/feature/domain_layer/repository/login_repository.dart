@@ -1,5 +1,3 @@
-
-
 import '../entity/login_entity.dart';
 
 abstract class LoginRepository {

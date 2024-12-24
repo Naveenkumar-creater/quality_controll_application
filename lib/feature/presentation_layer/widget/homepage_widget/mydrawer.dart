@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/eventquee_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/layoutname_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/login_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/process_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/url_di.dart';
@@ -21,7 +23,9 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   ProcessApiService processApiService = ProcessApiService();
   UrlDi uriString = UrlDi();
+  LayoutnameDi layoutname=LayoutnameDi();
   LoginApiService logout = LoginApiService();
+  EventqueeDi eventquee=EventqueeDi();
 
   bool isLoading = false;
   bool isFetching = false;
@@ -41,19 +45,21 @@ class _MyDrawerState extends State<MyDrawer> {
   // ];
 
 
-   List<String> urilist = [
-    "https://www.youtube.com",
-    "http://192.168.29.125:8081/btecManufacturer_Els/primefaces_manufacture/flutterlayout1.xhtml",
-    "http://159.69.188.148:8080/btecMaintenance/suja"
-  ];
+  //  List<String> urilist = [
+  //   "https://www.youtube.com",
+  //   "http://192.168.29.14:8081/btecManufacturer_Els/primefaces_manufacture/flutterlayout1.xhtml",
+  //   "http://159.69.188.148:8080/btecMaintenance/suja"
+  // ];
 
-  List<String> Socialmedia = [
-    "Youtube",
-    "Google",
-    "Google",
-  ];
+  // List<String> Socialmedia = [
+  //   "Youtube",
+  //   "Google",
+  //   "Google",
+  // ];
 
   int? _selectedIndex; // State variable to store the selected index
+
+  int statusId=1;
 
   @override
   void initState() {
@@ -65,6 +71,7 @@ class _MyDrawerState extends State<MyDrawer> {
     try {
       await processApiService.getProcessdetail(
           context: context, deptid: widget.deptid ?? 0);
+          
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
       });
@@ -81,7 +88,7 @@ class _MyDrawerState extends State<MyDrawer> {
     final userName = Provider.of<LoginProvider>(context).user?.userLoginEntity?.loginId;
 
     return Container(
-      height: 740.h,
+      height: 780.h,
       width: 252.w,
       child: Drawer(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
@@ -155,8 +162,9 @@ class _MyDrawerState extends State<MyDrawer> {
                 child: ListView.builder(
                   controller: _scrollController,
                   padding: EdgeInsets.zero,
-                  itemCount: Socialmedia.length,
+                  itemCount: processList?.length,
                   itemBuilder: (context, index) {
+                    final process=processList?[index];
                     return GestureDetector(
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
@@ -166,7 +174,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               : null,
                         ),
                         child: Text(
-                          Socialmedia[index],
+                        " ${process?.processName}",
                           style: TextStyle(
                               color: Colors.black54,
                               fontFamily: "Lexend",
@@ -177,12 +185,11 @@ class _MyDrawerState extends State<MyDrawer> {
                         setState(() {
                           _selectedIndex = index;
                         });
+                      //  final processId = processList?[index].processId ?? 0;
                        
-
                         try {
-                           final urllist = urilist[index];
-                          await uriString.geturl(context, urllist);
-                          // Close the drawer
+
+                            eventquee.getEventquee(context: context, status:statusId ,processid: process?.processId ?? 0);
                         } catch (e) {
                           print('Error fetching data: $e');
                         }

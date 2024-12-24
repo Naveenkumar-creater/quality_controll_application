@@ -14,9 +14,7 @@ class CustomTextFormfield extends StatelessWidget {
   final FocusNode? focusNode;
   final Function()? onEditingComplete;
   final Function(String)? onFieldSubmitted;
-
-
-   final TextStyle? hintStyle;
+  final TextStyle? hintStyle;
   final TextStyle? labelStyle;
   final TextStyle? textStyle;
   final BoxConstraints ? constrainBox;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/boxwidget.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/eventqueewidget.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/bottomlayerwidget.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/topheader2.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/layoutwidget/topheaderwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/homeheaderwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/layoutwidget/boxwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/layoutwidget/tablelayetwidget.dart';
+import 'package:qc_control_app/feature/presentation_layer/layoutwidget/topheader2.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget_mapping_file.dart';
 
 class Hompagelayout extends StatefulWidget {
@@ -15,6 +15,9 @@ class Hompagelayout extends StatefulWidget {
 }
 
 class _HompagelayoutState extends State<Hompagelayout> {
+
+
+
   String layoutwidgetname = "event";
    String box1="box1";
    String box2="box2";
@@ -32,7 +35,7 @@ class _HompagelayoutState extends State<Hompagelayout> {
 
     return Expanded(
       child: Container(
-           height: 758.h,
+        
         decoration: BoxDecoration(
                                 color: Colors.white,
                               ),
@@ -41,7 +44,7 @@ class _HompagelayoutState extends State<Hompagelayout> {
                                 children: [
                                   Row(
                                     children: [
-                                      TopHeader2Widget(child:Text("") 
+                                      TopHeader2Widget(child:Homeheaderwidget()
                                      ),
                                   
                                     ],
@@ -68,7 +71,7 @@ class _HompagelayoutState extends State<Hompagelayout> {
  SizedBox(height: 8.h,),
                                 Row(
                                     children: [
-                                      Thirdlayout(child:thirdwidget
+                                      Tablelayout(child:Eventqueewidget()
                                      ),
                                   
                                     ],

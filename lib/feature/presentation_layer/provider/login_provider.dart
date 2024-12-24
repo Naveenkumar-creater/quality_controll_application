@@ -8,4 +8,10 @@ class LoginProvider extends ChangeNotifier {
     _user = loginuser;
     notifyListeners();
   }
+  
+    void reset() {
+    _user = null;
+    notifyListeners();
+  }
+
 }
