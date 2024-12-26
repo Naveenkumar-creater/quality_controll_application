@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:qc_control_app/constatnt/customwidgets/custombutton.dart';
+import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
 import '../../provider/obsparameter_provider.dart';
 
 class ObsPararmeterWidget extends StatefulWidget {
@@ -14,6 +16,7 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
   List<TextEditingController> controllers = [];
   List<String> selectedValue = [];
   List<String> optionList = ["Passed", "Conditionally Passed", "Failed"];
+  String? selectename;
 
   @override
   void initState() {
@@ -61,25 +64,95 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
                   color: Colors.black87,
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Add save functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                child: Text(
-                  "Save",
-                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
-                ),
-              ),
+              CustomButton(
+                                              width: ThemeClass.buttonwidth,
+                                              height: ThemeClass.buttonheight,
+                                              backgroundColor:ThemeClass.buttonColor ,
+                                              borderRadius: BorderRadius.circular(ThemeClass.butborderradious),
+                          onPressed: (){
+// obsSampleDi.getSampleList(inspectionid:parameter?.iqcIiId ?? 0 , context: context);
+//                       _obsSample();
+// getSampledata(sample);
+
+              
+              
+           
+                        }, 
+                        child: Text("Save",style: TextStyle(fontFamily: "lexend",fontSize:ThemeClass.buttonTextSize,color: Colors.white)),
+                        )
             ],
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 10.h),
+             Container(
+            height: 80.h,
+            decoration: BoxDecoration(
+              color:Color.fromARGB(255, 45, 54, 104),
+              borderRadius: BorderRadius.circular(5.r)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                     alignment: Alignment.center,
+                      width: 50.w,
+                      child: Text("S.No", style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+                    Container(
+                   alignment: Alignment.center,
+                      width: 150.w,
+                      child: Text("Parameter", style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+                        Container(
+                   alignment: Alignment.center,
+                      width:200.w,
+                      child: Text("Values",
+                      textAlign: TextAlign.center,
+                       style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+                         Container(
+                   alignment: Alignment.center,
+                      width: 200.w,
+                      child: Text("Status", style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+                        Container(
+                   alignment: Alignment.center,
+                      width: 100.w,
+                      child: Text("Evaluvation", style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+               
+                  
+                    Container(
+                   alignment: Alignment.center,
+                      width: 150.w,
+                      child: Text("Actual Spec", style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),),
+                    ),
+                   
+                  
+                  ],
+              ),
+            ),
+          ),
+    
           // Main Content
           Consumer<ObsparameterProvider>(
             builder: (context, obsParam, child) {
@@ -99,43 +172,55 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
                 _initializeControllers();
               }
 
-              return ListView.separated(
+              return  ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: sample.length,
-                separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 1,
-                  height: 30.h,
-                ),
+              
                 itemBuilder: (context, index) {
                   final sampleList = sample[index];
                   final specType = sampleList.iqcCpsSpecType;
 
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade300,
-                          blurRadius: 6,
-                          spreadRadius: 2,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        // Parameter Description
-                        Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            blurRadius: 6,
+                            spreadRadius: 2,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                            Container(
+       alignment: Alignment.center,
+        width: 50.w,
+                            child: Text(
+                              "${index+1}",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                           Container(
+   
+        width: 150.w,
+        
                             child: Text(
                               sampleList.iqcCpsSpecDesc ??
                                   "Parameter ${index + 1}",
+                                  textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
@@ -143,97 +228,138 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-
-                        // Text Field
-                        Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            keyboardType: specType != 1
-                                ? TextInputType.text
-                                : TextInputType.number,
-                            controller: controllers.isNotEmpty
-                                ? controllers[index]
-                                : TextEditingController(),
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.grey.shade100,
-                              hintText: "Enter Value",
-                              hintStyle: TextStyle(
-                                color: Colors.black38,
-                                fontSize: 14.sp,
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 12.w, vertical: 12.h),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r),
-                                borderSide: BorderSide(
-                                    color: Colors.grey.shade400, width: 1),
-                              ),
-                            ),
-                            style: TextStyle(fontSize: 14.sp),
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-
-                        // Dropdown
-                        Expanded(
-                          flex: 2,
-                          child: DropdownButtonFormField<String>(
-                                  value: (selectedValue!=null&&selectedValue.length>index) ? selectedValue[index] :null,
-                            decoration: InputDecoration(
-                              fillColor: Colors.grey.shade100,
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r),
-                                borderSide: BorderSide(
-                                    color: Colors.grey.shade400, width: 1),
-                              ),
-                            ),
-                            hint: Text(
-                              "Select",
-                              style: TextStyle(fontSize: 14.sp),
-                            ),
-                            icon: Icon(Icons.keyboard_arrow_down),
-                            isExpanded: true,
-                            onChanged: (value) {
-                              setState(() {
-                                if(selectedValue!=null&&selectedValue.length>index){
-     selectedValue[index] = value!;
-                                }
-                           
-                              });
-                            },
-                            items: optionList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      color: Colors.black87, fontSize: 14.sp),
+                         
+                    
+                          // Text Field
+                           Container(
+     alignment: Alignment.center,
+        width: 200.w,
+        height: 50.h,
+                        
+                            child: TextFormField(
+                              keyboardType: specType != 1
+                                  ? TextInputType.text
+                                  : TextInputType.number,
+                              controller: controllers.isNotEmpty
+                                  ? controllers[index]
+                                  : TextEditingController(),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                            
+                                hintText: "Enter Value",
+                                hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14.sp,
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-
-                        // Spec Range
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            "${sampleList.iqcCpsRangeFrom}-${sampleList.iqcCpsRangeTo} ",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12.w, vertical: 12.h),
+                                enabledBorder:OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+                                                 ),
+                                                 focusedBorder: OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.black, width: 1),
+                                                 ),
+                                                 border: OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+                                                 ),
+                              ),
+                              style: TextStyle(fontSize: 16.sp,color: Colors.black),
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                      ],
+                          
+                    
+                                           Container(
+                                                         alignment: Alignment.center,
+                                                                     width: 200,
+                                                                     height: 50,
+                                             child: DropdownButtonFormField<String>(
+                                               value: (selectedValue != null && selectedValue.length > index && optionList.contains(selectedValue[index]))
+                                                   ? selectedValue[index]
+                                                   : null,
+                                               decoration: InputDecoration(
+                                                 fillColor: Colors.white,
+                                                 filled: true,
+                                                 enabledBorder:OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+                                                 ),
+                                                 focusedBorder: OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.black, width: 1),
+                                                 ),
+                                                 border: OutlineInputBorder(
+                                                   borderRadius: BorderRadius.circular(5.r),
+                                                   borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+                                                 ),
+                                               ),
+                                               hint: Text(
+                                                 "Select",
+                                                 style: TextStyle(fontSize: 14.sp,color: Colors.black),
+                                               ),
+                                               icon: Icon(Icons.keyboard_arrow_down),
+                                               isExpanded: true,
+                                               onChanged: (value) {
+                                                 setState(() {
+                                                   if (selectedValue != null && selectedValue.length > index) {
+                                                     selectedValue[index] = value!;
+                                                   }
+                                                 });
+                                               },
+                                               items: optionList
+                                                   .toSet()
+                                                   .toList() // Ensure unique values
+                                                   .map<DropdownMenuItem<String>>((String selectvalue) {
+                                                 return DropdownMenuItem<String>(
+                                                   value: selectvalue,
+                                                   child: Text(
+                                                     selectvalue,
+                                                     style: TextStyle(color: Colors.black87, fontSize: 14.sp),
+                                                   ),
+                                                 );
+                                               }).toList(),
+                                             ),
+                                           ),
+
+               
+                    
+                          
+                                           Container(
+                                                         alignment: Alignment.center,
+                                                                     width: 100,
+                                                                 
+                            child: Text(
+                              "Temperature Controller",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                         
+                                           Container(
+                                                         alignment: Alignment.center,
+                                                                     width: 150,
+                                                             
+                            child: Text(
+                              "${sampleList.iqcCpsRangeFrom}-${sampleList.iqcCpsRangeTo} ",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+
+
+                        ],
+                      ),
                     ),
                   );
                 },
