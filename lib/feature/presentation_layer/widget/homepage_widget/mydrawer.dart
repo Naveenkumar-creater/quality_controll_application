@@ -12,9 +12,9 @@ import 'package:qc_control_app/feature/presentation_layer/provider/process_provi
 
 
 class MyDrawer extends StatefulWidget {
-  final int? deptid;
 
-  MyDrawer({this.deptid});
+
+
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -70,7 +70,7 @@ class _MyDrawerState extends State<MyDrawer> {
   Future<void> _getProcess() async {
     try {
       await processApiService.getProcessdetail(
-          context: context, deptid: widget.deptid ?? 0);
+          context: context);
           
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
@@ -174,7 +174,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               : null,
                         ),
                         child: Text(
-                        " ${process?.processName}",
+                        " ${process?.mpmName}",
                           style: TextStyle(
                               color: Colors.black54,
                               fontFamily: "Lexend",
@@ -189,7 +189,7 @@ class _MyDrawerState extends State<MyDrawer> {
                        
                         try {
 
-                            eventquee.getEventquee(context: context, status:statusId ,processid: process?.processId ?? 0);
+                            eventquee.getEventquee(context: context, status:statusId ,processid: process?.mpmId ?? 0);
                         } catch (e) {
                           print('Error fetching data: $e');
                         }

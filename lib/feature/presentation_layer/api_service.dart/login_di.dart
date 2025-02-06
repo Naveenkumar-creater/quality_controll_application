@@ -27,8 +27,8 @@ class LoginApiService {
       await pref.setString("client_token", loginUser.userLoginEntity?.clientAutToken ?? "");
 
       Provider.of<LoginProvider>(context, listen: false).setUser(loginUser);
+      
 
-      // Navigate to homepage after refresh callback
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),

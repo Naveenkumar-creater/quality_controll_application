@@ -11,6 +11,7 @@ class ApiRequestDataModel {
   int?processId;
   int ? activityid;
   int ? iqciisid;
+  int ? orgid;
     
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -24,7 +25,8 @@ class ApiRequestDataModel {
       this.inspectionid,
       this.processId,
       this.activityid,
-      this.iqciisid
+      this.iqciisid,
+      this.orgid
   
       });
 
@@ -41,7 +43,8 @@ class ApiRequestDataModel {
       "iqc_ii_id":inspectionid,
       "mpm_id": processId,
       "imfgp_pa_id":activityid,
-      "iqc_iis_id":iqciisid
+      "iqc_iis_id":iqciisid,
+      "org_id":orgid
 
     };
   }

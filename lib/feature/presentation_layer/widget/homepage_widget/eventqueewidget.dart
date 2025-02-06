@@ -112,7 +112,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                   alignment: Alignment.center,
                   width: 150.w,
                   child: Text(
-                    "Item Ref",
+                    "Item",
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Lexend",
@@ -123,7 +123,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                   alignment: Alignment.center,
                   width: 150.w,
                   child: Text(
-                    "Asset Id",
+                    "Assets",
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Lexend",
@@ -224,7 +224,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                           alignment: Alignment.center,
                           width: 150.w,
                           child: Text(
-                            "${eventlist?.iqcIieAssetId}",
+                            "${eventlist?.assetName}",
                             style: TextStyle(
                                 color: Colors.black54,
                                 fontFamily: "Lexend",

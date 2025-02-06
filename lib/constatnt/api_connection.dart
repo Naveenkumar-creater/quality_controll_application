@@ -7,7 +7,7 @@ import 'package:qc_control_app/constatnt/Exception/network_exception.dart';
 
 class ApiConstant { 
 
-  static String baseUrl ="http://192.168.29.125:8081/AtmaIntegrationAPI/wsservice";  
+  static String baseUrl ="http://192.168.29.14:8080/AtmaIntegrationAPI/wsservice";  
   //  static String baseUrl ="http://159.69.188.148:8080/AtmaInterfaceAPI/wsservice";
 
   static const String fromDate = "2023-08-01 10:00:00";

@@ -6,7 +6,7 @@ class EventQueeUsecase{
   final EventQueeRepository eventRepository;
 EventQueeUsecase(this.eventRepository);
 
-Future<EventQueeEntity> getEventQuee ( String token,int status,  int processid ){
- return  eventRepository.getEventQuee(token, status, processid); 
+Future<EventQueeEntity> getEventQuee ( String token,int status,  int processid, int orgid ){
+ return  eventRepository.getEventQuee(token, status, processid, orgid); 
 }
 }

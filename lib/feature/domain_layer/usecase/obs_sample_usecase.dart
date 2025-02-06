@@ -5,9 +5,9 @@ class ObsSampleUsecase {
   final ObsSampleRepo  obsSampleRepo;
   ObsSampleUsecase(this.obsSampleRepo);
 
-  Future<ObsSampleEntity>getSample(String token, int inspectionId){
+  Future<ObsSampleEntity>getSample(String token, int inspectionId, int orgid){
 
-    return obsSampleRepo.getSample(token, inspectionId);
+    return obsSampleRepo.getSample(token, inspectionId, orgid);
     
   }
   

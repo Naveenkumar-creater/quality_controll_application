@@ -4,8 +4,9 @@ import 'package:qc_control_app/constatnt/Exception/show_pop_error.dart';
 import 'package:qc_control_app/feature/data_layer/remote/eventquee_datasource.dart';
 import 'package:qc_control_app/feature/data_layer/repository/event_repo_impl.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/eventquee_entity.dart';
-import 'package:qc_control_app/feature/domain_layer/usecase/evenquee_usedase.dart';
+import 'package:qc_control_app/feature/domain_layer/usecase/evenquee_usecase.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventquee_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -24,7 +25,8 @@ try {
 
  String token = pref.getString("client_token") ?? "";
 
- EventQueeEntity eventQuee= await eventQueeUsecase.getEventQuee(token, status,processid);
+  int? orgid=Provider.of<LoginProvider>(context, listen: false).user?.userLoginEntity?.orgId  ?? 0;
+ EventQueeEntity eventQuee= await eventQueeUsecase.getEventQuee(token, status,processid, orgid);
 
  return Provider.of<EventqueeProvider>(context,listen: false).setEventquee(eventQuee);
   

@@ -5,6 +5,7 @@ import 'package:qc_control_app/constatnt/customwidgets/custombutton.dart';
 import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/inspectionsample_entity.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionparameter_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/liststatus_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/obs_parameter_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/obsparameterlayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/topheader/currenttimewidget.dart';
@@ -26,6 +27,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
 
 InspectionparameterDi inspectionparam=InspectionparameterDi();
 ObsParameterDi obsParameterDi = ObsParameterDi();
+  ListstatusDi liststatusDi =ListstatusDi();
 
 void _obsSample(){
   showDialog(context: 
@@ -123,14 +125,14 @@ Row(children: [
                                 fontFamily: "Lexend",
                                 fontSize: 18.sp),),
       ),
-        Container(
-     alignment: Alignment.center,
-        width: 150.w,
-        child: Text("Control Method", style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Lexend",
-                                fontSize: 18.sp),),
-      ),
+    //     Container(
+    //  alignment: Alignment.center,
+    //     width: 150.w,
+    //     child: Text("Control Method", style: TextStyle(
+    //                             color: Colors.white,
+    //                             fontFamily: "Lexend",
+    //                             fontSize: 18.sp),),
+    //   ),
           Container(
      alignment: Alignment.center,
         width: 150.w,
@@ -213,14 +215,7 @@ Row(children: [
                                   fontFamily: "Lexend",
                                   fontSize: 15.sp),),
                       ),
-                          Container(
-                    alignment: Alignment.center,
-                        width: 150.w,
-                        child: Text("Every Batch", style: TextStyle(
-                                  color: Colors.black54,
-                                  fontFamily: "Lexend",
-                                  fontSize: 15.sp),),
-                      ),
+               
                         Container(
                     alignment: Alignment.center,
                         width: 150.w,
@@ -260,6 +255,8 @@ Row(children: [
 
 getSampledata(sampleList); 
 obsParameterDi.getParameterList(context: context, inspectionid: sampleList?.iqciisId ?? 0);
+
+liststatusDi.getStatus(context: context);
         Navigator.push(context,MaterialPageRoute(builder: (context) {
               return  Obsparameterlayout();
               },)

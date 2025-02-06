@@ -4,14 +4,14 @@ import 'package:qc_control_app/feature/data_layer/model/process_model.dart';
 
 
 abstract class ProcessDatasource {
-  Future<ProcessModel> getProcessList(String token,int deptid);
+  Future<ProcessModel> getProcessList(String token, int orgid);
 }
 
 class ProcessDatasourceImpl implements ProcessDatasource {
  
   @override
-  Future<ProcessModel> getProcessList(String token,int deptid) async {
-    final request = await ApiRequestDataModel(apiFor: "list_of_process_v1",clientAuthToken: token,deptId:deptid );
+  Future<ProcessModel> getProcessList(String token, int orgid) async {
+    final request =  ApiRequestDataModel(apiFor: "list_of_qc_process",clientAuthToken: token, orgid: orgid );
     final response= await ApiConstant.makeApiRequest(requestBody: request);
 
     final result = ProcessModel.fromJson(response);

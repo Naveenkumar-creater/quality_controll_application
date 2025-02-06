@@ -3,9 +3,11 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/process_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/mobile_page.dart/mobile_drawer.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/process_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/homeheaderwidget.dart';
 
 
 class MobileScaffold extends StatefulWidget {
@@ -36,13 +38,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
               ?.deptId ??
           0;
       await processApiService.getProcessdetail(
-          context: context, deptid: deptId);
+          context: context);
 
       final processId = Provider.of<ProcessProvider>(context, listen: false)
               .user
               ?.listofProcessEntity
               ?.first
-              ?.processId ??
+              ?.mpmId ??
           0;
      
 
@@ -65,9 +67,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
 
     
 
-   final deptid = (user?.listofProcessEntity?.isNotEmpty ?? false) ? user!.listofProcessEntity!.first.deptId : 1057;
+  //  final deptid = (user?.listofProcessEntity?.isNotEmpty ?? false) ? user!.listofProcessEntity!.first.deptId : 1057;
                       
-    final shiftgroupId =  user?.listofProcessEntity?.first?.shiftgroupId ?? 1;
+    // final shiftgroupId =  user?.listofProcessEntity?.first?.shiftgroupId ?? 1;
 
     final Size size = MediaQuery.of(context).size;
 
@@ -105,25 +107,17 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                   width: 36,
                 ),
               ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                "",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 80, 96, 203),
-                  fontSize: 24.0,
-                  fontFamily: 'Lexend',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(
-                  width: 36), // Placeholder to balance the drawer icon width
+
+              Homeheaderwidget() ,
+             // Placeholder to balance the drawer icon width
             ],
           ),
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
+
+
+      body:        Hompagelayout() ,
       
     );
   }

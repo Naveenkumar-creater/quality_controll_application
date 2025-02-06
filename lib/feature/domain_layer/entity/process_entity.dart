@@ -13,19 +13,20 @@ class ProcessEntity extends Equatable {
 
 class ListofProcessEntity extends Equatable {
   const ListofProcessEntity(
-      {required this.mpmCapability,
-      required this.mpmBatchProcess,
-      required this.processName,
-      required this.processId,
-      required this.deptId,
-      required this.shiftgroupId});
+      {
+               required this.mpmName,
+        required this.mpmId,
+        required this.iqcIiqAssignedTo,
+        required this.imfgpId,
+   
+      
+      });
 
-  final int? mpmCapability;
-  final int? processId;
-  final String? processName;
-  final int? shiftgroupId;
-  final int? deptId;
-  final int? mpmBatchProcess;
+   final String? mpmName;
+    final int? mpmId;
+    final int? iqcIiqAssignedTo;
+    final int? imfgpId;
   @override
-  List<Object?> get props => [processName, processId, deptId, shiftgroupId];
+  List<Object?> get props => [
+    mpmName, mpmId, iqcIiqAssignedTo, imfgpId];
 }

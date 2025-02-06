@@ -42,7 +42,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
     try {
       await processApiService.getProcessdetail(
         context: context,
-        deptid: 1057,
+   
       );
       setState(() {
         isLoading = true; // Set isLoading to false when data is fetched
@@ -157,7 +157,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  processList![index].processName ?? "",
+                                  processList![index].mpmName ?? "",
                                   style: TextStyle(
                                       color: Colors.black54,
                                       fontFamily: "Lexend"),
@@ -186,8 +186,8 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                               _selectedIndex = index;
                               // Update selected index
                             });
-                            final processId = processList[index].processId ?? 0;
-                            final deptId = processList[index].deptId ?? 0;
+                            final processId = processList[index].mpmId ?? 0;
+                            // final deptId = processList[index].deptId ?? 0;
                             try {
                     
                   

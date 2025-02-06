@@ -37,7 +37,9 @@ class EventQueueList extends EventQueueListEntity{
         required this.imfgpProcessSeq,
         required this.iqcIiqAssignedTo,
         required this.imfgpId,
-    }) : super(iqcIiqDate: iqcIiqDate, pcCardNo: pcCardNo, imfgpPaId:imfgpPaId , mpmName: mpmName, iqcIiqSampleUomId: iqcIiqSampleUomId, itemName: itemName, pcItemCode: pcItemCode, iqcIiqIieId: iqcIiqIieId, iqcIiqMaxSampleSize:iqcIiqMaxSampleSize , pcItemId: pcItemId, paActivityName: paActivityName, 
+        required this.assetName
+    }) : super(assetName: assetName,
+      iqcIiqDate: iqcIiqDate, pcCardNo: pcCardNo, imfgpPaId:imfgpPaId , mpmName: mpmName, iqcIiqSampleUomId: iqcIiqSampleUomId, itemName: itemName, pcItemCode: pcItemCode, iqcIiqIieId: iqcIiqIieId, iqcIiqMaxSampleSize:iqcIiqMaxSampleSize , pcItemId: pcItemId, paActivityName: paActivityName, 
     iqcIiqInspectionType: iqcIiqInspectionType, iqcIieAssetId: iqcIieAssetId, iqcIiqStatus: iqcIiqStatus, iqcIieCphId: iqcIieCphId, iqcIeEventName: iqcIeEventName, imfgpMpmId: imfgpMpmId, imfgpProcessSeq: imfgpProcessSeq, iqcIiqAssignedTo: iqcIiqAssignedTo, imfgpId: imfgpId);
 
     final DateTime? iqcIiqDate;
@@ -60,6 +62,7 @@ class EventQueueList extends EventQueueListEntity{
     final int? imfgpProcessSeq;
     final int? iqcIiqAssignedTo;
     final int? imfgpId;
+    final String ? assetName;
 
     factory EventQueueList.fromJson(Map<String, dynamic> json){ 
         return EventQueueList(
@@ -83,7 +86,7 @@ class EventQueueList extends EventQueueListEntity{
             imfgpProcessSeq: json["imfgp_process_seq"],
             iqcIiqAssignedTo: json["iqc_iiq_assigned_to"],
             imfgpId: json["imfgp_id"],
-          
+            assetName:json["asset_name"]          
         );
     }
 

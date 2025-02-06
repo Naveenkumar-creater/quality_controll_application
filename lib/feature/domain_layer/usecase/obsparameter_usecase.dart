@@ -5,9 +5,9 @@ import 'package:qc_control_app/feature/domain_layer/repository/obsparameter_repo
 class ObsparameterUsecase  {
   final ObsparameterRepo obsparameterRepo;
   ObsparameterUsecase(this.obsparameterRepo);
-  Future<ObsParameterEntity> getparameter(String token, int sampleId){
+  Future<ObsParameterEntity> getparameter(String token, int sampleId, int orgid){
 
-    return obsparameterRepo.getparameter(token, sampleId);
+    return obsparameterRepo.getparameter(token, sampleId, orgid);
     
   }
   

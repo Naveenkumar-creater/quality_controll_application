@@ -10,6 +10,7 @@ import 'package:qc_control_app/feature/presentation_layer/provider/inspecSampleL
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionparameter_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionsample_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/layout_name_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/list_status_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obs_sample_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obsparameter_provider.dart';
@@ -63,6 +64,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=>EventqueelocaldataProvider()),
          ChangeNotifierProvider(create: (_)=>ObsparameterProvider()),
   ChangeNotifierProvider(create: (_)=>InspecsampleLocalDataProvider()),
+ChangeNotifierProvider(create: (_)=>ListStatusProvider()),
+  
          
         
         

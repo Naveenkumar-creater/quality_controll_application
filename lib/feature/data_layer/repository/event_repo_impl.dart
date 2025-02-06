@@ -9,9 +9,9 @@ class EventQueeRepositoryImpl implements EventQueeRepository {
   EventQueeRepositoryImpl(this.eventqueeDatasource);
 
   @override
-  Future<EventQueeModel> getEventQuee(String token, int status,  int processid) {
+  Future<EventQueeModel> getEventQuee(String token, int status,  int processid, int orgid) {
 
-  final eventquee=eventqueeDatasource.getEventQuee(token, status, processid);
+  final eventquee=eventqueeDatasource.getEventQuee(token, status, processid, orgid);
     return eventquee;
 
   }

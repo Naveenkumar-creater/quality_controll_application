@@ -38,6 +38,7 @@ class EventQueueListEntity extends Equatable {
         required this.imfgpProcessSeq,
         required this.iqcIiqAssignedTo,
         required this.imfgpId,
+        required this.assetName
     });
 
     final DateTime? iqcIiqDate;
@@ -60,6 +61,7 @@ class EventQueueListEntity extends Equatable {
     final int? imfgpProcessSeq;
     final int? iqcIiqAssignedTo;
     final int? imfgpId;
+    final String ? assetName;
     
       @override
       // TODO: implement props
@@ -84,6 +86,7 @@ class EventQueueListEntity extends Equatable {
       imfgpProcessSeq,
       iqcIiqAssignedTo,
       imfgpId,
+      assetName
       ];
 
 

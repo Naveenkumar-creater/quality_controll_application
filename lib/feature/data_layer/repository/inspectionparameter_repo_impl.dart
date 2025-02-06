@@ -9,9 +9,9 @@ class InspectionparameterRepoImpl extends InspectionparameterRepo{
   InspectionparameterRepoImpl(this.inspectionparameterDatasource);
 
   @override
-  Future<InspectionParameterModel> getParameterList(String token, int headerId,int activityId) {
+  Future<InspectionParameterModel> getParameterList(String token, int headerId,int activityId, int orgid) {
 
-  final inspecParam= inspectionparameterDatasource.getParameterList(token, headerId,activityId);
+  final inspecParam= inspectionparameterDatasource.getParameterList(token, headerId,activityId, orgid);
 
   return inspecParam;
     

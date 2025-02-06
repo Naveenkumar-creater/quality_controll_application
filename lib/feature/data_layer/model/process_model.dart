@@ -9,7 +9,7 @@ class ProcessModel extends ProcessEntity {
 
   factory ProcessModel.fromJson(Map<String, dynamic> json) {
     final processListJson =
-        json['response_data']['List_Of_Process']; // Updated key name
+        json['response_data']['List_Of_QC_Process']; // Updated key name
     // ignore: avoid_print
     // print('Process List: $processListJson'); // Print the processListJson
 
@@ -29,41 +29,36 @@ class ProcessModel extends ProcessEntity {
 
 class ListOfProcess extends ListofProcessEntity {
   const ListOfProcess(
-      {required this.processName,
-      required this.processId,
-      required this.deptId,
-      required this.shiftgroupId,
-      required this.mpmBatchProcess,
-      required this.mpmCapability
+      {
+        required this.mpmName,
+        required this.mpmId,
+        required this.iqcIiqAssignedTo,
+        required this.imfgpId,
 
       // required  this.shiftStatus
       })
-      : assert(processId != null), // Ensure processId is not null
+      : assert(mpmId != null), // Ensure processId is not null
         super(
-            processName: processName,
-            processId: processId,
-            deptId: deptId,
-            shiftgroupId: shiftgroupId,
-            mpmCapability: mpmCapability,
-            mpmBatchProcess: mpmBatchProcess);
+          imfgpId: imfgpId,
+          iqcIiqAssignedTo: iqcIiqAssignedTo,mpmId: mpmId,
+          mpmName:mpmName 
+           );
 
   // final int? shiftStatus;
 
-  final int? mpmCapability;
-  final int? processId;
-  final String? processName;
-  final int? shiftgroupId;
-  final int? deptId;
-  final int? mpmBatchProcess;
+    final String? mpmName;
+    final int? mpmId;
+    final int? iqcIiqAssignedTo;
+    final int? imfgpId;
 
   factory ListOfProcess.fromJson(Map<String, dynamic> json) {
     return ListOfProcess(
-      mpmCapability: json["mpm_capability"],
-      processId: json["process_Id"] ?? 0,
-      processName: json["process_name"],
-      shiftgroupId: json["ps_sg_id"],
-      deptId: json["dept_id"],
-      mpmBatchProcess: json["mpm_batch_process"],
+             mpmName: json["mpm_name"],
+            mpmId: json["mpm_id"],
+            iqcIiqAssignedTo: json["iqc_iiq_assigned_to"],
+            imfgpId: json["imfgp_id"],
     );
   }
 }
+
+

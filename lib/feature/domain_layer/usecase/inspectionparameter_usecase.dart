@@ -9,8 +9,8 @@ class InspectionparameterUsecase {
      this.inspectionparameterRepo
   );
 
-  Future<InspectionParameterEntity> getParameterList(String token,int headerId, int activityId){  
-    return inspectionparameterRepo.getParameterList(token, headerId,activityId);
+  Future<InspectionParameterEntity> getParameterList(String token,int headerId, int activityId, int orgid){  
+    return inspectionparameterRepo.getParameterList(token, headerId,activityId, orgid);
   }
   
 }

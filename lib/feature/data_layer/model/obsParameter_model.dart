@@ -19,7 +19,7 @@ class ObsParameterModel extends ObsParameterEntity {
 
 class ObservationByParameter extends ObservationByParameterEntity{
     ObservationByParameter({
-        required this.ipcIspUomId,
+  required this.ipcIspUomId,
         required this.iqcIiId,
         required this.iqcIspDatatype,
         required this.iqcIiCpsId,
@@ -27,9 +27,11 @@ class ObservationByParameter extends ObservationByParameterEntity{
         required this.iqcIisId,
         required this.iqcIisIiqId,
         required this.iqcIspParamName,
+        required this.iqcIsgId,
         required this.iqcIioId,
         required this.iqcIioObservationStatus,
         required this.iqcCpsSpecType,
+        required this.iqcIsgGroupName,
         required this.iqcCpsSpecDesc,
         required this.iqcIioObservationNotes,
         required this.iqcCpsRangeTo,
@@ -41,7 +43,10 @@ class ObservationByParameter extends ObservationByParameterEntity{
         required this.iqcIiIiqId,
         required this.iqcIioObservationTextValue,
         required this.iqcCpsValue,
-    }) : super(ipcIspUomId: ipcIspUomId, iqcIiId: iqcIiId, iqcIspDatatype: iqcIspDatatype, iqcIiCpsId: iqcIiCpsId, iqcIioIiId: iqcIioIiId, iqcIisId: iqcIisId, iqcIisIiqId: iqcIisIiqId, iqcIspParamName: iqcIspParamName, iqcIioId: iqcIioId, iqcIioObservationStatus: iqcIioObservationStatus, iqcCpsSpecType: iqcCpsSpecType, iqcCpsSpecDesc: iqcCpsSpecDesc, iqcIioObservationNotes: iqcIioObservationNotes, iqcCpsRangeTo: iqcCpsRangeTo, iqcCpsIspId: iqcCpsIspId,
+    }) : super(
+      iqcIsgGroupName: iqcIsgGroupName,iqcIsgId: iqcIsgId,
+      
+      ipcIspUomId: ipcIspUomId, iqcIiId: iqcIiId, iqcIspDatatype: iqcIspDatatype, iqcIiCpsId: iqcIiCpsId, iqcIioIiId: iqcIioIiId, iqcIisId: iqcIisId, iqcIisIiqId: iqcIisIiqId, iqcIspParamName: iqcIspParamName, iqcIioId: iqcIioId, iqcIioObservationStatus: iqcIioObservationStatus, iqcCpsSpecType: iqcCpsSpecType, iqcCpsSpecDesc: iqcCpsSpecDesc, iqcIioObservationNotes: iqcIioObservationNotes, iqcCpsRangeTo: iqcCpsRangeTo, iqcCpsIspId: iqcCpsIspId,
      iqcIioIisId: iqcIioIisId, iqcIioObservationNumericValue: iqcIioObservationNumericValue, iqcCpsRangeFrom: iqcCpsRangeFrom, iqcIisSampleSno: iqcIisSampleSno, iqcIiIiqId: iqcIiIiqId, iqcIioObservationTextValue: iqcIioObservationTextValue, iqcCpsValue: iqcCpsValue);
 
     final int? ipcIspUomId;
@@ -66,6 +71,8 @@ class ObservationByParameter extends ObservationByParameterEntity{
     final int? iqcIiIiqId;
     final String? iqcIioObservationTextValue;
     final int? iqcCpsValue;
+        final String? iqcIsgGroupName;
+            final int? iqcIsgId;
 
     factory ObservationByParameter.fromJson(Map<String, dynamic> json){ 
         return ObservationByParameter(
@@ -91,6 +98,8 @@ class ObservationByParameter extends ObservationByParameterEntity{
             iqcIiIiqId: json["iqc_ii_iiq_id"],
             iqcIioObservationTextValue: json["iqc_iio_observation_text_value"],
             iqcCpsValue: json["iqc_cps_value"],
+            iqcIsgId: json["iqc_isg_id"],
+            iqcIsgGroupName: json["iqc_isg_group_name"],
         );
     }
 

@@ -11,8 +11,8 @@ class ObsSampleRepoImpl implements ObsSampleRepo {
   ObsSampleRepoImpl(this.obsSampleDatasource);
   
   @override
-  Future<ObsSampleModel> getSample (String token, int inspectionId) {
-   final obssample=obsSampleDatasource.getSample(token, inspectionId);
+  Future<ObsSampleModel> getSample (String token, int inspectionId,int orgid ) {
+   final obssample=obsSampleDatasource.getSample(token, inspectionId,  orgid);
 
    return obssample;
   }

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/eventquee_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/process_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout.dart';
-import 'package:qc_control_app/feature/presentation_layer/provider/eventquee_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget_mapping_file.dart';
 
@@ -41,11 +40,11 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
 
     try {
              final deptId = Provider.of<LoginProvider>(context, listen: false).user?.userLoginEntity?.deptId ?? 0;
-      await processApiService.getProcessdetail(context: context, deptid: deptId);
+      await processApiService.getProcessdetail(context: context,);
 
     int statusid=1;
 
-   final processId = Provider.of<ProcessProvider>(context, listen: false).user?.listofProcessEntity?.first?.processId ?? 0;
+   final processId = Provider.of<ProcessProvider>(context, listen: false).user?.listofProcessEntity?.first?.mpmId ?? 0;
       await  eventquee.getEventquee(context: context, status:statusid, processid: processId);
      
 
@@ -73,7 +72,6 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
     // // final deptid = user?.listofProcessEntity?.first.deptId ?? 1057;
     // final shiftgroupId = user?.listofProcessEntity?.first.shiftgroupId ?? 1;
 
-    final deptId = Provider.of<LoginProvider>(context).user?.userLoginEntity?.deptId;
 
     final Size size = MediaQuery.of(context).size;
     final h = MediaQuery.of(context).size.height;
@@ -85,7 +83,9 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
       onWillPop: () async {
         return false;
       },
-      child: Scaffold(
+      child: 
+      
+      Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
           padding:  EdgeInsets.all(8.w),
@@ -100,7 +100,7 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyDrawer(deptid: deptId),
+                            MyDrawer(),
                             SizedBox(width: 8.w),
                              Hompagelayout()
                           ],

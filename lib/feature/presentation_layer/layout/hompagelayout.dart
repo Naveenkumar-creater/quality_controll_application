@@ -23,9 +23,11 @@ class _HompagelayoutState extends State<Hompagelayout> {
    String box2="box2";
    String box3="box3";
    String box4="box4";
+   
 
   @override
   Widget build(BuildContext context) {
+    final size=MediaQuery.of(context).size.width < 600;
 
   Widget ? thirdwidget =WidgetMappingFile.getwidget(layoutwidgetname);
   Widget ? box1widget =WidgetMappingFile.getwidget(box1);
@@ -33,7 +35,20 @@ class _HompagelayoutState extends State<Hompagelayout> {
   Widget ? box3widget =WidgetMappingFile.getwidget(box3);
   Widget ? box4widget =WidgetMappingFile.getwidget(box4);
 
-    return Expanded(
+
+
+    return size ?  
+  Container(
+    child: Column(
+      children: [
+ 
+      ],
+    ),
+  ):
+    
+    
+    
+    Expanded(
       child: Container(
         
         decoration: BoxDecoration(
@@ -44,7 +59,9 @@ class _HompagelayoutState extends State<Hompagelayout> {
                                 children: [
                                   Row(
                                     children: [
-                                      TopHeader2Widget(child:Homeheaderwidget()
+                                      TopHeader2Widget(
+                                        child:Homeheaderwidget()
+
                                      ),
                                   
                                     ],
@@ -71,7 +88,9 @@ class _HompagelayoutState extends State<Hompagelayout> {
  SizedBox(height: 8.h,),
                                 Row(
                                     children: [
-                                      Tablelayout(child:Eventqueewidget()
+                                      Tablelayout(
+                                        
+                                        child:Eventqueewidget()
                                      ),
                                   
                                     ],

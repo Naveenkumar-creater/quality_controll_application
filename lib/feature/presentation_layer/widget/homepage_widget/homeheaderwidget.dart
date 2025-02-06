@@ -27,6 +27,8 @@ class _HomeheaderwidgetState extends State<Homeheaderwidget> {
         ? Provider.of<EventqueeProvider>(context, listen: true).event?.eventQueueListEntity?.first.mpmName ?? "Default"
         : "Default";
 
+        final size=MediaQuery.of(context).size.width<600;
+
     return Container(
       height: 85.h,
       decoration: BoxDecoration(
@@ -39,7 +41,7 @@ class _HomeheaderwidgetState extends State<Homeheaderwidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("${processName}" , style: TextStyle(
-                                    fontSize: 24.sp,
+                                    fontSize:size ?18.sp: 24.sp,
                                     color: Color.fromARGB(255, 80, 96, 203),
                                     fontFamily: "Lexend",
                                     fontWeight: FontWeight.w500),

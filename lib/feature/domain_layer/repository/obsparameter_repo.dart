@@ -2,5 +2,5 @@ import 'package:qc_control_app/feature/domain_layer/entity/obs_sample_entity.dar
 import 'package:qc_control_app/feature/domain_layer/entity/obsparameter_entity.dart';
 
 abstract class ObsparameterRepo{
-  Future<ObsParameterEntity> getparameter( String token, int sampleId);
+  Future<ObsParameterEntity> getparameter( String token, int sampleId, int orgid);
 }
