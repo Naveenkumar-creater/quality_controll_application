@@ -10,7 +10,8 @@ Future <ObsSampleModel>getSample(String token, int inspectionId, int orgid);
 class ObsSampleDatasourceImple extends ObsSampleDatasource{
   @override
   Future<ObsSampleModel> getSample(String token, int inspectionId, int orgid)async  {
-    ApiRequestDataModel request=ApiRequestDataModel(apiFor: "observation_by_samples",clientAuthToken: token,inspectionid:inspectionId, orgid: orgid);
+    ApiRequestDataModel request=ApiRequestDataModel(apiFor: "observation_by_samples",clientAuthToken: token,
+    inspectionid:inspectionId, orgid: orgid);
 
     final  response = await ApiConstant.makeApiRequest(requestBody: request);
 

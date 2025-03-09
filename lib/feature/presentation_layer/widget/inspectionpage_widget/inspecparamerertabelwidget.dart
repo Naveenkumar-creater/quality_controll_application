@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionparameter_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/obs_sample_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionparameter_provider.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/obs_sample_widget.dart';
+import 'package:qc_control_app/feature/presentation_layer/widget/observation_widget/obs_sample_widget.dart';
 
 class Inspecparamerertabelwidget extends StatefulWidget {
  
@@ -26,9 +26,15 @@ return ObsSampleWidget();
   });
 }
 
+ 
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final size= MediaQuery.of(context).size.width < 600;
+    return 
+    size ? Text(" ") :
+    
+    Container(
       height: 400.h,
       child: Column(
 

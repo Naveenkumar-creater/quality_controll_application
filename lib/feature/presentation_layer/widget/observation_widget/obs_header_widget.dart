@@ -17,8 +17,7 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
         Provider.of<EventqueelocaldataProvider>(context, listen: false)?.queedata;
 
     final sample=  Provider.of<InspecsampleLocalDataProvider>(context, listen: false)?.sampledata;   
-
-    final TextStyle labelStyle = TextStyle(
+ final TextStyle labelStyle = TextStyle(
       fontFamily: "lexend",
       fontSize: 14.sp,
       fontWeight: FontWeight.w500,
@@ -32,7 +31,108 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
       color: Colors.black87,
     );
 
-    return Container(
+    final size=MediaQuery.of(context).size.width <600;
+
+    return size ? 
+        Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 10.h,
+                children: [
+                      _buildInfoTile(
+                // icon: Icons.event,
+                label: "Event Name",
+                value: eventquee?.iqcIeEventName ?? "-",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              _buildInfoTile(
+                // icon: Icons.card_membership,
+                label: "Job ID",
+                value: eventquee?.pcCardNo ?? "-",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+                 
+                ],
+              ),
+            ],
+          ),
+         const SizedBox(height: 10,),
+
+            Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 10.h,
+                children: [
+                
+                     _buildInfoTile(
+                // icon: Icons.category,
+                label: "Item Ref",
+                value: "${eventquee?.itemName }" ?? "-",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              _buildInfoTile(
+                // icon: Icons.build,
+                label: "Activity",
+                value: "${eventquee?.paActivityName }",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+                
+                ],
+              ),
+            ],
+          ),
+    const SizedBox(height: 10,),
+          Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 4.h,
+                children: [
+                
+                            _buildInfoTile(
+                // icon: Icons.apartment,
+                label: "Asset Id",
+                value: "${eventquee?.iqcIieAssetId }" ?? "-",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              _buildInfoTile(
+                // icon: Icons.apartment,
+                label: "Samples",
+                value: sample?.iqcIisSampleTag ?? "-",
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+             
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    ) :
+   
+   
+   
+   
+ Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,10 +185,11 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,
               ),
-              _buildInfoTile(
-                // icon: Icons.qr_code,
-                label: "Control Method",
-                value: "Every Batch"?? "-",
+                
+                            _buildInfoTile(
+                // icon: Icons.apartment,
+                label: "Issued Date",
+                value: "${eventquee?.iqcIiqDate }" ?? "-",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,
               ),
@@ -108,14 +209,17 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
   }
 
   Widget _buildInfoTile({
+
     // required IconData icon,
     required String label,
     required String value,
     required TextStyle labelStyle,
     required TextStyle valueStyle,
   }) {
+    
+    final size=MediaQuery.of(context).size.width <600;
     return Container(
-      width: 174.w,
+      width: size ? 160.w: 174.w,
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color:ThemeClass.backgroundcolor,
@@ -139,7 +243,7 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
             value,
             style: valueStyle,
             maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+      
           ),
         ],
       ),

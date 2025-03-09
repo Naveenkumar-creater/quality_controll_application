@@ -4,19 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/actionstep_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventquee_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspecSampleLocalData_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionparameter_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionsample_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/interruptionevent_status_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/layout_name_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/list_status_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/listofrestartevent_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obs_sample_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obsparameter_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/process_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/reaction_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/url_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/loginpage_widget/loginpage_layout.dart';
+
+import 'feature/presentation_layer/provider/sampleoverallstatus_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,15 +66,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<EventqueeProvider>(create: (_)=>EventqueeProvider()),
         ChangeNotifierProvider<InspectionparameterProvider>(create: (_)=>InspectionparameterProvider()),
         ChangeNotifierProvider<ObsSampleProvider>(create: (_)=>ObsSampleProvider()),
-        ChangeNotifierProvider(create: (_)=>InspectionsampleProvider()),
-        ChangeNotifierProvider(create: (_)=>EventqueelocaldataProvider()),
-         ChangeNotifierProvider(create: (_)=>ObsparameterProvider()),
-  ChangeNotifierProvider(create: (_)=>InspecsampleLocalDataProvider()),
-ChangeNotifierProvider(create: (_)=>ListStatusProvider()),
-  
-         
-        
-        
+        ChangeNotifierProvider<InspectionsampleProvider>(create: (_)=>InspectionsampleProvider()),
+        ChangeNotifierProvider (create: (_)=>EventqueelocaldataProvider()),
+      ChangeNotifierProvider<ObsparameterProvider>(create: (_)=>ObsparameterProvider()),
+      ChangeNotifierProvider<InspecsampleLocalDataProvider>(create: (_)=>InspecsampleLocalDataProvider()),
+      ChangeNotifierProvider<ListStatusProvider>(create: (_)=>ListStatusProvider()),
+      ChangeNotifierProvider<InterruptioneventStatusProvider>(create: (_)=>InterruptioneventStatusProvider()),
+      ChangeNotifierProvider<ReactionProvider>(create: (_)=>ReactionProvider()),
+      ChangeNotifierProvider<ActionstepProvider>(create: (_)=>ActionstepProvider()), 
+ ChangeNotifierProvider<SampleoverallstatusProvider>(create: (_)=>SampleoverallstatusProvider()), 
+ ChangeNotifierProvider<ListofrestarteventProvider>(create: (_)=>ListofrestarteventProvider()), 
+ 
+       
       ],
       child: ScreenUtilInit(
         builder:(_,child)=> MaterialApp(

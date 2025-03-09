@@ -20,6 +20,11 @@ class EventQueuelocalDataModel {
     required this.imfgpProcessSeq,
     required this.iqcIiqAssignedTo,
     required this.imfgpId,
+    required this.iqcIiqId,
+    required this.natureEvent,
+    required this.pcid,
+    required this.iqcIieIeId,
+    required this.previouseventid
   });
 
 
@@ -43,10 +48,16 @@ class EventQueuelocalDataModel {
   final int? imfgpProcessSeq;
   final int? iqcIiqAssignedTo;
   final int? imfgpId;
+  final int? iqcIiqId;
+  final int ? natureEvent;
+  final int? pcid;
+  final int ? iqcIieIeId;
+  final int ? previouseventid;
 
   
   Map<String, dynamic> toJson() => {
         "iqc_iiq_date": iqcIiqDate,
+       "iqc_iiq_id":iqcIiqId,
         "pc_card_no": pcCardNo,
         "imfgp_pa_id": imfgpPaId,
         "mpm_name": mpmName,
@@ -65,6 +76,10 @@ class EventQueuelocalDataModel {
         "imfgp_mpm_id": imfgpMpmId,
         "imfgp_process_seq": imfgpProcessSeq,
         "iqc_iiq_assigned_to": iqcIiqAssignedTo,
-        "imfgp_id": imfgpId
+        "imfgp_id": imfgpId,
+       "iqc_ie_nature_of_event": natureEvent,
+        "iqc_iie_pc_id" : pcid,
+      "iqc_iie_ie_id" :  iqcIieIeId,
+"iqc_iie_prev_iie_id" : previouseventid 
       };
 }

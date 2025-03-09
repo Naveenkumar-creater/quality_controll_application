@@ -19,37 +19,37 @@ class _TabBarWidgetState extends State<TabBarWidget>{
         appBar: AppBar(
        
   bottom: PreferredSize(
-  preferredSize: Size.fromHeight(-4), // Adjust the height as needed
+  preferredSize: const Size.fromHeight(-4), // Adjust the height as needed
   child: Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Colors.white, // Background color for the TabBar
     ),
     child: TabBar(
-      labelColor: Color.fromARGB(255, 80, 96, 203)
+      labelColor:const  Color.fromARGB(255, 80, 96, 203)
       ,
-      labelStyle: TextStyle(fontWeight: FontWeight.bold ,fontSize: 16), // Text color for the selected tab
+      labelStyle: const TextStyle(fontWeight: FontWeight.bold ,fontSize: 16), // Text color for the selected tab
       unselectedLabelColor: Colors.black, // Text color for unselected tabs
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(5), // Rounded corners for the selected tab
         color: ThemeClass.backgroundcolor, // Background color for the selected tab
       ),
-      labelPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 0), // Adjust padding for proper alignment
+      labelPadding:const  EdgeInsets.symmetric(vertical: 2, horizontal: 0), // Adjust padding for proper alignment
       tabs: [
         Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.transparent, // No color for unselected tab
           ),
-          child: Tab(
+          child:const Tab(
             text: 'Sample',
           ),
         ),
         Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.transparent, // No color for unselected tab
           ),
-          child: Tab(
+          child:const Tab(
             text: 'Parameter',
           ),
         ),
@@ -60,11 +60,11 @@ class _TabBarWidgetState extends State<TabBarWidget>{
             ),
           ),
         ),
-        body:  Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+        body: const  Padding(
+          padding:  EdgeInsets.only(top: 8.0),
           child: TabBarView(
             children: [
-          InspecSampletabelwidget(),
+           InspecSampletabelwidget(),
            Inspecparamerertabelwidget()
             ],
           ),

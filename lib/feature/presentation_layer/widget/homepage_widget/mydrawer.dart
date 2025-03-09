@@ -199,7 +199,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 100.h),
             ListTile(
               leading: SvgPicture.asset(
                 'assets/svg/log-out.svg',

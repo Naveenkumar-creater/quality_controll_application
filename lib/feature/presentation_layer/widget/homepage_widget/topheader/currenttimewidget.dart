@@ -20,7 +20,7 @@ class _CurrenttimewidgetState extends State<Currenttimewidget> {
 
     current = Stream<String>.periodic(Duration(seconds: 1), (i) {
       final DateTime now = DateTime.now();
-      return '${now.day}-${now.month}-${now.year}  ${now.hour}: ${now.minute}:${now.second.toString().padLeft(2, '0')}';
+      return '${now.day}-${now.month}-${now.year}  ${now.hour}:${now.minute}:${now.second.toString().padLeft(2, '0')}';
     });
   }
 

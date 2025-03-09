@@ -12,11 +12,10 @@ void setobsparam(ObsParameterEntity  param){
 
 }
 
-
-reset(){
- _param=null;
- notifyListeners(); 
-}
+// reset(){
+//  _param=null;
+//  notifyListeners(); 
+// }
 
 }
 

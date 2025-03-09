@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qc_control_app/feature/presentation_layer/local_stored_data_model/eventqueedata_model.dart';
+import 'package:qc_control_app/feature/presentation_layer/local_stored_data_model/eventqueelocaldata_model.dart';
 
 class EventqueelocaldataProvider extends ChangeNotifier{
   EventQueuelocalDataModel ? _queedata;

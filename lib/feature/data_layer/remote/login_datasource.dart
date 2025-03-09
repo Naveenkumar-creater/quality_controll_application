@@ -12,8 +12,8 @@ class LoginDataSourceImpl extends LoginDataSource {
 
   @override
   Future<LoginModel> loginInUser(String loginId, String password) async {
-    ApiRequestDataModel request = await ApiRequestDataModel(apiFor: "generate_access_token",loginPassword:password,clGroup:"patienttype",loginId: loginId);
-    final response=await ApiConstant.makeApiRequest(requestBody:request);
+    ApiRequestDataModel request =  ApiRequestDataModel(apiFor: "generate_access_token",loginPassword:password,clGroup:"patienttype",loginId: loginId);
+    final response=await ApiConstant.loginApiRequest(requestBody:request);
     final result = LoginModel.fromJson(response);
   
     print(result);

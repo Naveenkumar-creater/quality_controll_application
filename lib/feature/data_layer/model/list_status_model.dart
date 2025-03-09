@@ -9,7 +9,7 @@ class ListofStatusModel extends ListStatusEntity {
 
     factory ListofStatusModel.fromJson(Map<String, dynamic> json){ 
         return ListofStatusModel(
-            listOfStatusLable: json["response_data"]["List_Of_Status_Lable"] == null ? [] : List<ListOfStatusLable>.from(json["response_data"]["List_Of_Status_Lable"]!.map((x) => ListOfStatusLable.fromJson(x))),
+            listOfStatusLable: json["response_data"]["List_Of_Status_Label"] == null ? [] : List<ListOfStatusLable>.from(json["response_data"]["List_Of_Status_Label"]!.map((x) => ListOfStatusLable.fromJson(x))),
         );
     }
 

@@ -14,22 +14,40 @@ class Homeheaderwidget extends StatefulWidget {
 class _HomeheaderwidgetState extends State<Homeheaderwidget> {
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
        
-  }
+  // }
   @override
   Widget build(BuildContext context) {
 
-    final  processName=  Provider.of<EventqueeProvider>(context, listen: true).event?.eventQueueListEntity?.isNotEmpty ?? false
-        ? Provider.of<EventqueeProvider>(context, listen: true).event?.eventQueueListEntity?.first.mpmName ?? "Default"
+    final  processName=  Provider.of<EventqueeProvider>(context, listen:false).event?.eventQueueListEntity.isNotEmpty ?? false
+        ? Provider.of<EventqueeProvider>(context, listen: false).event?.eventQueueListEntity.first.mpmName ?? "Default"
         : "Default";
 
         final size=MediaQuery.of(context).size.width<600;
 
-    return Container(
+    return size ?
+     Container(
+       child: Row(
+         
+         children: [
+           Text("${processName}" , style: TextStyle(
+                                   fontSize:size ?18.sp: 24.sp,
+                                   color: Color.fromARGB(255, 80, 96, 203),
+                                   fontFamily: "Lexend",
+                                   fontWeight: FontWeight.w500),
+                             ),
+     
+                             SizedBox(width: 30,),
+            
+           Currenttimewidget()
+         ],
+       ),
+     ):
+    
+    Container(
       height: 85.h,
       decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(5.r)) ),

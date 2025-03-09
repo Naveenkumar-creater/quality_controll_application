@@ -19,49 +19,65 @@ class EventQueeEntity extends Equatable{
 class EventQueueListEntity extends Equatable {
     EventQueueListEntity({
         required this.iqcIiqDate,
-        required this.pcCardNo,
         required this.imfgpPaId,
         required this.mpmName,
-        required this.iqcIiqSampleUomId,
-        required this.itemName,
         required this.pcItemCode,
         required this.iqcIiqIieId,
-        required this.iqcIiqMaxSampleSize,
-        required this.pcItemId,
+        required this.iqcIiqId,
+        required this.iqcIieIeId,
         required this.paActivityName,
-        required this.iqcIiqInspectionType,
         required this.iqcIieAssetId,
+        required this.assetName,
         required this.iqcIiqStatus,
         required this.iqcIieCphId,
         required this.iqcIeEventName,
+        required this.iqcIieId,
+        required this.pcCardNo,
+        required this.iqcIiqSampleUomId,
+        required this.itemName,
+        required this.iqcIiqMaxSampleSize,
+        required this.pcItemId,
+        required this.iqcIiqInspectionType,
         required this.imfgpMpmId,
         required this.imfgpProcessSeq,
+        required this.paId,
         required this.iqcIiqAssignedTo,
         required this.imfgpId,
-        required this.assetName
+        required this.statusName,
+        required this.natureEvent,
+        required this.pcid,
+required this.previouseventid
     });
 
     final DateTime? iqcIiqDate;
-    final String? pcCardNo;
     final int? imfgpPaId;
     final String? mpmName;
-    final int? iqcIiqSampleUomId;
-    final String? itemName;
     final String? pcItemCode;
     final int? iqcIiqIieId;
-    final int? iqcIiqMaxSampleSize;
-    final int? pcItemId;
+    final int? iqcIiqId;
+    final int? iqcIieIeId;
     final String? paActivityName;
-    final int? iqcIiqInspectionType;
     final int? iqcIieAssetId;
+    final String? assetName;
     final int? iqcIiqStatus;
     final int? iqcIieCphId;
     final String? iqcIeEventName;
+    final int? iqcIieId;
+    final String? pcCardNo;
+    final int? iqcIiqSampleUomId;
+    final String? itemName;
+    final int? iqcIiqMaxSampleSize;
+    final int? pcItemId;
+    final int? iqcIiqInspectionType;
     final int? imfgpMpmId;
     final int? imfgpProcessSeq;
+    final int? paId;
     final int? iqcIiqAssignedTo;
     final int? imfgpId;
-    final String ? assetName;
+    final String? statusName;
+        final int? natureEvent;
+        final int? pcid;
+        final int ? previouseventid;
     
       @override
       // TODO: implement props
@@ -86,7 +102,9 @@ class EventQueueListEntity extends Equatable {
       imfgpProcessSeq,
       iqcIiqAssignedTo,
       imfgpId,
-      assetName
+      assetName,
+      natureEvent,
+      previouseventid
       ];
 
 

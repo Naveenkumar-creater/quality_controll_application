@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:provider/provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/eventquee_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/process_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/mobile_page.dart/mobile_drawer.dart';
@@ -21,43 +22,42 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Stream<String> current;
   ProcessApiService processApiService = ProcessApiService();
+  EventqueeDi eventquee=EventqueeDi();
+
 
   bool isLoading = true;
 
-  @override
+    @override
   void initState() {
     super.initState();
     _getProcess();
   }
 
-  Future<void> _getProcess() async {
-    try {
-      final deptId = Provider.of<LoginProvider>(context, listen: false)
-              .user
-              ?.userLoginEntity
-              ?.deptId ??
-          0;
-      await processApiService.getProcessdetail(
-          context: context);
 
-      final processId = Provider.of<ProcessProvider>(context, listen: false)
-              .user
-              ?.listofProcessEntity
-              ?.first
-              ?.mpmId ??
-          0;
+
+  Future<void> _getProcess() async {
+
+    try {
+             final deptId = Provider.of<LoginProvider>(context, listen: false).user?.userLoginEntity?.deptId ?? 0;
+      await processApiService.getProcessdetail(context: context,);
+
+    int statusid=1;
+
+   final processId = Provider.of<ProcessProvider>(context, listen: false).user?.listofProcessEntity?.first?.mpmId ?? 0;
+      await  eventquee.getEventquee(context: context, status:statusid, processid: processId);
      
 
-  
-
-      setState(() {
-        isLoading = false; // Set isLoading to false when data is fetched
-      });
+    setState(() {
+      isLoading = false;
+    });
+      
     } catch (e) {
-      setState(() {
+       setState(() {
         isLoading = false; // Set isLoading to false even if there's an error
       });
+      
     }
+   
   }
 
   @override
@@ -79,8 +79,6 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                   body:   Center(child: CircularProgressIndicator()),
                 )
                 
-                
-                // Show loading indicator while fetching data
                 :
     
     Scaffold(
@@ -108,7 +106,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                 ),
               ),
 
-              Homeheaderwidget() ,
+              Homeheaderwidget()
+
+               ,
              // Placeholder to balance the drawer icon width
             ],
           ),
@@ -117,7 +117,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
       ),
 
 
-      body:        Hompagelayout() ,
+      body: Hompagelayout() ,
       
     );
   }

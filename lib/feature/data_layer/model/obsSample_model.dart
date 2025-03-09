@@ -56,7 +56,7 @@ class ObservationBySample extends ObservationBySampleEntity{
     final String? iqcIioObservationNotes;
     final int? iqcCpsRangeTo;
     final int? iqcIioIisId;
-    final int? iqcIioObservationNumericValue;
+    final double? iqcIioObservationNumericValue;
     final int? iqcCpsRangeFrom;
     final int? iqcIisSampleSno;
     final int? iqcIiIiqId;

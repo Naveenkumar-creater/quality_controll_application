@@ -6,12 +6,19 @@ class ApiRequestDataModel {
   String? clGroup;
   int? deptId;
   int ? statuscount;
-  int ?controlplanheaderid;
-  int?inspectionid;
-  int?processId;
+  int ? controlplanheaderid;
+  int? inspectionid;
+  int? processId;
   int ? activityid;
   int ? iqciisid;
   int ? orgid;
+  int ? queeid;
+   int ?  imfgpid;
+   int ? eventid;
+     int ? eventtrigerid;
+    int ? samplesize;
+    int ? questatus;
+    int ?  previouseventid ;
     
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -26,7 +33,14 @@ class ApiRequestDataModel {
       this.processId,
       this.activityid,
       this.iqciisid,
-      this.orgid
+      this.orgid,
+      this. queeid,
+     this.imfgpid,
+    this. eventid,
+    this. eventtrigerid,
+    this. samplesize,
+    this. questatus,
+    this. previouseventid
   
       });
 
@@ -44,8 +58,14 @@ class ApiRequestDataModel {
       "mpm_id": processId,
       "imfgp_pa_id":activityid,
       "iqc_iis_id":iqciisid,
-      "org_id":orgid
-
+      "org_id":orgid,
+      "queue_id":queeid,
+      "imfgp_id":imfgpid,
+      "event_id":eventid,
+      "event_trigger_id":eventtrigerid,
+      "sample_size":samplesize,
+      "que_status":questatus,
+"iqc_iie_prev_iie_id":  previouseventid
     };
   }
 }
@@ -57,3 +77,18 @@ class ApiRequestDataModel {
 
 
 
+// "{
+// "client_aut_token": "goutham-4676",
+// "api_for": "list_of_samples",
+// "queue_id":1,
+// "imfgp_id":1,
+// "imfgp_pa_id":13,
+// "mpm_id":5,
+// "cph_id":1,
+// "event_id":1,
+// "event_trigger_id":1,
+// "sample_size":5,
+// "que_status":1,
+// "org_id":1
+// }
+// "

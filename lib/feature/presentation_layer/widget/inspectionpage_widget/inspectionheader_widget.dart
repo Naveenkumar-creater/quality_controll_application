@@ -29,7 +29,104 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
       color: Colors.black87,
     );
 
-    return Container(
+    final size=MediaQuery.of(context).size.width <600;
+
+    return size ? 
+        Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 10.h,
+                children: [
+                  _buildInfoTile(
+                    // icon: Icons.event,
+                    label: "Event Name",
+                    value: eventquee?.iqcIeEventName ?? "-",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                  _buildInfoTile(
+                    // icon: Icons.card_membership,
+                    label: "Job ID",
+                    value: eventquee?.pcCardNo ?? "-",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                 
+                ],
+              ),
+            ],
+          ),
+         const SizedBox(height: 10,),
+
+            Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 10.h,
+                children: [
+                
+                   _buildInfoTile(
+                    // icon: Icons.category,
+                    label: "Item Ref",
+                    value: eventquee?.itemName ?? "-",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                  _buildInfoTile(
+                    // icon: Icons.build,
+                    label: "Activity",
+                    value: "${eventquee?.paActivityName }",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                
+                ],
+              ),
+            ],
+          ),
+    const SizedBox(height: 10,),
+          Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 10.w,
+          
+                runSpacing: 4.h,
+                children: [
+                
+                _buildInfoTile(
+                    // icon: Icons.apartment,
+                    label: "Asset ID",
+                    value: "${eventquee?.iqcIieAssetId }"?? "-",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                  _buildInfoTile(
+                    // icon: Icons.qr_code,
+                    label: "Barcode",
+                    value: eventquee?.pcCardNo ?? "-",
+                    labelStyle: labelStyle,
+                    valueStyle: valueStyle,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    ) :
+    
+    Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,8 +208,10 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
     required TextStyle labelStyle,
     required TextStyle valueStyle,
   }) {
+    
+    final size=MediaQuery.of(context).size.width <600;
     return Container(
-      width: 174.w,
+      width: size ? 160.w: 174.w,
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color:ThemeClass.backgroundcolor,

@@ -27,7 +27,7 @@ class ObservationBySampleEntity extends Equatable {
         required this.iqcIioIiId,
         required this.iqcIioId,
         required this.iqcIioObservationStatus,
-        required this.iqcCpsSpecType,
+        required this.iqcCpsSpecType, 
         required this.iqcIioObservationNotes,
         required this.iqcCpsRangeTo,
         required this.iqcIioIisId,
@@ -51,7 +51,7 @@ class ObservationBySampleEntity extends Equatable {
     final String? iqcIioObservationNotes;
     final int? iqcCpsRangeTo;
     final int? iqcIioIisId;
-    final int? iqcIioObservationNumericValue;
+    final double? iqcIioObservationNumericValue;
     final int? iqcCpsRangeFrom;
     final int? iqcIisSampleSno;
     final int? iqcIiIiqId;

@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +10,10 @@ import 'package:provider/provider.dart';
 
 
 class MobileMyDrawer extends StatefulWidget {
-  const MobileMyDrawer({Key? key}) : super(key: key);
+
   static late String? processName;
+
+  const MobileMyDrawer({super.key});
 
   @override
   State<MobileMyDrawer> createState() => _MobileMyDrawerState();
@@ -57,9 +55,10 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
   int? _selectedIndex; // State variable to store the selected index
   @override
   Widget build(BuildContext context) {
+
     DateTime now = DateTime.now();
-    String toDate = DateFormat('dd-MM-yyyy ').format(now);
-    String toTime = DateFormat(' HH:mm:ss').format(now);
+    String toDate = DateFormat('dd-MM-yyyy').format(now);
+    String toTime = DateFormat('HH:mm:ss').format(now);
 
     final processList =
         Provider.of<ProcessProvider>(context).user?.listofProcessEntity;
@@ -83,9 +82,9 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                     children: [
                       CircleAvatar(
                         radius: 30.r, // Adjust the radius as needed
-                        backgroundColor: Color.fromARGB(
+                        backgroundColor:const  Color.fromARGB(
                             255, 80, 96, 203), // Background color
-                        child: Icon(
+                        child: const  Icon(
                           Icons.person, // Profile icon
                           size: 30, // Icon size
                           color: Colors.white, // Icon color
@@ -101,14 +100,14 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                             'Hello,',
                             style: TextStyle(
                                 fontSize: 14.w,
-                                color: Color.fromARGB(255, 80, 96, 203),
+                                color:const  Color.fromARGB(255, 80, 96, 203),
                                 fontFamily: "Lexend"),
                           ),
                           Text(
-                            '${userName}',
+                            '${userName}',  
                             style: TextStyle(
                                 fontSize: 20.w,
-                                color: Color.fromARGB(255, 80, 96, 203),
+                                color: const Color.fromARGB(255, 80, 96, 203),
                                 fontFamily: "Lexend",
                                 fontWeight: FontWeight.w500),
                           ),
@@ -122,10 +121,10 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
             SizedBox(
               height: 20.h,
             ),
-            ListTile(
-              title: Text(
+            const ListTile(
+              title:  Text(
                 'PROCESS AREA ',
-                style: const TextStyle(
+                style:  TextStyle(
                     fontSize: 16, color: Colors.black, fontFamily: "Lexend"),
               ),
             ),
@@ -137,7 +136,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
               child: Scrollbar(
                 controller: _scrollController,
 
-                radius: Radius.circular(8),
+                radius: const Radius.circular(8),
                 thickness: 8.w,
                 thumbVisibility: true,
                 child: ListView.builder(
@@ -147,10 +146,10 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                     itemBuilder: (context, index) => GestureDetector(
                           child: Container(
                             padding:
-                                EdgeInsets.only(bottom: 12, top: 12, left: 16),
+                                const EdgeInsets.only(bottom: 12, top: 12, left: 16),
                             decoration: BoxDecoration(
                               color: _selectedIndex == index
-                                  ? Color.fromARGB(110, 163, 173, 236)
+                                  ? const Color.fromARGB(110, 163, 173, 236)
                                   : null,
                             ), // Set unique background color for selected tile
                             child: Column(
@@ -158,7 +157,7 @@ class _MobileMyDrawerState extends State<MobileMyDrawer> {
                               children: [
                                 Text(
                                   processList![index].mpmName ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black54,
                                       fontFamily: "Lexend"),
                                 ),

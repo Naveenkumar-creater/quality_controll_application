@@ -47,8 +47,8 @@ class LoginApiService {
       final sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString("client_token", "");
 
-    context.read<ProcessProvider>().reset();
-      context.read<LoginProvider>().reset();
+    // context.read<ProcessProvider>().reset();
+    //   context.read<LoginProvider>().reset();
   // context.read<EmployeeProvider>().reset();
   //  context.read<AttendanceCountProvider>().reset();
   Navigator.pushAndRemoveUntil(

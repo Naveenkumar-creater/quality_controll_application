@@ -9,14 +9,14 @@ class ObsParameterEntity extends Equatable{
 
     final List<ObservationByParameterEntity> observationBySamples;    
       @override
-      // TODO: implement props
       List<Object?> get props => [observationBySamples];
 
 }
 
 class ObservationByParameterEntity extends Equatable {
     ObservationByParameterEntity({
-        required this.ipcIspUomId,
+        required this.iqcIioDate,
+  required this.ipcIspUomId,
         required this.iqcIiId,
         required this.iqcIspDatatype,
         required this.iqcIiCpsId,
@@ -24,9 +24,11 @@ class ObservationByParameterEntity extends Equatable {
         required this.iqcIisId,
         required this.iqcIisIiqId,
         required this.iqcIspParamName,
+        required this.iqcIsgId,
         required this.iqcIioId,
         required this.iqcIioObservationStatus,
         required this.iqcCpsSpecType,
+        required this.iqcIsgGroupName,
         required this.iqcCpsSpecDesc,
         required this.iqcIioObservationNotes,
         required this.iqcCpsRangeTo,
@@ -38,36 +40,34 @@ class ObservationByParameterEntity extends Equatable {
         required this.iqcIiIiqId,
         required this.iqcIioObservationTextValue,
         required this.iqcCpsValue,
-        required this.iqcIsgGroupName,
-        required this.iqcIsgId
-
         
     });
 
-    final int? ipcIspUomId;
+     final int? ipcIspUomId;
     final int? iqcIiId;
-    final int? iqcIspDatatype;
     final int? iqcIiCpsId;
     final int? iqcIioIiId;
     final int? iqcIisId;
-    final int? iqcIisIiqId;
     final String? iqcIspParamName;
     final int? iqcIioId;
-    final int? iqcIioObservationStatus;
-    final int? iqcCpsSpecType;
-    final String? iqcCpsSpecDesc;
     final String? iqcIioObservationNotes;
-    final int? iqcCpsRangeTo;
-    final int? iqcCpsIspId;
-    final int? iqcIioIisId;
     final int? iqcIioObservationNumericValue;
-    final int? iqcCpsRangeFrom;
+    final DateTime? iqcIioDate;
+    final double? iqcCpsRangeFrom;
     final int? iqcIisSampleSno;
     final int? iqcIiIiqId;
     final String? iqcIioObservationTextValue;
     final int? iqcCpsValue;
-    final String? iqcIsgGroupName;
+    final int? iqcIspDatatype;
+    final int? iqcIisIiqId;
     final int? iqcIsgId;
+    final int? iqcIioObservationStatus;
+    final int? iqcCpsSpecType;
+    final String? iqcIsgGroupName;
+    final String? iqcCpsSpecDesc;
+    final double? iqcCpsRangeTo;
+    final int? iqcCpsIspId;
+    final int? iqcIioIisId;
 
       @override
       // TODO: implement props
@@ -96,6 +96,6 @@ class ObservationByParameterEntity extends Equatable {
      iqcCpsValue,
       ];
 
-  map(Null Function() param0) {}
+
 
 }

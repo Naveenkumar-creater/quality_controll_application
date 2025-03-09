@@ -13,7 +13,14 @@ class InspectionsampleDi{
   Future<void> getSampleList({
 required BuildContext context,
 required int headerid,
-required int activityid
+required int activityid, 
+required int processid, 
+ required int eventid, 
+ required int imfgpid,
+ required int eventtriggerid, 
+ required int samplesize,
+ required int queeid, 
+ required int queestatus
   }) async{
 
     try {
@@ -23,7 +30,14 @@ required int activityid
 
       InspectionsampleUsecase inspectionsampleUsecase=InspectionsampleUsecase(InspectionsampleRepoImpl(InspectionsampleDatasourceImpl()));
   int? orgid=Provider.of<LoginProvider>(context, listen: false).user?.userLoginEntity?.orgId  ?? 0;
-      InspectionSampleEntity response= await inspectionsampleUsecase.getSampleList(token, headerid, activityid, orgid);
+      InspectionSampleEntity response= await inspectionsampleUsecase.getSampleList(
+       token,  headerid,  activityid,
+         orgid, 
+        processid, 
+   eventid,  
+   imfgpid,  
+   eventtriggerid,  
+    samplesize,  queeid,  queestatus);
  Provider.of<InspectionsampleProvider>(context,listen: false).setSample(response);
 
     } catch (e) {

@@ -102,7 +102,7 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
                           children: [
                             MyDrawer(),
                             SizedBox(width: 8.w),
-                             Hompagelayout()
+                           const Hompagelayout()
                           ],
                         ),
                       ],

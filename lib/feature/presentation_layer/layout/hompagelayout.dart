@@ -39,12 +39,71 @@ class _HompagelayoutState extends State<Hompagelayout> {
 
     return size ?  
   Container(
-    child: Column(
-      children: [
- 
-      ],
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [ 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+              Expanded(
+                child: Boxwidget(
+                           height: 100.h,
+                                                  width: 200.w,
+                  child: Center(child: Text("Quality",style: TextStyle(fontSize: 16.sp)))),
+              ),
+          
+          SizedBox(width: 8,),
+               Expanded(
+              child: Boxwidget(
+                height: 100.h,
+                                                  width: 200.w,
+                  child: Center(child: Text("Control",style: TextStyle(fontSize: 18.sp))) ,),
+            ),
+          ],
+          ),
+
+
+     SizedBox(height:8,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+              Expanded(
+                child: Boxwidget(
+                           height: 100.h,
+                                                  width: 200.w,
+                  child: Center(child: Text("Quality",style: TextStyle(fontSize: 16.sp)))),
+              ),
+          
+          SizedBox(width: 8,),
+               Expanded(
+              child: Boxwidget(
+                height: 100.h,
+                                                  width: 200.w,
+                  child: Center(child: Text("Control",style: TextStyle(fontSize: 16.sp))),),
+            ),
+          ],
+          ),
+
+    const  SizedBox(height:8,),
+Row(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    Text("Events",
+  
+    
+    style: TextStyle(fontSize: 18.sp,color:  Color.fromARGB(255, 80, 96, 203),
+    fontWeight: FontWeight.bold,fontFamily: "Lexend"
+    )),
+  ],
+),
+
+ const    SizedBox(height:8,),
+      Eventqueewidget()   
+        ],
+      ),
     ),
-  ):
+  ):  
     
     
     
@@ -61,7 +120,6 @@ class _HompagelayoutState extends State<Hompagelayout> {
                                     children: [
                                       TopHeader2Widget(
                                         child:Homeheaderwidget()
-
                                      ),
                                   
                                     ],
@@ -73,13 +131,29 @@ class _HompagelayoutState extends State<Hompagelayout> {
                                     height: 170.h,
                                      child: Row(
                                           children: [
-                                            Boxwidget(child: box1widget ?? Container(),),
+                                            Boxwidget(
+                                              
+                                              height: 170.h,
+                                              width: 248.w,
+                                              
+                                              
+                                              child: box1widget ?? Container(),),
                                               SizedBox(width: 8,),
-                                              Boxwidget(child:box2widget??Container() ,),
+                                              Boxwidget(
+                                                   height: 170.h,
+                                              width: 248.w,
+                                                
+                                                child:box2widget??Container() ,),
                                                       SizedBox(width: 8,),
-                                              Boxwidget(child: box3widget??Container(),),
+                                              Boxwidget(
+                                                   height: 170.h,
+                                              width: 248.w,child: box3widget??Container(),),
+
                                                       SizedBox(width: 8,),
-                                              Boxwidget(child: box4widget??Container(),),
+                                              Boxwidget(
+                                                   height: 170.h,
+                                              width: 248.w,
+                                                child: box4widget??Container(),),
                                               
                                                      
                                           ],

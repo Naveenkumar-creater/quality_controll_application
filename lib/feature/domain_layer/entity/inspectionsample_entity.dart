@@ -1,20 +1,16 @@
-import 'package:equatable/equatable.dart';
 
-class InspectionSampleEntity extends Equatable {
+class InspectionSampleEntity  {
     InspectionSampleEntity({
         required this.listOfSamplesEntity,
     });
 
     final List<ListOfSampleEntity> listOfSamplesEntity;
     
-      @override
-      // TODO: implement props
-      List<Object?> get props => listOfSamplesEntity;
 
 
 }
 
-class ListOfSampleEntity extends Equatable {
+class ListOfSampleEntity {
     ListOfSampleEntity({
         required this.iqcIiqMaxSampleSize,
         required this.iqcIisSampleTag,
@@ -22,7 +18,11 @@ class ListOfSampleEntity extends Equatable {
         required this.imfgpPaId,
         required this.iqcIiqSampleUomId,
         required this.iqcIiqIieId,
-        required this.iqciisId
+        required this.iqciisId,
+        required this.noofpass,
+        required this.nooffail,
+        required this.insStatus,
+        required this.samplesno
     });
 
     final int? iqcIiqMaxSampleSize;
@@ -31,19 +31,13 @@ class ListOfSampleEntity extends Equatable {
     final int? imfgpPaId;
     final int? iqcIiqSampleUomId;
     final int? iqcIiqIieId;
-      final int? iqciisId;
+    final int? iqciisId;
+    final int? noofpass;
+    final int?  samplesno;
+    final int?nooffail;
+    final String ? insStatus;
     
-      @override
-      // TODO: implement props
-      List<Object?> get props => [
- iqcIiqMaxSampleSize,
- iqcIisSampleTag,
-   iqcIiqStatus,
-   imfgpPaId,
-   iqcIiqSampleUomId,
-   iqcIiqIieId,
-    
-      ];
+  
 
 
 

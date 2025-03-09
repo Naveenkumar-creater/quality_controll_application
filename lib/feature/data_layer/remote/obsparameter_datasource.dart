@@ -15,7 +15,10 @@ class ObsparameterDatasourceImple extends ObsparameterDatasource {
  final response=  await ApiConstant.makeApiRequest(requestBody: request);
 
  final result= ObsParameterModel.fromJson(response);
+
+ print(result);
  return result;
+
   }
   
 }

@@ -8,9 +8,11 @@ class InspectionsampleRepoImpl extends InspectionsampleRepo{
   InspectionsampleRepoImpl(this.inspectionSampleDatasource);
   
   @override
-  Future<InspectionSampleEntity> getSampleList(String token, int headerid, int activityid, int orgid) {
+  Future<InspectionSampleEntity> getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus) {
     
-    final result= inspectionSampleDatasource.getSampleList(token, headerid, activityid, orgid);
+    final result= inspectionSampleDatasource.getSampleList( token,  headerid,  activityid,  orgid,  processid, 
+   eventid,  imfgpid,  eventtriggerid,   samplesize,  queeid,  queestatus);
     return result;
   }
 
