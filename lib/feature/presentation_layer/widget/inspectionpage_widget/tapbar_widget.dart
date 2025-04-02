@@ -62,12 +62,14 @@ class _TabBarWidgetState extends State<TabBarWidget>{
         ),
         body: const  Padding(
           padding:  EdgeInsets.only(top: 8.0),
-          child: TabBarView(
-            children: [
-           InspecSampletabelwidget(),
-           Inspecparamerertabelwidget()
-            ],
-          ),
+          child:     InspecSampletabelwidget(),
+          
+          // TabBarView(
+          //   children: [
+          //  InspecSampletabelwidget(),
+          // //  Inspecparamerertabelwidget()
+          //   ],
+          // ),
         ),
       ),
     );

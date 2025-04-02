@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:qc_control_app/feature/presentation_layer/layout/homepage1layout.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout.dart';
-import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout3.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/HomePageBoxwidgets/box1.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/HomePageBoxwidgets/box2.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/HomePageBoxwidgets/box3.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/HomePageBoxwidgets/box4.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/inspecparamerertabelwidget.dart';
-import 'package:qc_control_app/feature/presentation_layer/layoutwidget/boxwidget.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/eventqueewidget.dart';
 
 class WidgetMappingFile{

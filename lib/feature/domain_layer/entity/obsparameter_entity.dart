@@ -51,7 +51,7 @@ class ObservationByParameterEntity extends Equatable {
     final String? iqcIspParamName;
     final int? iqcIioId;
     final String? iqcIioObservationNotes;
-    final int? iqcIioObservationNumericValue;
+    final double? iqcIioObservationNumericValue;
     final DateTime? iqcIioDate;
     final double? iqcCpsRangeFrom;
     final int? iqcIisSampleSno;

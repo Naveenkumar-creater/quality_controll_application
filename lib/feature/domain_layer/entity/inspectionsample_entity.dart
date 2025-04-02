@@ -22,7 +22,9 @@ class ListOfSampleEntity {
         required this.noofpass,
         required this.nooffail,
         required this.insStatus,
-        required this.samplesno
+        required this.samplesno,
+        required this.batchNo,
+        required this.datanoenter
     });
 
     final int? iqcIiqMaxSampleSize;
@@ -36,9 +38,8 @@ class ListOfSampleEntity {
     final int?  samplesno;
     final int?nooffail;
     final String ? insStatus;
+    final String ?  batchNo;
+    final int ? datanoenter;
     
-  
-
-
 
 }

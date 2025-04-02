@@ -32,10 +32,12 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
   SampleoverallstatusDi overallstaus=SampleoverallstatusDi(); 
   ActionstepDi actionstepDi =ActionstepDi();
   ListofrestartDi listofrestartDi =ListofrestartDi();
+   List<TextEditingController> enterDescription = [];
 
   @override
   void initState() {
     super.initState();
+     
   }
 
 
@@ -114,7 +116,8 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
         iqcIiqId: eventlist?.iqcIiqId,
          natureEvent: eventlist?.natureEvent,
          iqcIieIeId: eventlist?.iqcIieIeId,
-        previouseventid: eventlist?.previouseventid
+        previouseventid: eventlist?.previouseventid,
+        cavityflag: eventlist?.cavityflag,
       );
 
     Provider.of<EventqueelocaldataProvider>(context, listen: false)
@@ -333,86 +336,125 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(5.r),
                           topRight: Radius.circular(5.r))),
-                  child: Row(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        width: 60.w,
-                        child: Text(
-                          "S.No",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                                             
+                            child: Text(
+                              "S.No",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 150.w,
-                        child: Text(
-                          "Event",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                   
+                            child: Text(
+                              "Event",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 150.w,
-                        child: Text(
-                          "Job Id",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                     Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                      
+                            child: Text(
+                              "Job Id",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 150.w,
-                        child: Text(
-                          "Item",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                                          
+                            child: Text(
+                              "Item",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 150.w,
-                        child: Text(
-                          "Assets",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                                  
+                            child: Text(
+                              "Assets",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 100.w,
-                        child: Text(
-                          "Status",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                     Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,         
+                            child: Text(
+                              "Status",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 200.w,
-                        child: Text(
-                          "Issued Time",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Lexend",
-                              fontSize: 18.sp),
+                    Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                  
+                            child: Text(
+                              "Issued Time",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                                  Expanded(
+                          flex:1 ,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                  
+                            child: Text(
+                              "",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Lexend",
+                                  fontSize: 18.sp),
+                            ),
+                          ),
+                        ),
+
+
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -434,101 +476,129 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                                   bottomLeft: Radius.circular(5.r),
                                   bottomRight: Radius.circular(5.r))),
                           height: 85.h,
-                          child: Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                width: 60.w,
-                                child: Text(
-                                  "${index + 1}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                             Expanded(
+                          flex: 1,
+                                  child: Container(
+                                                               alignment: Alignment.centerLeft,
+                                                          
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 150.w,
-                                child: Text(
-                                  "${eventlist?.iqcIeEventName}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                                  Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                   padding: EdgeInsets.only(right: 10 ),
+                                    child: Text(
+                                      "${eventlist?.iqcIeEventName}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 150.w,
-                                child: Text(
-                                  "${eventlist?.pcCardNo}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                               Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                                                
+                                    child: Text(
+                                      "${eventlist?.pcCardNo}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 150.w,
-                                child: Text(
-                                  "${eventlist?.itemName}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                        Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                                              
+                                    child: Text(
+                                      "${eventlist?.itemName}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 150.w,
-                                child: Text(
-                                  "${eventlist?.assetName}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                                     Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                                         
+                                    child: Text(
+                                      "${eventlist?.assetName}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 100.w,
-                                child: Text(
-                                  "${eventlist?.statusName}",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                                     Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                                                
+                                    child: Text(
+                                      "${eventlist?.statusName}",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 200.w,
-                                child: Text(
-                                 issuedDate ?? "",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontFamily: "Lexend",
-                                      fontSize: 15.sp),
+                                    Expanded(
+                          flex: 2,
+                                  child: Container(
+                                                       alignment: Alignment.centerLeft,
+                                                      
+                                    child: Text(
+                                     issuedDate ?? "",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontFamily: "Lexend",
+                                          fontSize: 15.sp),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: 50.w,
-                                  child: IconButton(
-                                      onPressed: () async{
-                                      getEvenqueedata(eventlist);
-                             
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return Inspectionpagelayout();
+                              
+                                Expanded(
+                          flex: 1,
+                                  child: Container(
+                                                               alignment: Alignment.center,
+                                                             
+                                      child: IconButton(
+                                          onPressed: () async{
+                                          getEvenqueedata(eventlist);
+                                                                 
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return Inspectionpagelayout();
+                                              },
+                                            ));
                                           },
-                                        ));
-                                      },
-                                      icon: Icon(Icons.arrow_forward_outlined)))
-                            ],
+                                          icon: Icon(Icons.arrow_forward_outlined))),
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },

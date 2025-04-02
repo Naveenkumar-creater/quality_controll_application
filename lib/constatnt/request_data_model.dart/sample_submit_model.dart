@@ -3,8 +3,8 @@ class SampleSubmitModel {
         required this.clientAutToken,
         required this.apiFor,
         required this.eventStatus,
-       required this.nexteventId,
-      required this.eventtype,
+        required this.nexteventId,
+        required this.eventtype,
         required this.eventQueId,
         required this.eventTriggerId,
         required this.orgid,
@@ -13,13 +13,13 @@ class SampleSubmitModel {
         required this.pccardid,
         required this.eventid,
         required this.inspectionStatus,
-        required this.imfgpid
+        required this.imfgpid,
+        required this.listOfsampledata
     });
 
     final String? clientAutToken;
     final String? apiFor;
     final int? eventStatus;
-
     final int? eventTriggerId;
     final int? eventQueId;
     final int? nexteventId;
@@ -31,6 +31,7 @@ class SampleSubmitModel {
     final int? eventid;
     final int ? inspectionStatus;
     final int ? imfgpid;
+    final List<ListSampledata>? listOfsampledata;
 
     Map<String, dynamic> toJson() => {
         "client_aut_token": clientAutToken,
@@ -45,8 +46,31 @@ class SampleSubmitModel {
        "iqc_iie_asset_id":assetId,
         "iqc_iie_cph_id" : headerId,
         "event_id" : eventid,
-"inspection_status" : inspectionStatus,
-"imfgp_id":imfgpid
+       "inspection_status" : inspectionStatus,
+       "imfgp_id":imfgpid,
+       "sample_data": listOfsampledata?.map((listOfsampledata) => listOfsampledata.toJson()).toList(),
+
+
     };
 
 }
+
+class ListSampledata {
+    ListSampledata({
+        required this.sampleId,
+        required this.cavityValue,
+
+    });
+
+    final int? sampleId;
+    final String? cavityValue;
+
+    Map<String, dynamic> toJson() => {
+        "iqc_iis_Id": sampleId,
+        "cavity_value": cavityValue,
+      
+    };
+
+}
+
+

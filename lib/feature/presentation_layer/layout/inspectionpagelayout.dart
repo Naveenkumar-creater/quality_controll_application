@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/inspecSampleLocalData_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/responsive_screen/tablet_body.dart';
 
 import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/inspectionheader_widget.dart';
@@ -12,6 +13,7 @@ import 'package:qc_control_app/feature/presentation_layer/layoutwidget/topheader
 import 'package:qc_control_app/feature/presentation_layer/widget_mapping_file.dart';
 
 import '../widget/homepage_widget/topheader/currenttimewidget.dart';
+import '../widget/inspectionpage_widget/inspesampletabelwidget .dart';
 import '../widget/interruption_widget/reactiontable_widget.dart';
 
 class Inspectionpagelayout extends StatefulWidget {
@@ -87,6 +89,9 @@ class _Inspectionpagelayout extends State<Inspectionpagelayout> {
   onPopInvoked: (didPop) {
     if (!didPop) {
       // Navigate back to MainPage and replace the current page
+
+     Provider.of<InspecsampleLocalDataProvider>(context, listen: false).reset();
+     
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -142,7 +147,8 @@ class _Inspectionpagelayout extends State<Inspectionpagelayout> {
                                 AdvancetableyoutWidget(
                                   
                                   child: natureEvent == 2 ?
-                                ReactionTableWidget():   TabBarWidget()
+                                ReactionTableWidget() : InspecSampletabelwidget(), 
+                                //  TabBarWidget()
                                  
                                  ),
                               ],

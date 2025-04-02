@@ -1,19 +1,5 @@
 import 'package:qc_control_app/feature/domain_layer/entity/inspectionsample_entity.dart';
 
-// class InspectionSampleModel extends InspectionSampleEntity {
-//     InspectionSampleModel({
-//         required this.listOfSamples,
-//     }):super(listOfSamplesEntity: listOfSamples);
-
-//     final List<ListOfSample> listOfSamples;
-
-//     factory InspectionSampleModel.fromJson(Map<String, dynamic> json){ 
-//         return InspectionSampleModel(
-//             listOfSamples: json["response_data"]["List_Of_Samples"] == null ? [] : List<ListOfSample>.from(json["response_data"]["List_Of_Samples"]!.map((x) => ListOfSample.fromJson(x))),
-//         );
-//     }
-
-// }
 
 class InspectionSampleModel extends InspectionSampleEntity {
 InspectionSampleModel({
@@ -46,8 +32,13 @@ class ListOfSample extends ListOfSampleEntity {
         required this.noofpass,
         required this.nooffail,
         required this.samplesno,
-        required this. insStatus
-    }):super(
+        required this. insStatus,
+        required this.batchNo,
+        required this.datanoenter
+            }):
+            super(
+              datanoenter: datanoenter,
+              batchNo: batchNo,
       insStatus: insStatus,nooffail: nooffail,noofpass:noofpass ,samplesno:samplesno ,
       
       imfgpPaId:imfgpPaId ,iqcIiqIieId: iqcIiqIieId,iqcIiqMaxSampleSize:iqcIiqMaxSampleSize ,
@@ -64,6 +55,8 @@ class ListOfSample extends ListOfSampleEntity {
     final int?  samplesno;
     final int?nooffail;
     final String ? insStatus;
+    final String ?batchNo;
+    final int ? datanoenter;
 
     factory ListOfSample.fromJson(Map<String, dynamic> json){ 
       print("Parsing JSON into ListOfSample: $json");
@@ -78,7 +71,9 @@ class ListOfSample extends ListOfSampleEntity {
             noofpass:json["no_of_pass"],
             samplesno:json["iqc_iis_sample_sno"],
             nooffail:json["no_of_fail"],
-            insStatus:json["ins_status"]
+            insStatus:json["ins_status"],
+            batchNo: json["iqc_iiq_sample_batch_no"],
+       datanoenter   : json["data_not_enter"]
 
         );
     }

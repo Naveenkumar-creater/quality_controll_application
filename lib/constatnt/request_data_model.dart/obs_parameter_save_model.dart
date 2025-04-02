@@ -3,7 +3,6 @@ class EventQueeModel {
         required this.clientAutToken,
         required this.apiFor,
         required this.eventStatus,
-   
         required this.eventQueId,
         required this.eventTriggerId,
         required this.listOfParamValue,
@@ -24,11 +23,10 @@ class EventQueeModel {
         "client_aut_token": clientAutToken,
         "api_for": apiFor,
         "event_status": eventStatus,
-      
        "event_trigger_id":eventTriggerId,
       "event_que_id":eventQueId,
       "org_id":orgid,
-        "list_of_param_value": listOfParamValue?.map((listOfParamValue) => listOfParamValue.toJson()).toList(),
+      "list_of_param_value": listOfParamValue?.map((listOfParamValue) => listOfParamValue.toJson()).toList(),
     };
 
 }
@@ -52,16 +50,6 @@ class ListOfParamValueModel {
     final int? observationId;
         final int? inspectionId;
 
-    // factory ListOfParamValue.fromJson(Map<String, dynamic> json){ 
-    //     return ListOfParamValue(
-    //         paramId: json["param_id"],
-    //         paramValue: json["param_value"],
-    //         paramNotes: json["param_notes"],
-    //         parameterStatus: json["parameter_status"],
-    //         obsrvationNotes: json["obsrvation_notes"],
-    //         observationId: json["observation_id"],
-    //     );
-    // }
 
     Map<String, dynamic> toJson() => {
         "param_id": paramId,

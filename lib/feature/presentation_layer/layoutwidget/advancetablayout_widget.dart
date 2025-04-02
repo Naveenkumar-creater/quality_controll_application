@@ -14,7 +14,7 @@ class AdvancetableyoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 500.h,
+        height: 550.h,
 
         decoration: BoxDecoration(color: ThemeClass.backgroundcolor,
         

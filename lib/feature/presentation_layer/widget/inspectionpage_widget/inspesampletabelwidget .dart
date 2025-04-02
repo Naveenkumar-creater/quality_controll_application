@@ -41,7 +41,13 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
   InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
   InterruptionStatusDi interruptionStatusDi = InterruptionStatusDi();
   bool isLoading = true;
+  List<TextEditingController> enterDescription = [];
 
+  final _sampleformkey = GlobalKey<FormState>();
+   // Map<String, int> optionList = {"Stop": 1, "Monitor": 2, "Continue": 3};
+  String? selectedValue = ""; // Store the selected label
+  int? selectedStatusId = 0;
+  int? selectedeventtype = 0; // Store the corresponding ID
 
 
   void _obsSample() {
@@ -60,9 +66,19 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
 
   void fetchDatafromDatabase() async {
     try {
+
       final eventlist =
           Provider.of<EventqueelocaldataProvider>(context, listen: false)
               .queedata;
+              final samplestatus =  Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
+              .sampledata?.iqcIiqStatus ?? 0;
+
+           int?  status=  samplestatus == 0 ?  eventlist?.iqcIiqStatus : samplestatus;
+            final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
+            .sample
+            ?.listOfSamplesEntity ??
+        [];
+
       await inspectionparam.getInpectionParam(
           context: context,
           headerId: eventlist?.iqcIieCphId ?? 0,
@@ -77,19 +93,21 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
           imfgpid: eventlist?.imfgpId ?? 0,
           processid: eventlist?.imfgpMpmId ?? 0,
           queeid: eventlist?.iqcIiqId ?? 0,
-          queestatus: eventlist?.iqcIiqStatus ?? 0,
+          queestatus: status ?? 0,
           samplesize: eventlist?.iqcIiqMaxSampleSize ?? 0);
 
-          await interruptionStatusDi.getInterruptionEventStatus(
-  activityId:   eventlist?.imfgpPaId ?? 0 ,context:context ,imfgpid: eventlist?.imfgpId ?? 0
-
-  
-);
+  await interruptionStatusDi.getInterruptionEventStatus(
+  activityId:   eventlist?.imfgpPaId ?? 0 ,context:context ,imfgpid: eventlist?.imfgpId ?? 0 );
+  enterDescription = List.generate(sample.length, (index) {
+      final value =  "";
+      return TextEditingController(text: value.toString()); 
+    });
 
 
     setState(() {
       isLoading = false;
     });
+
     } catch (e) {
       
     setState(() {
@@ -99,11 +117,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
     }
   }
 
-  // Map<String, int> optionList = {"Stop": 1, "Monitor": 2, "Continue": 3};
-
-  String? selectedValue = ""; // Store the selected label
-  int? selectedStatusId = 0;
-  int? selectedeventtype = 0; // Store the corresponding ID
+ 
 
   void getSampledata(ListOfSampleEntity? sample) {
     final sampledata = InspectionSampleLocalModel(
@@ -169,7 +183,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
     return Divider(thickness: 1, color: Colors.grey.shade300, height: 16.h);
   }
 
-  void _submitPop(BuildContext context) {
+   _submitPop(BuildContext context) {
     final optionList =
         Provider.of<InterruptioneventStatusProvider>(context, listen: false)
                 .interruptionStatus
@@ -213,8 +227,8 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      inspectionstatus == 2
-                          ? SizedBox(
+                  //  if(inspectionstatus == 2)   
+                     SizedBox(
                               width: double.infinity,
                               child: DropdownButtonFormField<String>(
                                 value: optionList.any(
@@ -259,11 +273,11 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                       style: const TextStyle(
                                           fontSize: 16, color: Colors.black87),
                                     ),
-                                  );
+                                  );  
                                 }).toList(),
                               ),
-                            )
-                          : SizedBox(),
+                            ),
+                 
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,11 +298,15 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                             backgroundColor: ThemeClass.buttonColor,
                             borderRadius: BorderRadius.circular(
                                 ThemeClass.butborderradious),
-                            onPressed: ((selectedStatusId != 0 &&
-                                        inspectionstatus == 2) ||
-                                    (selectedStatusId == 0 &&
-                                        inspectionstatus == 1))
-                                ? () async {
+                            onPressed:
+                            
+                            //  ((selectedStatusId != 0 &&
+                            //             inspectionstatus == 2) ||
+                            //         (selectedStatusId == 0 &&
+                            //             inspectionstatus == 1))
+                            //     ? 
+                                
+                                () async {
                                     try {
                                       await sendServerParamdata(
                                           context, "list_of_sample_submit", 4);
@@ -300,8 +318,8 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                       ShowError.showAlert(
                                           context, e.toString());
                                     }
-                                  }
-                                : null,
+                                  },
+                                // : null,
                             child: const Text("Submit",
                                 style: TextStyle(color: Colors.white)),
                           ),
@@ -319,7 +337,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
   }
 
   Future<void> sendServerParamdata(
-      BuildContext context, String apifor, int status) async {
+    BuildContext context, String apifor, int status) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String token = pref.getString("client_token") ?? "";
 
@@ -334,8 +352,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
             ?.listOfSamplesEntity ??
         [];
 
-    final inspectionstatus =
-        sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
+    final inspectionstatus = sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
 
     final eventqueelocaldata =
         Provider.of<EventqueelocaldataProvider>(context, listen: false)
@@ -388,7 +405,22 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
         orgid: orgid,
         inspectionStatus: inspectionstatus,
         eventid: eventid,
-        imfgpid: imfgpid);
+        imfgpid: imfgpid,
+        
+        listOfsampledata: []
+        );
+
+        for (int i = 0; i < sample.length; i++) {
+      final sampleList  = sample[i];
+      final sampleData = ListSampledata(
+        cavityValue: enterDescription[i].text ?? "" ,
+        sampleId: sampleList.iqciisId ,
+         
+          );
+          
+      requestdata.listOfsampledata?.add(sampleData);
+    }
+
 
     print(requestdata);
     try {
@@ -404,6 +436,39 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width < 600;
+       final optionList =
+        Provider.of<InterruptioneventStatusProvider>(context, listen: false)
+                .interruptionStatus
+                ?.listOfInterruptionEvent ??
+            [];
+    final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
+            .sample
+            ?.listOfSamplesEntity ??
+        [];
+
+    final inspectionstatus =
+                       sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
+
+final dataenter=sample.every((e)=>e.datanoenter==0);
+
+print(dataenter);
+
+           final cavityflag =
+        Provider.of<EventqueelocaldataProvider>(context, listen: false)
+            .queedata
+            ?.cavityflag;
+
+            
+      OutlineInputBorder borderstyle = const OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white, width: 1.5),
+    );
+
+    OutlineInputBorder borderRadious = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8.r),
+    );
+
+
+print(cavityflag);
 
     return size
         ? Container(
@@ -438,7 +503,9 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 color: Colors.white,
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              
+                            },
                           ),
                         )
                       ],
@@ -587,295 +654,409 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
           )
         :
         
-        isLoading
-              ? Center(child: CircularProgressIndicator()) : Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding:  EdgeInsets.only(left: 15.w,right: 40.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Samples",
-                            style: TextStyle(
-                             fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 16.w, right: 16.0),
-                                child: CustomButton(
-                                  width: ThemeClass.buttonwidth,
-                                  height: ThemeClass.buttonheight,
-                                  backgroundColor: ThemeClass.buttonColor,
-                                  borderRadius: BorderRadius.circular(
-                                      ThemeClass.butborderradious),
-                                  child: Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      fontFamily: "lexend",
-                                      fontSize: ThemeClass.buttonTextSize,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onPressed: // Disable button if no selection
-                                      () {
-                                    _submitPop(context);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 80.h,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 45, 54, 104),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5.r),
-                            topRight: Radius.circular(5.r))),
-                    child:  Row(
+        isLoading ? Center(child: CircularProgressIndicator()) :
+        
+         Form(
+                key:  _sampleformkey,
+                child: Container(
+                            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-                    Expanded(
-                      flex: 1, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "S.No",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "Samples",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "No of Passed Parameter",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "No of Failed Parameter",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "Sample Status",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2, // Same flex as data row
-                      child: Center(
-                        child: Text(
-              "Observation",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Lexend",
-                fontSize: 18.sp,
-              ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                  ),
-                  Expanded(
-                    child: Consumer<InspectionsampleProvider>(
-                        builder: (context, inspectionSample, child) {
-                      final sample = inspectionSample.sample?.listOfSamplesEntity;
-              
-                      return ListView.builder(
-                        itemCount: sample?.length,
-                        itemBuilder: (context, index) {
-                          final sampleList = sample?[index];
-                          return Container(
-                              decoration:BoxDecoration(
-                  color: index % 2 == 0
-                      ? Colors.grey.shade50
-                      : Colors.grey.shade200,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5.r),
-                    bottomRight: Radius.circular(5.r),
-                  ),
-                ),
-                            height: 80.h,
-                            child: Row(
-                          
+                    SizedBox(
+                      width: double.infinity,
+                      child: Padding(
+                        padding:  EdgeInsets.only(left: 15.w,right: 40.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Samples",
+                              style: TextStyle(
+                               fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                              ),
+                            ),
+                            Row(
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Align(
-                                    alignment: Alignment.center,
+
+                                
+                                Padding(
+                                  padding: EdgeInsets.only(left: 16.w, right: 16.0),
+                                  child: CustomButton(
+                                    width: ThemeClass.buttonwidth,
+                                    height: ThemeClass.buttonheight,
+                                    backgroundColor: ThemeClass.buttonColor,
+                                    borderRadius: BorderRadius.circular(
+                                        ThemeClass.butborderradious),
                                     child: Text(
-                                      "${index + 1}",
+                                      "Submit",
                                       style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: "Lexend",
-                                          fontSize: 15.sp),
+                                        fontFamily: "lexend",
+                                        fontSize: ThemeClass.buttonTextSize,
+                                        color: Colors.white,
+                                      ),
                                     ),
+                                    onPressed:
+                // dataenter?
+                                        () async{
+
+                                          
+
+                                          // if(_sampleformkey.currentState!.validate()){
+                                          
+                                             await  _submitPop(context);
+
+                                          // }
+                                     
+                                    } 
+                                    // : null
                                   ),
                                 ),
-                          Expanded(
-                                  flex: 2,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${sampleList?.iqcIisSampleTag}",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: "Lexend",
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${sampleList?.noofpass}",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: "Lexend",
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                                     Expanded(
-                                  flex: 2,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${sampleList?.nooffail}",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: "Lexend",
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                                  Expanded(
-                                  flex: 2,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      sampleList?.nooffail == 0 &&
-                                              sampleList?.noofpass == 0
-                                          ? ""
-                                          : "${sampleList?.insStatus}",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: "Lexend",
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                                    Expanded(
-                                  flex: 2,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: CustomButton(
-                                      width: ThemeClass.buttonwidth,
-                                      height: ThemeClass.buttonheight,
-                                      backgroundColor: ThemeClass.buttonColor,
-                                      borderRadius: BorderRadius.circular(
-                                          ThemeClass.butborderradious),
-                                      onPressed: () async {
-                                        // Fetch sample list
-                                        // await obsSampleDi.getSampleList(
-                                        //     inspectionid: parameter?.iqcIiId ?? 0, context: context);
-                                    
-                                        // Fetch sample data
-                                        getSampledata(sampleList);
-                                    
-                                        await obsParameterDi.getParameterList(
-                                            context: context,
-                                            inspectionid:
-                                                sampleList?.iqciisId ?? 0);
-                                    
-                                        await liststatusDi.getStatus(
-                                            context: context);
-                                    
-                                        // Navigate only after all data is loaded
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Obsparameterlayout(),
-                                            ));
-                                      },
-                                      child: Text("Record",
-                                          style: TextStyle(
-                                              fontFamily: "lexend",
-                                              fontSize: ThemeClass.buttonTextSize,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                )
                               ],
                             ),
-                          );
-                        },
-                      );
-                    }),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 80.h,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 45, 54, 104),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5.r),
+                              topRight: Radius.circular(5.r))),
+                      child:  Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                                          children: [
+                        Expanded(
+                          flex: 2, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Sample No",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                    Expanded(
+                          flex: 2, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Batch No",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ) ,
+                
+                             
+                 if(cavityflag == 0)
+                               Expanded(
+                          flex: 3, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Cavity Value",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                                      //       Expanded(
+                                      //         flex: 2, // Same flex as data row
+                                      //         child: Center(
+                                      //           child: Text(
+                                      // "Samples",
+                                      // style: TextStyle(
+                                      //   color: Colors.white,
+                                      //   fontFamily: "Lexend",
+                                      //   fontSize: 18.sp,
+                                      // ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                        Expanded(
+                          flex: 3, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Parameters Passed ",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Parameters Failed ",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2, // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Status",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                        
+                        Expanded(
+                          flex: 2 , // Same flex as data row
+                          child: Align(
+                                        alignment: Alignment.centerLeft,
+                            child: Text(
+                                      "Observation",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                            ),
+                          ),
+                        ),
+                                          ],
+                                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Consumer<InspectionsampleProvider>(
+                          builder: (context, inspectionSample, child) {
+                        final sample = inspectionSample.sample?.listOfSamplesEntity;
+                
+                        return ListView.builder(
+                          itemCount: sample?.length,
+                          itemBuilder: (context, index) {
+                            final sampleList = sample?[index];
+                            return Container(
+                                decoration:BoxDecoration(
+                    color: index % 2 == 0
+                        ? Colors.grey.shade50
+                        : Colors.grey.shade200,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(5.r),
+                      bottomRight: Radius.circular(5.r),
+                    ),
                   ),
-                ],
-              ),
-            ),
-          );
+                              height: 80.h,
+                              child: Padding(
+                         padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                                          
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "${index + 1}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: "Lexend",
+                                              fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ),
+                  Expanded(
+                                      flex: 2,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "${sampleList?.batchNo}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: "Lexend",
+                                              fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ),
+                
+                if(cavityflag == 0)   
+                
+                 Expanded(
+                      flex: 3, // Matching header
+                      child:  Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                              width: 180,
+                          child: index < enterDescription.length
+                              ? TextFormField(
+                                  controller: enterDescription[index],
+                                  decoration: InputDecoration(
+                                    hintText: "Enter Cavity Value",
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: borderRadious,
+                                    focusedBorder: borderstyle,
+                                    enabledBorder: borderstyle
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Enter the Notes';
+                                    }
+                                    if (value.startsWith(' ')) {
+                                      return 'Notes cannot start with a space';
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                                )
+                              : SizedBox(),
+                        ),
+                      ),
+                    ),
+                
+                
+                                                          // Expanded(
+                                                          //         flex: 2,
+                                                          //         child: Align(
+                                                          //           alignment: Alignment.center,
+                                                          //           child: Text(
+                                                          //             "${sampleList?.iqcIisSampleTag}",
+                                                          //             style: TextStyle(
+                                                          //                 color: Colors.black54,
+                                                          //                 fontFamily: "Lexend",
+                                                          //                 fontSize: 15.sp),
+                                                          //           ),
+                                                          //         ),
+                                                          //       ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "${sampleList?.noofpass}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: "Lexend",
+                                              fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ),
+                                         Expanded(
+                                      flex: 3,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "${sampleList?.nooffail}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: "Lexend",
+                                              fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ),
+                                      Expanded(
+                                      flex: 2,
+                                      child:Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          sampleList?.nooffail == 0 &&
+                                                  sampleList?.noofpass == 0
+                                              ? ""
+                                              : "${sampleList?.insStatus}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: "Lexend",
+                                              fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ),
+                
+                                        Expanded(
+                                      flex: 2,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: CustomButton(
+                                          width: ThemeClass.buttonwidth,
+                                          height: ThemeClass.buttonheight,
+                                          backgroundColor: ThemeClass.buttonColor,
+                                          borderRadius: BorderRadius.circular(
+                                              ThemeClass.butborderradious),
+                                          onPressed: () async {
+                                            // Fetch sample list
+                                            // await obsSampleDi.getSampleList(
+                                            //     inspectionid: parameter?.iqcIiId ?? 0, context: context);
+                                        
+                                            // Fetch sample data
+                                            getSampledata(sampleList);
+                                        
+                                            await obsParameterDi.getParameterList(
+                                                context: context,
+                                                inspectionid:
+                                                    sampleList?.iqciisId ?? 0);
+                                        
+                                            await liststatusDi.getStatus(
+                                                context: context);
+                                        
+                                            // Navigate only after all data is loaded
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Obsparameterlayout(),
+                                                ));
+                                          },
+                                          child: Text("Record",
+                                              style: TextStyle(
+                                                  fontFamily: "lexend",
+                                                  fontSize: ThemeClass.buttonTextSize,
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                    ),
+                
+                  ],
+                ),
+                            ),
+                          ),
+              );
   }
 }
+
+
+

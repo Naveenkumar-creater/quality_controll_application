@@ -24,7 +24,8 @@ class EventQueuelocalDataModel {
     required this.natureEvent,
     required this.pcid,
     required this.iqcIieIeId,
-    required this.previouseventid
+    required this.previouseventid,
+    required this.cavityflag
   });
 
 
@@ -53,6 +54,7 @@ class EventQueuelocalDataModel {
   final int? pcid;
   final int ? iqcIieIeId;
   final int ? previouseventid;
+  final int ? cavityflag;
 
   
   Map<String, dynamic> toJson() => {
@@ -80,6 +82,7 @@ class EventQueuelocalDataModel {
        "iqc_ie_nature_of_event": natureEvent,
         "iqc_iie_pc_id" : pcid,
       "iqc_iie_ie_id" :  iqcIieIeId,
-"iqc_iie_prev_iie_id" : previouseventid 
+"iqc_iie_prev_iie_id" : previouseventid ,
+"cavity_flag":cavityflag
       };
 }

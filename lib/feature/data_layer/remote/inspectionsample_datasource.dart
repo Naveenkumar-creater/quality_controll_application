@@ -15,6 +15,7 @@ class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
   Future<InspectionSampleModel> getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
   int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus
   )async {
+
    ApiRequestDataModel request=  ApiRequestDataModel(
     apiFor: "list_of_samples",
    controlplanheaderid:headerid, 
@@ -25,19 +26,16 @@ class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
     imfgpid: imfgpid,
     eventtrigerid: eventtriggerid,
     samplesize:samplesize ,
-    queeid: queeid,questatus:queestatus );
+    queeid: queeid,
+    questatus:queestatus );
   final response= await ApiConstant.makeApiRequest(requestBody: request);
 
-  final result=InspectionSampleModel.fromJson(response);
-
-
-
-    print(result.listOfSamplesEntity);
+  final result = InspectionSampleModel.fromJson(response);
+  print(result.listOfSamplesEntity);
 
 
   return result;
 
-  
   }
   
 }

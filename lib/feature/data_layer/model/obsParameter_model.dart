@@ -56,7 +56,7 @@ class ObservationByParameter extends ObservationByParameterEntity{
     final String? iqcIspParamName;
     final int? iqcIioId;
     final String? iqcIioObservationNotes;
-    final int? iqcIioObservationNumericValue;
+    final double ? iqcIioObservationNumericValue;
     final DateTime? iqcIioDate;
     final double? iqcCpsRangeFrom;
     final int? iqcIisSampleSno;
@@ -84,7 +84,7 @@ class ObservationByParameter extends ObservationByParameterEntity{
         iqcIspParamName: json["iqc_isp_param_name"],
         iqcIioId: json["iqc_iio_id"],
         iqcIioObservationNotes: json["iqc_iio_observation_notes"],
-        iqcIioObservationNumericValue: json["iqc_iio_observation_numeric_value"],
+        iqcIioObservationNumericValue: (json["iqc_iio_observation_numeric_value"] as num).toDouble(),
         iqcIioDate: DateTime.tryParse(json["iqc_iio_date"] ?? ""),
         iqcCpsRangeFrom: (json["iqc_cps_range_from"] as num?)?.toDouble(),
         iqcIisSampleSno: json["iqc_iis_sample_sno"],
