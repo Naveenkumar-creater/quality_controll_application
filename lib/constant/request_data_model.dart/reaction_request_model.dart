@@ -14,7 +14,7 @@ class ReactionrequestModel {
         required this.imfgpId,
         required this.overallNotes,
         required this.reactionData,
-        required this.reactionId
+        required this.reactionId,
     });
 
     final String? clientAutToken;

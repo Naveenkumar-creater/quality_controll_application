@@ -22,6 +22,8 @@ import 'package:qc_control_app/feature/presentation_layer/provider/reaction_prov
 import 'package:qc_control_app/feature/presentation_layer/provider/url_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/loginpage_widget/loginpage_layout.dart';
 
+import 'feature/presentation_layer/provider/eventsampleset_localdata_provider.dart';
+import 'feature/presentation_layer/provider/eventsampleset_provider.dart';
 import 'feature/presentation_layer/provider/sampleoverallstatus_provider.dart';
 
 void main() {
@@ -29,7 +31,6 @@ void main() {
   runApp(
     const MyApp(),
   );
-
 }
 
 class MyApp extends StatelessWidget {
@@ -38,49 +39,65 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final screenWidth= MediaQuery.of(context as BuildContext).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
 
-      SystemChrome.setPreferredOrientations(
-  screenWidth < 576
+    SystemChrome.setPreferredOrientations(
+      screenWidth < 576
           ? [
               DeviceOrientation.portraitUp,
               DeviceOrientation.portraitDown,
             ]
-            
           : [
               DeviceOrientation.landscapeLeft,
               DeviceOrientation.landscapeRight,
             ],
-  
-  );
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LoginProvider>(
           create: (_) => LoginProvider(),
         ),
-         ChangeNotifierProvider<ProcessProvider>(
+        ChangeNotifierProvider<ProcessProvider>(
           create: (_) => ProcessProvider(),
         ),
-        ChangeNotifierProvider<UrlProvider>(create: (_)=>UrlProvider()),
-        ChangeNotifierProvider<LayoutNameProvider>(create: (_)=>LayoutNameProvider()),
-        ChangeNotifierProvider<EventqueeProvider>(create: (_)=>EventqueeProvider()),
-        ChangeNotifierProvider<InspectionparameterProvider>(create: (_)=>InspectionparameterProvider()),
-        ChangeNotifierProvider<ObsSampleProvider>(create: (_)=>ObsSampleProvider()),
-        ChangeNotifierProvider<InspectionsampleProvider>(create: (_)=>InspectionsampleProvider()),
-        ChangeNotifierProvider (create: (_)=>EventqueelocaldataProvider()),
-      ChangeNotifierProvider<ObsparameterProvider>(create: (_)=>ObsparameterProvider()),
-      ChangeNotifierProvider<InspecsampleLocalDataProvider>(create: (_)=>InspecsampleLocalDataProvider()),
-      ChangeNotifierProvider<ListStatusProvider>(create: (_)=>ListStatusProvider()),
-      ChangeNotifierProvider<InterruptioneventStatusProvider>(create: (_)=>InterruptioneventStatusProvider()),
-      ChangeNotifierProvider<ReactionProvider>(create: (_)=>ReactionProvider()),
-      ChangeNotifierProvider<ActionstepProvider>(create: (_)=>ActionstepProvider()), 
- ChangeNotifierProvider<SampleoverallstatusProvider>(create: (_)=>SampleoverallstatusProvider()), 
- ChangeNotifierProvider<ListofrestarteventProvider>(create: (_)=>ListofrestarteventProvider()), 
- 
-       
+        ChangeNotifierProvider<UrlProvider>(create: (_) => UrlProvider()),
+        ChangeNotifierProvider<LayoutNameProvider>(
+            create: (_) => LayoutNameProvider()),
+        ChangeNotifierProvider<EventqueeProvider>(
+            create: (_) => EventqueeProvider()),
+        ChangeNotifierProvider<InspectionparameterProvider>(
+            create: (_) => InspectionparameterProvider()),
+        ChangeNotifierProvider<ObsSampleProvider>(
+            create: (_) => ObsSampleProvider()),
+        ChangeNotifierProvider<InspectionsampleProvider>(
+            create: (_) => InspectionsampleProvider()),
+        ChangeNotifierProvider(create: (_) => EventqueelocaldataProvider()),
+        ChangeNotifierProvider<ObsparameterProvider>(
+            create: (_) => ObsparameterProvider()),
+        ChangeNotifierProvider<InspecsampleLocalDataProvider>(
+            create: (_) => InspecsampleLocalDataProvider()),
+        ChangeNotifierProvider<ListStatusProvider>(
+            create: (_) => ListStatusProvider()),
+        ChangeNotifierProvider<InterruptioneventStatusProvider>(
+            create: (_) => InterruptioneventStatusProvider()),
+        ChangeNotifierProvider<ReactionProvider>(
+            create: (_) => ReactionProvider()),
+        ChangeNotifierProvider<ActionstepProvider>(
+            create: (_) => ActionstepProvider()),
+        ChangeNotifierProvider<SampleoverallstatusProvider>(
+            create: (_) => SampleoverallstatusProvider()),
+        ChangeNotifierProvider<ListofrestarteventProvider>(
+            create: (_) => ListofrestarteventProvider()),
+      ChangeNotifierProvider<EventSampleSetProvider>(
+            create: (_) => EventSampleSetProvider()),
+                 ChangeNotifierProvider<EventsamplesetLocaldataProvider>(
+            create: (_) => EventsamplesetLocaldataProvider()),
+            
+
+
       ],
       child: ScreenUtilInit(
-        builder:(_,child)=> MaterialApp(
+        builder: (_, child) => MaterialApp(
             title: 'Quality Control',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
@@ -88,11 +105,11 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             debugShowCheckedModeBanner: false,
-            home: const LoginPageLayout()
-            ),
-            designSize: MediaQuery.of(context as BuildContext).size.width<576 ? Size(360,760): Size(1296, 800),
+            home: const LoginPageLayout()),
+        designSize: MediaQuery.of(context).size.width < 576
+            ? const Size(360, 760)
+            : const Size(1296, 800),
       ),
     );
   }
 }
-

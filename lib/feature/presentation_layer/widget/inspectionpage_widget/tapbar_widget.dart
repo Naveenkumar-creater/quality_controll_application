@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/inspecparamerertabelwidget.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/inspesampletabelwidget%20.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/inspectionpage_widget/searchfieldpage.dart';
 
 class TabBarWidget extends StatefulWidget{
   @override

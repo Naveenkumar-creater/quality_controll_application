@@ -6,51 +6,46 @@ import 'package:qc_control_app/constant/api_connection.dart';
 import 'package:qc_control_app/constant/customwidgets/custombutton.dart';
 import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/constant/request_data_model.dart/sample_submit_model.dart';
-import 'package:qc_control_app/feature/domain_layer/entity/inspectionsample_entity.dart';
-import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionparameter_di.dart';
+import 'package:qc_control_app/feature/domain_layer/entity/eventsampleset_entity.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionsample_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/interruption_status_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/liststatus_di.dart';
-import 'package:qc_control_app/feature/presentation_layer/api_service.dart/obs_parameter_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/layout/inspectionpagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/obsparameterlayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventsampleset_localdata_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/eventsampleset_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/interruptionevent_status_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obsparameter_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/responsive_screen/tablet_body.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/observation_widget/obs_sample_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../local_stored_data_model/inpecsamplelocaldata_model.dart';
-import '../../provider/inspecSampleLocalData_provider.dart';
+import '../../local_stored_data_model/eventsamplesetdata_model.dart';
 import '../../provider/inspectionsample_provider.dart';
 
-class InspecSampletabelwidget extends StatefulWidget {
-  const   InspecSampletabelwidget({super.key});
+class EventsamplesetTable extends StatefulWidget {
+  const EventsamplesetTable({super.key});
 
   @override
-  State<InspecSampletabelwidget> createState() =>
-      _InspecSampletabelwidgetState();
+  State<EventsamplesetTable> createState() => _EventsamplesetTableState();
 }
 
-class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
-  InspectionparameterDi inspectionparam = InspectionparameterDi();
-  ObsParameterDi obsParameterDi = ObsParameterDi();
+class _EventsamplesetTableState extends State<EventsamplesetTable> {
   ListstatusDi liststatusDi = ListstatusDi();
- 
-
+InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
   InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
-  InterruptionStatusDi interruptionStatusDi = InterruptionStatusDi();
+  
+
   bool isLoading = true;
-  List<TextEditingController> enterDescription = [];
+  TextEditingController ProductionEntryController = TextEditingController();
 
   final _sampleformkey = GlobalKey<FormState>();
   // Map<String, int> optionList = {"Stop": 1, "Monitor": 2, "Continue": 3};
   String? selectedValue = ""; // Store the selected label
   int? selectedStatusId = 0;
   int? selectedeventtype = 0; // Store the corresponding ID
-
+ int ?productionqtyvalue;
   void _obsSample() {
     showDialog(
         context: context,
@@ -67,89 +62,34 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
     });
   }
 
+  bool get isProductionQtyValid {
+    return productionqtyvalue != null && productionqtyvalue! > 0;
+  }
+
+
   void fetchDatafromDatabase() async {
     try {
-
-      final samplestatus =
-          Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
-                  .sampledata
-                  ?.iqcIiqStatus ??
-
-              0;
-
-                  final samplesetvalues =
-          Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
-                  .sampledata;
-
-                 final eventqueedata =
+              final eventqueedata =
         Provider.of<EventqueelocaldataProvider>(context, listen: false)
             .queedata;
 
-            
+               await interruptionStatusDi.getInterruptionEventStatus(
+          activityId: eventqueedata?.imfgpPaId ?? 0,
+          context: context,
+          imfgpid: eventqueedata?.imfgpId ?? 0);
 
-              await inspectionsampleDi.getSampleList(
-                                                        context: context,
-                                                        headerid: eventqueedata
-                                                                ?.iqcIieCphId ??
-                                                            0,
-                                                        activityid: eventqueedata
-                                                                ?.imfgpPaId ??
-                                                            0,
-                                                        eventid: eventqueedata
-                                                                ?.iqcIieIeId ??
-                                                            0,
-                                                        eventtriggerid:
-                                                            eventqueedata
-                                                                    ?.iqcIiqIieId ??
-                                                                0,
-                                                        imfgpid: eventqueedata
-                                                                ?.imfgpId ??
-                                                            0,
-                                                        processid: eventqueedata
-                                                                ?.imfgpMpmId ??
-                                                            0,
-                                                        queeid: eventqueedata
-                                                                ?.iqcIiqId ??
-                                                            0,
-                                                        queestatus: eventqueedata
-                                                                ?.iqcIiqStatus ??
-                                                            0,
-                                                        samplesize: eventqueedata
-                                                                ?.iqcIiqMaxSampleSize ??
-                                                            0,  
-                                                            productionqty:samplesetvalues?.productionqty ?? 0.0  ,
-                                                            samplesetheaderid: samplesetvalues?.iqcIishId ?? 0,
-                                                            samplesetindex:samplesetvalues?.samplesetindex ?? 0 ,
-                                                            samplesetstatus: samplesetvalues?.status ?? 0
-                                                            );
-
-
-      int? status = samplestatus == 0 ? eventqueedata?.iqcIiqStatus : samplestatus;
-
-      final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
+      final samplesetproductionqty =
+          Provider.of<EventSampleSetProvider>(context, listen: false)
                   .sample
-                  ?.listOfSamplesEntity ??
-              [];
+                  ?.listOfSamplesSet.first.iqciiqproductionqty;
 
-      // enterDescription = List.generate(sample.length, (index) {
-      //   final value = "";
-      //   return TextEditingController(text: value.toString());
-      // });
 
-//       enterDescription = List.generate(
-//   sample.length, // Replace with the actual number of fields you need
-//   (index) => TextEditingController(),
-// );
+              ProductionEntryController.text= samplesetproductionqty.toString();
 
-      // await inspectionparam.getInpectionParam(
-      //     context: context,
-      //     headerId: eventlist?.iqcIieCphId ?? 0,
-      //     activityId: eventlist?.imfgpPaId ?? 0);
+              // ProductionEntryController.text= "0";
 
-      // await interruptionStatusDi.getInterruptionEventStatus(
-      //     activityId: eventlist?.imfgpPaId ?? 0,
-      //     context: context,
-      //     imfgpid: eventlist?.imfgpId ?? 0);
+              productionqtyvalue = int.tryParse (ProductionEntryController.text);
+           
 
       setState(() {
         isLoading = false;
@@ -164,25 +104,25 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
 
   @override
   void dispose() {
-    for (var controller in enterDescription) {
-      controller.dispose();
-    }
+    ProductionEntryController.dispose();
     super.dispose();
   }
 
-  void getSampledata(ListOfSampleEntity? sample) {
-    final sampledata = InspectionSampleLocalModel(
-      imfgpPaId: sample?.imfgpPaId,
-      iqcIiqIieId: sample?.iqcIiqIieId,
-      iqcIiqMaxSampleSize: sample?.iqcIiqMaxSampleSize,
-      iqcIiqSampleUomId: sample?.iqcIiqSampleUomId,
-      iqcIiqStatus: sample?.iqcIiqStatus,
-      iqcIisSampleTag: sample?.iqcIisSampleTag,
-      iqciisId: sample?.iqciisId,
-    );
+  void getSampledata(ListOfSamplesSetEntity? sample,double ? productionqty, int ? index) {
+    final samplesetdata = EventsamplesetdatalocalModel(
+        iqcIishId: sample?.iqcIishId,
+        iqcIishIiqId: sample?.iqcIishId,
+        iqcIishSampleBatchNo: sample?.iqcIishSampleBatchNo,
+        orgId: sample?.orgId,
+        status: sample?.status,
+        userId: sample?.userId,
+        productionqty: productionqty,
+        samplesetindex: index
+        
+        );
 
-    Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
-        .setSampledata(sampledata);
+    Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
+        .setSamplesetdata(samplesetdata);
   }
 
   Widget _infoRow(IconData icon, String title, String value) {
@@ -404,8 +344,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
     final inspectionstatus =
         sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
 
-    final eventqueelocaldata =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
+    final eventqueelocaldata = Provider.of<EventqueelocaldataProvider>(context, listen: false)
             .queedata;
 
     final eventtriggerid =
@@ -461,7 +400,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
     for (int i = 0; i < sample.length; i++) {
       final sampleList = sample[i];
       final sampleData = ListSampledata(
-        cavityValue: enterDescription[i].text,
+        cavityValue: ProductionEntryController.text,
         sampleId: sampleList.iqciisId,
       );
 
@@ -491,23 +430,26 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
             .sample
             ?.listOfSamplesEntity ??
         [];
+         final sampleset = Provider.of<EventSampleSetProvider>(context, listen: false).sample?.listOfSamplesSet ??
+        [];
 
     // final inspectionstatus =
     //     sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
 
     final dataenter = sample.every((e) => e.datanoenter == 0);
 
-    print(dataenter);
+    final samplesetcount=sampleset.every((e)=>e.samplesetstatuscount==0);
+
+print("samplecount:  " + "${samplesetcount}");
 
     final cavityflag =
         Provider.of<EventqueelocaldataProvider>(context, listen: false)
             .queedata
             ?.cavityflag;
 
-               final previouseventid =
+    final eventqueedata =
         Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcpreviousid;
+            .queedata;
 
     OutlineInputBorder borderstyle = const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.white, width: 1.5),
@@ -527,7 +469,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Samples List",
+                      "Sample Sets",
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -559,13 +501,13 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                     )
                   ],
                 ),
-             const    SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Expanded(
-                  child: Consumer<InspectionsampleProvider>(
+                  child: Consumer<EventSampleSetProvider>(
                       builder: (context, inspectionSample, child) {
-                    final sample = inspectionSample.sample?.listOfSamplesEntity;
+                    final sample = inspectionSample.sample?.listOfSamplesSet;
 
                     return ListView.builder(
                       itemCount: sample?.length,
@@ -587,7 +529,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                               // tilePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                               leading: CircleAvatar(
                                 radius: 18.r,
-                                backgroundColor:const Color(0xFF5060CB),
+                                backgroundColor: const Color(0xFF5060CB),
                                 child: Text(
                                   "${index + 1}",
                                   style: TextStyle(
@@ -599,7 +541,8 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 ),
                               ),
                               title: Text(
-                                sampleList?.iqcIisSampleTag ?? "No Event Name",
+                                sampleList?.iqcIishSampleBatchNo ??
+                                    "No Event Name",
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
@@ -611,7 +554,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  _infoBadge(sampleList?.insStatus ?? "N/A"),
+                                  // _infoBadge(sampleList?.status ?? "N/A"),
                                   // _infoBadge(sampleList.statusName ?? "Pending"),
                                 ],
                               ),
@@ -630,13 +573,13 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                       _infoRow(
                                           Icons.assignment,
                                           "No Pass",
-                                          sampleList?.noofpass.toString() ??
+                                          sampleList?.iqcIishSampleBatchNo ??
                                               "N/A"),
                                       _divider(),
                                       _infoRow(
                                           Icons.build,
                                           "No Fail",
-                                          sampleList?.noofpass.toString() ??
+                                          sampleList?.iqcIishSampleBatchNo ??
                                               "N/A"),
                                       _divider(),
                                       Row(
@@ -658,15 +601,8 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                           ),
                                           IconButton(
                                               onPressed: () {
-                                                getSampledata(sampleList);
-
-                                                obsParameterDi.getParameterList(
-                                                    context: context,
-                                                    inspectionid:
-                                                        sampleList?.iqciisId ??
-                                                            0,
-                                                          previousid: previouseventid ?? 0  
-                                                            );
+                                                 double productionvalue=double.parse(ProductionEntryController.text ) ;
+                                                    getSampledata(sampleList,productionvalue, index+1);
 
                                                 liststatusDi.getStatus(
                                                     context: context);
@@ -681,7 +617,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                               icon: const Align(
                                                   alignment:
                                                       Alignment.centerRight,
-                                                  child:  Icon(
+                                                  child: Icon(
                                                     Icons.arrow_forward_rounded,
                                                     size: 30,
                                                     color: Color(0xFF5060CB),
@@ -715,62 +651,92 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 15.w, right: 40.w),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Samples List",
-                                style: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              // Row(
-                              //   children: [
-                              //     Padding(
-                              //       padding: EdgeInsets.only(
-                              //           left: 16.w, right: 16.0),
-                              //       child: CustomButton(
-                              //           width: ThemeClass.buttonwidth,
-                              //           height: ThemeClass.buttonheight,
-                              //           backgroundColor:
-                              //               ThemeClass.buttonColor,
-                              //           borderRadius: BorderRadius.circular(
-                              //               ThemeClass.butborderradious),
-                              //           child: Text(
-                              //             "Submit",
-                              //             style: TextStyle(
-                              //               fontFamily: "lexend",
-                              //               fontSize:
-                              //                   ThemeClass.buttonTextSize,
-                              //               color: Colors.white,
-                              //             ),
-                              //           ),
-                              //           onPressed:
-                              //               // dataenter?
-                              //               () async {
-                              //             // if(_sampleformkey.currentState!.validate()){
-                
-                              //             await _submitPop(context);
-                
-                              //             // }
-                              //           }
-                              //           // : null
-                              //           ),
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
-                          ),
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    /// Title
+    Text(
+      "Sample Set List",
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.black87,
+      ),
+    ),
+
+    /// Right side: Qty + Button
+    Padding(
+      padding: const EdgeInsets.only(right: 56.0),
+      child: Row(
+        children: [
+          /// Production Qty Field
+          SizedBox(
+            width: 200,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              controller: ProductionEntryController,
+              onEditingComplete: () {
+                setState(() {
+                  productionqtyvalue = int.tryParse(ProductionEntryController.text);
+                });
+              },
+              enabled: (productionqtyvalue == 0 || productionqtyvalue == null),
+              decoration: InputDecoration(
+                hintText: "Enter Production Qty",
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide( width: 1.5),
+                ),
+              ),
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ),
+      
+          /// Spacing
+          SizedBox(width: 16),
+      
+          /// Submit Button
+          CustomButton(
+            width: ThemeClass.buttonwidth,
+            height: ThemeClass.buttonheight,
+            backgroundColor: ThemeClass.buttonColor,
+            borderRadius: BorderRadius.circular(ThemeClass.butborderradious),
+            child: Text(
+              "Submit",
+              style: TextStyle(
+                fontFamily: "Lexend",
+                fontSize: ThemeClass.buttonTextSize,
+                color: Colors.white,
+              ),
+            ),
+            onPressed:samplesetcount? () async {
+              await _submitPop(context);
+            }:null
+          ),
+        ],
+      ),
+    ),
+  ],
+),
                         ),
                       ),
-                    const  SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         height: 80.h,
                         decoration: BoxDecoration(
-                            color:const  Color.fromARGB(255, 45, 54, 104),
+                            color: const Color.fromARGB(255, 45, 54, 104),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(5.r),
                                 topRight: Radius.circular(5.r))),
@@ -783,7 +749,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Sample No",
+                                    "Sampleset No",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Lexend",
@@ -792,55 +758,12 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                   ),
                                 ),
                               ),
-                              // Expanded(
-                              //       flex: 2, // Same flex as data row
-                              //       child: Align(
-                              //                     alignment: Alignment.centerLeft,
-                              //         child: Text(
-                              //                   "Batch No",
-                              //                   style: TextStyle(
-                              //                     color: Colors.white,
-                              //                     fontFamily: "Lexend",
-                              //                     fontSize: 18.sp,
-                              //                   ),
-                              //         ),
-                              //       ),
-                              //     ) ,
-                
-                              // if (cavityflag == 0)
-                              //   Expanded(
-                              //     flex: 3, // Same flex as data row
-                              //     child: Align(
-                              //       alignment: Alignment.centerLeft,
-                              //       child: Text(
-                              //         "Cavity Value",
-                              //         style: TextStyle(
-                              //           color: Colors.white,
-                              //           fontFamily: "Lexend",
-                              //           fontSize: 18.sp,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              //       Expanded(
-                              //         flex: 2, // Same flex as data row
-                              //         child: Center(
-                              //           child: Text(
-                              // "Samples",
-                              // style: TextStyle(
-                              //   color: Colors.white,
-                              //   fontFamily: "Lexend",
-                              //   fontSize: 18.sp,
-                              // ),
-                              //           ),
-                              //         ),
-                              //       ),
                               Expanded(
                                 flex: 3, // Same flex as data row
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Parameters Passed ",
+                                    "Batch No",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -855,7 +778,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Parameters Failed ",
+                                    "Size",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -879,7 +802,6 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                   ),
                                 ),
                               ),
-                
                               Expanded(
                                 flex: 2, // Same flex as data row
                                 child: Align(
@@ -899,19 +821,16 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                         ),
                       ),
                       Expanded(
-                        child: Consumer<InspectionsampleProvider>(
+                        child: Consumer<EventSampleSetProvider>(
                             builder: (context, inspectionSample, child) {
                           final sample =
-                              inspectionSample.sample?.listOfSamplesEntity;
-                
+                              inspectionSample.sample?.listOfSamplesSet;
+
                           return ListView.builder(
                             itemCount: sample?.length,
                             itemBuilder: (context, index) {
                               final sampleList = sample?[index];
-                              enterDescription = List.generate(
-                                sample!.length,
-                                (index) => TextEditingController(),
-                              );
+
                               return Container(
                                 decoration: BoxDecoration(
                                   color: index % 2 == 0
@@ -941,77 +860,12 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                           ),
                                         ),
                                       ),
-                                      // Expanded(
-                                      //                     flex: 2,
-                                      //                     child: Align(
-                                      //                       alignment: Alignment.centerLeft,
-                                      //                       child: Text(
-                                      //                         "${sampleList?.batchNo}",
-                                      //                         style: TextStyle(
-                                      //                             color: Colors.black54,
-                                      //                             fontFamily: "Lexend",
-                                      //                             fontSize: 15.sp),
-                                      //                       ),
-                                      //                     ),
-                                      //                   ),
-                
-                                      // if (cavityflag == 0)
-                                      //   Expanded(
-                                      //     flex: 3, // Matching header
-                                      //     child: Align(
-                                      //       alignment: Alignment.centerLeft,
-                                      //       child: SizedBox(
-                                      //           width: 180,
-                                      //           child: TextFormField(
-                                      //             controller:
-                                      //                 enterDescription[index],
-                                      //             decoration: InputDecoration(
-                                      //                 hintText:
-                                      //                     "Enter Cavity Value",
-                                      //                 filled: true,
-                                      //                 fillColor: Colors.white,
-                                      //                 border: borderRadious,
-                                      //                 focusedBorder:
-                                      //                     borderstyle,
-                                      //                 enabledBorder:
-                                      //                     borderstyle),
-                                      //             validator: (value) {
-                                      //               if (value == null ||
-                                      //                   value.isEmpty) {
-                                      //                 return 'Enter the Notes';
-                                      //               }
-                                      //               if (value
-                                      //                   .startsWith(' ')) {
-                                      //                 return 'Notes cannot start with a space';
-                                      //               }
-                                      //               return null;
-                                      //             },
-                                      //             style: TextStyle(
-                                      //                 fontSize: 16.sp,
-                                      //                 color: Colors.black),
-                                      //           )),
-                                      //     ),
-                                      //   ),
-                
-                                      // Expanded(
-                                      //         flex: 2,
-                                      //         child: Align(
-                                      //           alignment: Alignment.center,
-                                      //           child: Text(
-                                      //             "${sampleList?.iqcIisSampleTag}",
-                                      //             style: TextStyle(
-                                      //                 color: Colors.black54,
-                                      //                 fontFamily: "Lexend",
-                                      //                 fontSize: 15.sp),
-                                      //           ),
-                                      //         ),
-                                      //       ),
                                       Expanded(
                                         flex: 3,
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "${sampleList?.noofpass}",
+                                            "${sampleList?.iqcIishSampleBatchNo}",
                                             style: TextStyle(
                                                 color: Colors.black54,
                                                 fontFamily: "Lexend",
@@ -1024,7 +878,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "${sampleList?.nooffail}",
+                                            "${sampleList?.samplesize}",
                                             style: TextStyle(
                                                 color: Colors.black54,
                                                 fontFamily: "Lexend",
@@ -1037,10 +891,9 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            sampleList?.nooffail == 0 &&
-                                                    sampleList?.noofpass == 0
-                                                ? "Open"
-                                                : "${sampleList?.insStatus}",
+                                            sampleList?.status == 1
+                                                ? "Open" :   sampleList?.status == 2 ? "Inprogress"
+                                                : "Completed",
                                             style: TextStyle(
                                                 color: Colors.black54,
                                                 fontFamily: "Lexend",
@@ -1048,7 +901,6 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                           ),
                                         ),
                                       ),
-                
                                       Expanded(
                                         flex: 2,
                                         child: Align(
@@ -1058,40 +910,64 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                             height: ThemeClass.buttonheight,
                                             backgroundColor:
                                                 ThemeClass.buttonColor,
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                                    ThemeClass
-                                                        .butborderradious),
-                                            onPressed: () async {
-                                              // Fetch sample list
-                                              // await obsSampleDi.getSampleList(
-                                              //     inspectionid: parameter?.iqcIiId ?? 0, context: context);
-                
-                                              // Fetch sample data
-                                              getSampledata(sampleList);
-                
-                                              await obsParameterDi
-                                                  .getParameterList(
-                                                      context: context,
-                                                      inspectionid: sampleList
-                                                              ?.iqciisId ??
-                                                          0,
-                                                          previousid: previouseventid ?? 0
-                                                          
-                                                          );
-                
-                                              await liststatusDi.getStatus(
-                                                  context: context);
-                
-                                              // Navigate only after all data is loaded
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-const Obsparameterlayout(),
-                                                  ));
-                                            },
-                                            child: Text("Record",
+                                            borderRadius: BorderRadius.circular(
+                                                ThemeClass.butborderradious),
+                                            onPressed: isProductionQtyValid
+                                                ? () async {
+
+                                                double productionvalue=double.parse(ProductionEntryController.text ) ;
+                                                    getSampledata(sampleList,productionvalue,index+1);
+
+                                                    // await inspectionsampleDi.getSampleList(
+                                                    //     context: context,
+                                                    //     headerid: eventqueedata
+                                                    //             ?.iqcIieCphId ??
+                                                    //         0,
+                                                    //     activityid: eventqueedata
+                                                    //             ?.imfgpPaId ??
+                                                    //         0,
+                                                    //     eventid: eventqueedata
+                                                    //             ?.iqcIieIeId ??
+                                                    //         0,
+                                                    //     eventtriggerid:
+                                                    //         eventqueedata
+                                                    //                 ?.iqcIiqIieId ??
+                                                    //             0,
+                                                    //     imfgpid: eventqueedata
+                                                    //             ?.imfgpId ??
+                                                    //         0,
+                                                    //     processid: eventqueedata
+                                                    //             ?.imfgpMpmId ??
+                                                    //         0,
+                                                    //     queeid: eventqueedata
+                                                    //             ?.iqcIiqId ??
+                                                    //         0,
+                                                    //     queestatus: eventqueedata
+                                                    //             ?.iqcIiqStatus ??
+                                                    //         0,
+                                                    //     samplesize: eventqueedata
+                                                    //             ?.iqcIiqMaxSampleSize ??
+                                                    //         0,  
+                                                    //         productionqty: productionvalue ,
+                                                    //         samplesetheaderid: sampleList?.iqcIishId ?? 0,
+                                                    //         samplesetindex: index+1 ,
+                                                    //         samplesetstatus: sampleList?.status ?? 0
+                                                    //         );
+
+                                                    await liststatusDi
+                                                        .getStatus(
+                                                            context: context);
+
+                                                    // Navigate only after all data is loaded
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Inspectionpagelayout(),
+                                                        ));
+                                                  }
+                                                : null,
+                                            child: Text("Next",
                                                 style: TextStyle(
                                                     fontFamily: "lexend",
                                                     fontSize: ThemeClass

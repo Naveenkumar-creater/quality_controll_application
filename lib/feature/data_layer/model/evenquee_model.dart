@@ -46,8 +46,11 @@ class EventQueueList extends EventQueueListEntity{
         required this.natureEvent,
         required this.pcid,
         required this.previouseventid,
-        required this.cavityflag
-    }) : super(assetName: assetName,iqcIieId:iqcIieId ,iqcIieIeId: iqcIieIeId,iqcIiqId:iqcIiqId ,paId:paId ,
+        required this.cavityflag,
+        required this.iqcpreviousid
+    }) : super(
+      iqcpreviousid: iqcpreviousid,
+      assetName: assetName,iqcIieId:iqcIieId ,iqcIieIeId: iqcIieIeId,iqcIiqId:iqcIiqId ,paId:paId ,
       iqcIiqDate: iqcIiqDate, pcCardNo: pcCardNo, imfgpPaId:imfgpPaId , mpmName: mpmName, iqcIiqSampleUomId: iqcIiqSampleUomId, itemName: itemName, pcItemCode: pcItemCode, iqcIiqIieId: iqcIiqIieId, iqcIiqMaxSampleSize:iqcIiqMaxSampleSize , pcItemId: pcItemId, paActivityName: paActivityName, 
     iqcIiqInspectionType: iqcIiqInspectionType, iqcIieAssetId: iqcIieAssetId, iqcIiqStatus: iqcIiqStatus, iqcIieCphId: iqcIieCphId, iqcIeEventName: iqcIeEventName, imfgpMpmId: imfgpMpmId, imfgpProcessSeq: imfgpProcessSeq, iqcIiqAssignedTo: iqcIiqAssignedTo, imfgpId: imfgpId, 
      statusName: statusName, natureEvent: natureEvent, pcid: pcid,
@@ -85,6 +88,7 @@ class EventQueueList extends EventQueueListEntity{
     final int ? pcid;
     final int ? previouseventid;
     final int ? cavityflag;
+    final int ? iqcpreviousid;
 
 
     factory EventQueueList.fromJson(Map<String, dynamic> json){ 
@@ -118,7 +122,8 @@ class EventQueueList extends EventQueueListEntity{
             natureEvent:json["iqc_ie_nature_of_event"],
            pcid:  json['iqc_iie_pc_id'],
          previouseventid:  json["iqc_iie_prev_iie_id"],
-         cavityflag: json["mpm_cavity_flag"]
+         cavityflag: json["mpm_cavity_flag"],
+         iqcpreviousid: json["iqc_iie_prev_iie_id"]
         );
     }
 

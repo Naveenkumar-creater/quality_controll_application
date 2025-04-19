@@ -42,7 +42,11 @@ class ObservationByParameter extends ObservationByParameterEntity{
         required this.iqcCpsRangeTo,
         required this.iqcCpsIspId,
         required this.iqcIioIisId,
+        required this.iqciiocavityno,
+        required this.lastcavityno
     }) : super(
+      lastcavityno: lastcavityno,
+      iqciiocavityno:iqciiocavityno ,
       iqcIioDate: iqcIioDate,
       iqcIsgGroupName: iqcIsgGroupName,iqcIsgId: iqcIsgId,
       ipcIspUomId: ipcIspUomId, iqcIiId: iqcIiId, iqcIspDatatype: iqcIspDatatype, iqcIiCpsId: iqcIiCpsId, iqcIioIiId: iqcIioIiId, iqcIisId: iqcIisId, iqcIisIiqId: iqcIisIiqId, iqcIspParamName: iqcIspParamName, iqcIioId: iqcIioId, iqcIioObservationStatus: iqcIioObservationStatus, iqcCpsSpecType: iqcCpsSpecType, iqcCpsSpecDesc: iqcCpsSpecDesc, iqcIioObservationNotes: iqcIioObservationNotes, iqcCpsRangeTo: iqcCpsRangeTo, iqcCpsIspId: iqcCpsIspId,
@@ -73,6 +77,8 @@ class ObservationByParameter extends ObservationByParameterEntity{
     final double? iqcCpsRangeTo;
     final int? iqcCpsIspId;
     final int? iqcIioIisId;
+    final int? iqciiocavityno;
+    final int? lastcavityno;
 
    factory ObservationByParameter.fromJson(Map<String, dynamic> json) {
     return ObservationByParameter(
@@ -101,6 +107,8 @@ class ObservationByParameter extends ObservationByParameterEntity{
         iqcCpsRangeTo: (json["iqc_cps_range_to"] as num?)?.toDouble(),
         iqcCpsIspId: json["iqc_cps_isp_id"],
         iqcIioIisId: json["iqc_iio_iis_id"],
+        iqciiocavityno:json["iqc_iio_cavity_no"],
+       lastcavityno: json["last_cavity_no"]
     );
 }
 

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/Exception/show_pop_error.dart';
+import 'package:qc_control_app/constant/Exception/show_pop_error.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/eventquee_entity.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/actionstep_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/eventsample_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionparameter_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/interruption_status_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/listofrestart_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/reaction_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/sampleoverallstatus_di.dart';
+import 'package:qc_control_app/feature/presentation_layer/layout/eventsamplelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/inspectionpagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/local_stored_data_model/eventqueelocaldata_model.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventquee_provider.dart';
@@ -27,6 +29,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
   bool shemmer = true;
   InspectionparameterDi inspectionparam = InspectionparameterDi();
   InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
+  EventsampleDi eventsampleDi=EventsampleDi();
   InterruptionStatusDi interruptionStatusDi =InterruptionStatusDi();
   ReactionDi reactionDi=ReactionDi(); 
   SampleoverallstatusDi overallstaus=SampleoverallstatusDi(); 
@@ -118,6 +121,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
          iqcIieIeId: eventlist?.iqcIieIeId,
         previouseventid: eventlist?.previouseventid,
         cavityflag: eventlist?.cavityflag,
+        iqcpreviousid: eventlist?.iqcpreviousid,
       );
 
     Provider.of<EventqueelocaldataProvider>(context, listen: false)
@@ -156,17 +160,13 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
 
 
    Widget _infoBadge(String text) {
-    return Container(
-      // padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-  
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-          fontFamily: "Lexend",
-        ),
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        fontFamily: "Lexend",
       ),
     );
   }
@@ -211,7 +211,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                     // tilePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     leading: CircleAvatar(
                       radius: 18.r,
-                      backgroundColor: Color(0xFF5060CB),
+                      backgroundColor:const Color(0xFF5060CB),
                       child: Text(
                         "${index + 1}",
                         style: TextStyle(
@@ -273,14 +273,14 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
          IconButton(onPressed: () async{
 
                                    getEvenqueedata(eventlist);
-                                     await   inspectionparam.getInpectionParam(
-                                            context: context,
-                                            headerId:
-                                                eventlist.iqcIieCphId ?? 0,
-                                            activityId:
-                                                eventlist.imfgpPaId ?? 0);
+                                    //  await   inspectionparam.getInpectionParam(
+                                    //         context: context,
+                                    //         headerId:
+                                    //             eventlist.iqcIieCphId ?? 0,
+                                    //         activityId:
+                                    //             eventlist.imfgpPaId ?? 0);
 
-                                       await inspectionsampleDi.getSampleList(
+                                       await eventsampleDi.getEventSampleList(
                                             context: context,
                                             headerid:
                                                 eventlist.iqcIieCphId ?? 0,
@@ -301,14 +301,14 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return Inspectionpagelayout();
+                                            return const EventSampleLayout();
                                           },
                                         ));
                                   }, 
                                   
-                                  icon: Align(
+                                  icon:const Align(
                                     alignment: Alignment.centerRight,
-                                    child: const Icon(Icons.arrow_forward_rounded, size: 30,color: Color(0xFF5060CB),))
+                                    child:  Icon(Icons.arrow_forward_rounded, size: 30,color: Color(0xFF5060CB),))
                                   
                                   )
       ],
@@ -325,14 +325,14 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
         },
       ),
     )
-        : Container(
-            height: 400.h,
+        : SizedBox(
+            height: 685.h,
             child: Column(
               children: [
                 Container(
                   height: 80.h,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 45, 54, 104),
+                      color:const  Color.fromARGB(255, 45, 54, 104),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(5.r),
                           topRight: Radius.circular(5.r))),
@@ -369,12 +369,12 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                           ),
                         ),
                      Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Container(
                             alignment: Alignment.centerLeft,
                       
                             child: Text(
-                              "Job Id",
+                              "Production Card",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: "Lexend",
@@ -498,7 +498,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                           flex: 2,
                                   child: Container(
                                                        alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.only(right: 10 ),
+                                   padding: const EdgeInsets.only(right: 10 ),
                                     child: Text(
                                       "${eventlist?.iqcIeEventName}",
                                       style: TextStyle(
@@ -509,7 +509,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                                   ),
                                 ),
                                Expanded(
-                          flex: 2,
+                          flex: 3,
                                   child: Container(
                                                        alignment: Alignment.centerLeft,
                                                                 
@@ -587,15 +587,17 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                                       child: IconButton(
                                           onPressed: () async{
                                           getEvenqueedata(eventlist);
-                                                                 
+
+                                          
+                                                             
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                               builder: (context) {
-                                                return Inspectionpagelayout();
+                                                return const EventSampleLayout();
                                               },
                                             ));
                                           },
-                                          icon: Icon(Icons.arrow_forward_outlined))),
+                                          icon: const Icon(Icons.arrow_forward_outlined))),
                                 )
                               ],
                             ),

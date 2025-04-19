@@ -8,9 +8,9 @@ class ObsparameterRepoImpl extends ObsparameterRepo{
 
   ObsparameterRepoImpl(this.obsparameterDatasource);
   @override
-  Future<ObsParameterEntity> getparameter(String token, int sampleId, int orgid) {
+  Future<ObsParameterEntity> getparameter(String token, int sampleId, int orgid,  int previousid) {
  
- final result = obsparameterDatasource.getParaneter(token, sampleId, orgid);
+ final result = obsparameterDatasource.getParaneter(token, sampleId, orgid,   previousid);
 
  return result;
   

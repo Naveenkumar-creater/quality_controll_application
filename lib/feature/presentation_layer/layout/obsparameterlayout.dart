@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/layoutwidget/tablelayetwidget.dart';
 import 'package:qc_control_app/feature/presentation_layer/layoutwidget/topheader2.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/topheader/currenttimewidget.dart';
@@ -124,7 +124,7 @@ appBar: AppBar(
               children: [
                 Row(
                   children: [
-                    TopHeader2Widget(
+                    HeaderLayoutWidget(
                       child: ObsSampleHeaderWidget(),
                     ),
                   ],

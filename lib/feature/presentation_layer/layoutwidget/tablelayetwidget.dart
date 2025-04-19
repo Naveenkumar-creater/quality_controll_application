@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 
 class Tablelayout extends StatelessWidget {
   Widget ? child;

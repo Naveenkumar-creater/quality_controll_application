@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventquee_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget/homepage_widget/topheader/currenttimewidget.dart';
 
 class Homeheaderwidget extends StatefulWidget {
+  const Homeheaderwidget({super.key});
+
   @override
   State<Homeheaderwidget> createState() => _HomeheaderwidgetState();
 }
@@ -14,11 +15,6 @@ class Homeheaderwidget extends StatefulWidget {
 class _HomeheaderwidgetState extends State<Homeheaderwidget> {
 
 
-  // @override
-  // void initState() {
-  //   super.initState();
-       
-  // }
   @override
   Widget build(BuildContext context) {
 
@@ -29,22 +25,20 @@ class _HomeheaderwidgetState extends State<Homeheaderwidget> {
         final size=MediaQuery.of(context).size.width<600;
 
     return size ?
-     Container(
-       child: Row(
-         
-         children: [
-           Text("${processName}" , style: TextStyle(
-                                   fontSize:size ?18.sp: 24.sp,
-                                   color: Color.fromARGB(255, 80, 96, 203),
-                                   fontFamily: "Lexend",
-                                   fontWeight: FontWeight.w500),
-                             ),
-     
-                             SizedBox(width: 30,),
-            
-           Currenttimewidget()
-         ],
-       ),
+     Row(
+       
+       children: [
+         Text(processName , style: TextStyle(
+                                 fontSize:size ?18.sp: 24.sp,
+                                 color:const Color.fromARGB(255, 80, 96, 203),
+                                 fontFamily: "Lexend",
+                                 fontWeight: FontWeight.w500),
+                           ),
+          
+                          const SizedBox(width: 30,),
+          
+        const Currenttimewidget()
+       ],
      ):
     
     Container(
@@ -58,13 +52,14 @@ class _HomeheaderwidgetState extends State<Homeheaderwidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("${processName}" , style: TextStyle(
+            Text(processName , style: TextStyle(
                                     fontSize:size ?18.sp: 24.sp,
-                                    color: Color.fromARGB(255, 80, 96, 203),
+                                    color:const  Color.fromARGB(255, 80, 96, 203),
                                     fontFamily: "Lexend",
                                     fontWeight: FontWeight.w500),
                               ),
-            Currenttimewidget()
+
+          const  Currenttimewidget()
           ],
         ),
       ) ,

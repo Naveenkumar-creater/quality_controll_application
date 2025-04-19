@@ -40,6 +40,8 @@ class ObservationByParameterEntity extends Equatable {
         required this.iqcIiIiqId,
         required this.iqcIioObservationTextValue,
         required this.iqcCpsValue,
+        required this.iqciiocavityno,
+        required this.lastcavityno
         
     });
 
@@ -68,6 +70,8 @@ class ObservationByParameterEntity extends Equatable {
     final double? iqcCpsRangeTo;
     final int? iqcCpsIspId;
     final int? iqcIioIisId;
+    final int? iqciiocavityno;
+    final int? lastcavityno;
 
       @override
       // TODO: implement props

@@ -11,20 +11,20 @@ class WidgetMappingFile{
 
 
   static Map<String, Widget Function()> widgetMap={
-   "event":() => Eventqueewidget(),
-   "Inspecparam":()=>Inspecparamerertabelwidget(),
+    "event":() => Eventqueewidget(),
+    "Inspecparam":()=>Inspecparamerertabelwidget(),
     "box1":() =>Box1(),
     "box2":() =>Box2(),
     "box3":() =>Box3(),
     "box4":() =>Box4(),
     "homepage":()=>Hompagelayout(),
     // "homepage1":()=>Hompage1layout(),
-    // "homepage3": () => Hompagelayout3()
+    
     
   };
 
 
- static Widget ?getwidget (String name){
+ static Widget ? getwidget (String name){
     return widgetMap[name]?.call();
   }
 }

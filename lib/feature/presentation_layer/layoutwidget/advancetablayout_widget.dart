@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 
 class AdvancetableyoutWidget extends StatelessWidget {
   Widget ?child;

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
-import 'package:qc_control_app/constatnt/Exception/network_exception.dart';
+import 'package:qc_control_app/constant/Exception/network_exception.dart';
 
 
 class ApiConstant { 
 
-  static String baseUrl ="http://192.168.29.14:8080/AtmaIntegrationAPI/wsservice";  
+  static String baseUrl ="http://192.168.29.14:8082/AtmaIntegrationAPI/wsservice";  
   //  static String baseUrl ="http://159.69.188.148:8080/AtmaInterfaceAPI/wsservice";
 
   static const String fromDate = "2023-08-01 10:00:00";

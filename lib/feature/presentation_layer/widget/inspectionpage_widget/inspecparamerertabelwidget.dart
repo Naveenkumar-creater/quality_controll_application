@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionparameter_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/api_service.dart/obs_sample_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspectionparameter_provider.dart';
-import 'package:qc_control_app/feature/presentation_layer/widget/observation_widget/obs_sample_widget.dart';
 
 class Inspecparamerertabelwidget extends StatefulWidget {
  
@@ -19,12 +18,12 @@ class _InspecparamerertabelwidgetState extends State<Inspecparamerertabelwidget>
 InspectionparameterDi inspectionparam=InspectionparameterDi();
  ObsSampleDi obsSampleDi =ObsSampleDi();
 
-void _obsSample(){
-  showDialog(context: 
-  context, builder: (context){
-return ObsSampleWidget();
-  });
-}
+// void _obsSample(){
+//   showDialog(context: 
+//   context, builder: (context){
+// return ObsSampleWidget();
+//   });
+// }
 
  
 
@@ -32,9 +31,9 @@ return ObsSampleWidget();
   Widget build(BuildContext context) {
     final size= MediaQuery.of(context).size.width < 600;
     return 
-    size ? Text(" ") :
+    size ? const Text(" ") :
     
-    Container(
+    SizedBox(
       height: 400.h,
       child: Column(
 
@@ -55,11 +54,11 @@ return ObsSampleWidget();
                ],
              ),
 
-             SizedBox(height: 8,),  
+            const SizedBox(height: 8,),  
           Container(
             height: 80.h,
             decoration: BoxDecoration(
-              color:Color.fromARGB(255, 45, 54, 104),
+              color:const Color.fromARGB(255, 45, 54, 104),
               borderRadius: BorderRadius.only(topLeft: Radius.circular(5.r),topRight: Radius.circular(5.r))
             ),
             child: Row(
@@ -205,7 +204,7 @@ return ObsSampleWidget();
                       Container(
                         alignment: Alignment.center, 
                         width: 150.w,
-                        child: Text("")
+                        child:const  Text("")
 
                         //                         CustomButton(
 //                                               width: ThemeClass.buttonwidth,

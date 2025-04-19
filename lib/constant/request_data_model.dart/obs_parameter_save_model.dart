@@ -2,27 +2,30 @@ class EventQueeModel {
     EventQueeModel({
         required this.clientAutToken,
         required this.apiFor,
-        required this.eventStatus,
+        required this.sampleStatus,
         required this.eventQueId,
         required this.eventTriggerId,
         required this.listOfParamValue,
-        required this.orgid
+        required this.orgid,
+        required this.sampleid
     });
 
     final String? clientAutToken;
     final String? apiFor;
-    final int? eventStatus;
+    final int? sampleStatus;
 
     final int? eventTriggerId;
     final int? eventQueId;
     final int ? orgid;
+    final int? sampleid;
     final List<ListOfParamValueModel>? listOfParamValue;
 
 
     Map<String, dynamic> toJson() => {
         "client_aut_token": clientAutToken,
         "api_for": apiFor,
-        "event_status": eventStatus,
+        "sample_id":sampleid,
+        "sample_status": sampleStatus,
        "event_trigger_id":eventTriggerId,
       "event_que_id":eventQueId,
       "org_id":orgid,
@@ -40,6 +43,7 @@ class ListOfParamValueModel {
         required this.obsrvationNotes,
         required this.observationId,
         required this.inspectionId,
+        required this.cavityvalue
     });
 
     final int? paramId;
@@ -49,6 +53,7 @@ class ListOfParamValueModel {
     final String ? obsrvationNotes;
     final int? observationId;
         final int? inspectionId;
+        final int? cavityvalue;
 
 
     Map<String, dynamic> toJson() => {
@@ -58,7 +63,8 @@ class ListOfParamValueModel {
         "parameter_status": parameterStatus,
         "obsrvation_notes": obsrvationNotes,
         "observation_id": observationId,
-          "inspection_id": inspectionId,
+        "inspection_id": inspectionId,
+        "cavity_no":cavityvalue
     };
 
 }

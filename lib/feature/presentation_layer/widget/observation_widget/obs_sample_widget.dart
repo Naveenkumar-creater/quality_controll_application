@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/customwidgets/custombutton.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/customwidgets/custombutton.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/obs_sample_provider.dart';
 
 class ObsSampleWidget extends StatefulWidget {

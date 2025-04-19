@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
 
 class InspectionHeaderWidget extends StatefulWidget {
+  const InspectionHeaderWidget({super.key});
+
   @override
   State<InspectionHeaderWidget> createState() => _InspectionHeaderWidgetState();
 }
@@ -13,7 +15,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
   @override
   Widget build(BuildContext context) {
     final eventquee =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)?.queedata;
+        Provider.of<EventqueelocaldataProvider>(context, listen: false).queedata;
 
     final TextStyle labelStyle = TextStyle(
       fontFamily: "lexend",
@@ -33,7 +35,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
 
     return size ? 
         Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration:const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           Row(
@@ -107,7 +109,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
                 _buildInfoTile(
                     // icon: Icons.apartment,
                     label: "Asset ID",
-                    value: "${eventquee?.iqcIieAssetId }"?? "-",
+                    value: "${eventquee?.iqcIieAssetId }",
                     labelStyle: labelStyle,
                     valueStyle: valueStyle,
                   ),
@@ -127,7 +129,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
     ) :
     
     Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration:const BoxDecoration(color: Colors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +170,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
               _buildInfoTile(
                 // icon: Icons.apartment,
                 label: "Asset ID",
-                value: "${eventquee?.iqcIieAssetId }"?? "-",
+                value: "${eventquee?.iqcIieAssetId }",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,
               ),
@@ -182,7 +184,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
               _buildInfoTile(
                 // icon: Icons.access_time,
                 label: "Issued Date",
-                value: "${eventquee?.iqcIiqDate }" ?? "-",
+                value: "${eventquee?.iqcIiqDate }",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,
               ),

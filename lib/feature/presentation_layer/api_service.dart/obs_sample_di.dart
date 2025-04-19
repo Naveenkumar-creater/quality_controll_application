@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/Exception/show_pop_error.dart';
+import 'package:qc_control_app/constant/Exception/show_pop_error.dart';
 import 'package:qc_control_app/feature/data_layer/remote/obs_sample_datasource.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/obs_sample_entity.dart';
 import 'package:qc_control_app/feature/domain_layer/usecase/obs_sample_usecase.dart';

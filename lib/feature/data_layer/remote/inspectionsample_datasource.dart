@@ -1,11 +1,11 @@
-import 'package:qc_control_app/constatnt/api_connection.dart';
-import 'package:qc_control_app/constatnt/request_data_model.dart/api_request_model.dart';
+import 'package:qc_control_app/constant/api_connection.dart';
+import 'package:qc_control_app/constant/request_data_model.dart/api_request_model.dart';
 import 'package:qc_control_app/feature/data_layer/model/inspectionSample_model.dart';
 
 abstract class InspectionSampleDatasource{
 
   Future<InspectionSampleModel>getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
-  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus);
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex);
 
 }
 
@@ -13,7 +13,7 @@ abstract class InspectionSampleDatasource{
 class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
   @override
   Future<InspectionSampleModel> getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
-  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex
   )async {
 
    ApiRequestDataModel request=  ApiRequestDataModel(
@@ -21,13 +21,22 @@ class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
    controlplanheaderid:headerid, 
     activityid: activityid, 
     clientAuthToken: token,
-   orgid:orgid,
-    processId:  processid,eventid: eventid,
+    orgid:orgid,
+    processId:  processid,
+    eventid: eventid,
     imfgpid: imfgpid,
     eventtrigerid: eventtriggerid,
     samplesize:samplesize ,
     queeid: queeid,
-    questatus:queestatus );
+    questatus:queestatus,
+    productionqty: productionqty,
+    samplesetheaderid: samplesetheaderid,    
+    samplesetindex:samplesetindex ,
+    samplesetstatus: samplesetstatus
+    );
+
+
+
   final response= await ApiConstant.makeApiRequest(requestBody: request);
 
   final result = InspectionSampleModel.fromJson(response);
@@ -39,22 +48,3 @@ class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
   }
   
 }
-
-
-
-
-// "{
-// "client_aut_token": "goutham-4676",
-// "api_for": "list_of_samples",
-// "queue_id":1,
-// "imfgp_id":1,
-// "imfgp_pa_id":13,
-// "mpm_id":5,
-// "cph_id":1,
-// "event_id":1,
-// "event_trigger_id":1,
-// "sample_size":5,
-// "que_status":1,
-// "org_id":1
-// }
-// "

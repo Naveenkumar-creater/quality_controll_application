@@ -19,6 +19,11 @@ class ApiRequestDataModel {
     int ? samplesize;
     int ? questatus;
     int ?  previouseventid ;
+    double ? productionqty;
+int ? samplesetheaderid;
+int ?samplesetstatus;
+int ?samplesetindex;
+int ? previousId;
     
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -40,7 +45,12 @@ class ApiRequestDataModel {
     this. eventtrigerid,
     this. samplesize,
     this. questatus,
-    this. previouseventid
+    this. previouseventid,
+    this.productionqty,
+    this.samplesetheaderid,
+    this.samplesetindex,
+    this.samplesetstatus,
+    this.previousId
   
       });
 
@@ -65,7 +75,12 @@ class ApiRequestDataModel {
       "event_trigger_id":eventtrigerid,
       "sample_size":samplesize,
       "que_status":questatus,
-"iqc_iie_prev_iie_id":  previouseventid
+"iqc_iie_prev_iie_id":  previouseventid,
+"production_qty":productionqty,
+"iish_id":samplesetheaderid,
+"sampleset_status":samplesetstatus,
+"sampleset_index":samplesetindex,
+"iqc_iie_prev_iie_id":previousId
     };
   }
 }

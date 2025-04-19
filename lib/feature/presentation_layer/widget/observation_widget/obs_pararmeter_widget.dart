@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:qc_control_app/constatnt/Exception/show_pop_error.dart';
-import 'package:qc_control_app/constatnt/customwidgets/custombutton.dart';
-import 'package:qc_control_app/constatnt/customwidgets/customtheme.dart';
-import 'package:qc_control_app/constatnt/request_data_model.dart/obs_parameter_save_model.dart';
+import 'package:qc_control_app/constant/Exception/show_pop_error.dart';
+import 'package:qc_control_app/constant/customwidgets/custombutton.dart';
+import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
+import 'package:qc_control_app/constant/request_data_model.dart/obs_parameter_save_model.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/list_status_entity.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/inspectionpagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
@@ -13,7 +13,7 @@ import 'package:qc_control_app/feature/presentation_layer/provider/list_status_p
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../provider/obsparameter_provider.dart';
-import 'package:qc_control_app/constatnt/api_connection.dart';
+import 'package:qc_control_app/constant/api_connection.dart';
 
 class ObsPararmeterWidget extends StatefulWidget {
   const ObsPararmeterWidget({super.key});
@@ -33,6 +33,7 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
 
   List<TextEditingController> controllers = [];
   List<TextEditingController?> enterDescription = [];
+    List<TextEditingController?> cavityvalue = [];
   List<bool> dropdownEnabled = [];
 
   bool _isEnable = true;
@@ -76,13 +77,18 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
         final value = sample[index].iqcCpsSpecType == 3
             ? sample[index].iqcIioObservationTextValue
             : sample[index].iqcIioObservationNumericValue;
-        return value != null&& value != 0
+        return value != null
             ? TextEditingController(text: value.toString())
             : TextEditingController();
       });
 
-      enterDescription = List.generate(sample.length, (index) {
+  enterDescription = List.generate(sample.length, (index) {
         final value = sample[index].iqcIioObservationNotes ?? "";
+        return TextEditingController(text: value.toString());
+      });
+
+           cavityvalue = List.generate(sample.length, (index) {
+        final value = sample[index].iqciiocavityno ?? "";
         return TextEditingController(text: value.toString());
       });
 
@@ -109,8 +115,7 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
   String? selectedStatusValue = ""; // Store the selected label
   int? selectedStatusId = 0; // Store the corresponding ID
 
-  Future<void> sendServerParamdata(
-      BuildContext context, String apifor, int status) async {
+  Future<void> sendServerParamdata( BuildContext context, String apifor, int status) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     String token = pref.getString("client_token") ?? "";
@@ -124,6 +129,12 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
         Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
             .sampledata
             ?.iqcIiqIieId;
+
+            
+    final sampleid =
+        Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
+            .sampledata
+            ?.iqciisId;
 
     final queid =
         Provider.of<EventqueelocaldataProvider>(context, listen: false)
@@ -139,10 +150,11 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
     final requestdata = EventQueeModel(
         apiFor: apifor,
         clientAutToken: token,
-        eventStatus: status,
+        sampleStatus: status,
         eventQueId: queid,
         eventTriggerId: eventtriggerid,
         orgid: orgid,
+        sampleid:sampleid,
         listOfParamValue: []);
 
     for (int i = 0; i < observationSample.length; i++) {
@@ -158,7 +170,11 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
               observation.iqcCpsSpecType == 3 ? controllers[i].text : '',
           parameterStatus: storeActualValue[i],
           obsrvationNotes: enterDescription[i]?.text ?? "",
-          observationId: observation.iqcIioId);
+          observationId: observation.iqcIioId,
+          cavityvalue: int.tryParse(cavityvalue[i]?.text ?? "")?? 0
+
+          
+          );
           
       requestdata.listOfParamValue?.add(paramData);
     }
@@ -271,7 +287,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
         FocusScope.of(context).nextFocus();
       }
     } else {
-      return null;
+      return;
     }
   }
 
@@ -281,6 +297,13 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
             .status
             ?.listOfStatusLable ??
         [];
+            final cavityflag =
+        Provider.of<EventqueelocaldataProvider>(context, listen: false)
+            .queedata
+            ?.cavityflag;
+
+
+
     final groupedSamples = <String, List>{};
 
     final size = MediaQuery.of(context).size.width < 600;
@@ -327,14 +350,14 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                             : null,
                         hint: const Text("Select"),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8),
+                          contentPadding:const EdgeInsets.all(8),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        icon: Icon(Icons.keyboard_arrow_down,
+                        icon:const Icon(Icons.keyboard_arrow_down,
                             color: Colors.black54),
                         onChanged: (value) {
                           setState(() {
@@ -343,8 +366,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                 0; // Store corresponding ID (default to 0 if null)
                           });
 
-                          print("Selected Label: $selectedStatusValue");
-                          print("Selected ID: $selectedStatusId");
+            
                         },
                         items: productStatus.entries.map((entry) {
                           return DropdownMenuItem<String>(
@@ -373,6 +395,8 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
 
                         sendServerParamdata(
                             context, "list_of_saved_parameter", 2);
+
+                            
                       },
                       child: Text("Save",
                           style: TextStyle(
@@ -431,11 +455,11 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
 
                     return ListView(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics:const NeverScrollableScrollPhysics(),
                       children: groupedSamples.entries.map((entry) {
                         return Padding(
                           padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                             const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
                           child: Card(
                             elevation: 4,
                             shape: RoundedRectangleBorder(
@@ -457,17 +481,17 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                     style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 80, 96, 203),
+                                      color: const Color.fromARGB(255, 80, 96, 203),
                                     ),
                                   ),
                                   iconColor: Colors.blueAccent,
-                                  childrenPadding: EdgeInsets.symmetric(
+                                  childrenPadding:const  EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 6),
                                   children: entry.value.map((sampleList) {
                                     int index = sample.indexOf(sampleList);
                                     return Container(
-                                      margin: EdgeInsets.symmetric(vertical: 6),
-                                      padding: EdgeInsets.all(12),
+                                      margin:const EdgeInsets.symmetric(vertical: 6),
+                                      padding:const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
                                         color: ThemeClass.backgroundcolor,
                                         borderRadius: BorderRadius.circular(12),
@@ -480,7 +504,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                         children: [
                                           ListTile(
                                             contentPadding:
-                                                EdgeInsets.symmetric(
+                                              const  EdgeInsets.symmetric(
                                                     horizontal: 12,
                                                     vertical: 8),
                                             leading: CircleAvatar(
@@ -506,7 +530,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                               ),
                                             ),
                                             subtitle: Padding(
-                                              padding: EdgeInsets.only(top: 4),
+                                              padding:const EdgeInsets.only(top: 4),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -520,7 +544,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                       color: Colors.black,
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                             const     SizedBox(
                                                       width:
                                                           6), // Add spacing between "Specs" and the value
                                                   Expanded(
@@ -545,7 +569,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 12),
+                                         const SizedBox(height: 12),
                                           Row(
                                             children: [
                                               Expanded(
@@ -581,7 +605,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                                         8),
                                                           ),
                                                           focusedBorder:
-                                                              OutlineInputBorder(
+                                                             const OutlineInputBorder(
                                                             borderSide:
                                                                 BorderSide(
                                                                     color: Colors
@@ -594,11 +618,11 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                             color:
                                                                 Colors.black),
                                                       )
-                                                    : SizedBox(),
+                                                    : const SizedBox(),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 12),
+                                         const SizedBox(height: 12),
                                           TextFormField(
                                             controller: enterDescription[index],
                                             decoration: InputDecoration(
@@ -613,7 +637,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                               ),
-                                              focusedBorder: OutlineInputBorder(
+                                              focusedBorder:const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors.blue,
                                                     width: 1.5),
@@ -670,10 +694,9 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                               //                       _obsSample();
                               // getSampledata(sample);
 
-                              print(groupedSamples);
 
                               await sendServerParamdata(
-                                  context, "list_of_saved_parameter", 3);
+                                  context, "list_of_saved_parameter", 2);
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -708,13 +731,11 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                     ),
                                   );
                                 }
-                                ;
 
                                 // obsSampleDi.getSampleList(inspectionid:parameter?.iqcIiId ?? 0 , context: context);
                                 //                       _obsSample();
                                 // getSampledata(sample);
 
-                                print(groupedSamples);
 
                                 //   sendServerParamdata(
                                 //       context, "list_of_saved_parameter", 4);
@@ -733,7 +754,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                   Container(
                     height: 80.h,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 45, 54, 104),
+                      color:const Color.fromARGB(255, 45, 54, 104),
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                     child: Padding(
@@ -781,6 +802,37 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                               ),
                             ),
                           ),
+                          
+                              if (cavityflag == 0)
+                                Expanded(
+                                  flex: 2, // Same flex as data row
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Last Cavity", 
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                 if (cavityflag == 0)
+                                Expanded(
+                                  flex: 2, // Same flex as data row
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Cavity Value",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Lexend",
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                           Expanded(
                             flex: 2,
                             child: Align(
@@ -839,13 +891,12 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                     ),
                   ),
 
-                  Container(
+                  SizedBox(
                     height: 430.h,
                     child: Consumer<ObsparameterProvider>(
                         builder: (context, obsParam, child) {
                       final sample = obsParam.obsparam?.observationBySamples;
 
-                      print(sample);
 
                       if (sample == null || sample.isEmpty) {
                         return Center(
@@ -877,7 +928,6 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                         }
                       }
 
-                      print(groupedSamples);
 
                       return SingleChildScrollView(
                         child: Column(
@@ -941,6 +991,67 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                           ),
                                         ),
                                       ),
+                                    if (cavityflag == 0)
+                                         Expanded(
+                                        flex: 2,
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${sampleList.lastcavityno}",
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                       if (cavityflag == 0)
+                                        Expanded(
+                                          flex: 2, // Matching header
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: SizedBox(
+                                                width: 180,
+                                                child: TextFormField(
+                                                  keyboardType: TextInputType.number,
+                                                  controller:
+                                                      cavityvalue[index],
+                                                  decoration: InputDecoration(
+                                                      hintText:
+                                                          "Enter Cavity Value",
+                                                      filled: true,
+                                                      fillColor: Colors.white,
+                                                      border: borderRadious,
+                                                      focusedBorder:
+                                                          borderstyle,
+                                                      enabledBorder:
+                                                          borderstyle),
+                                                  validator: (value) {
+                                               
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Enter Cavity Value';
+                                                    }
+
+
+                                                  final intValue = int.tryParse(value);
+  if (intValue == null || intValue <= 0) {
+    return 'greater than 0';
+  }
+
+                                                    if (value
+                                                        .startsWith(' ')) {
+                                                      return 'Notes cannot start with a space';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: Colors.black),
+                                                )),
+                                          ),
+                                        ),
                                       Expanded(
                                         flex: 2,
                                         child: controllers.isNotEmpty &&
@@ -948,7 +1059,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                             ? Container(
                                                 alignment: Alignment.centerLeft,
                                                 padding: const EdgeInsets.only(
-                                                    right: 10.0),
+                                                left: 10,    right: 10.0),
                                                 child: FocusScope(
                                                   onFocusChange: (onfocus) {
                                                     if (!onfocus) {
@@ -965,7 +1076,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                       // Explicitly unfocus the field
                                                     }
                                                   },
-                                                  child: Container(
+                                                  child: SizedBox(
                                                     width: 180,
                                                     child: TextFormField(
                                                       controller:
@@ -1027,7 +1138,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                   ),
                                                 ),
                                               )
-                                            : SizedBox(), // If empty, show nothing
+                                            : const SizedBox(), // If empty, show nothing
                                       ),
                                       Expanded(
                                         flex: 2,
@@ -1048,7 +1159,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                               index]))
                                                   ? selectedValuesMap[index]
                                                   : null,
-                                              hint: Text("Select Status"),
+                                              hint:const Text("Select Status"),
                                               decoration: InputDecoration(
 
                                                   // labelText: "Select Status",
@@ -1063,7 +1174,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                   enabledBorder: borderstyle,
                                                   focusedBorder: borderstyle),
                                               isExpanded: true,
-                                              icon: Icon(
+                                              icon:const Icon(
                                                   Icons.keyboard_arrow_down,
                                                   color: Colors.black54),
                                               onChanged: (sampleList.iqcCpsSpecType !=  3 && controllers[index].text.isNotEmpty)  ?
@@ -1164,7 +1275,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                                       fontSize: 16.sp,
                                                       color: Colors.black),
                                                 )
-                                              : SizedBox(),
+                                              :const SizedBox(),
                                         ),
                                       ),
                                       Expanded(
