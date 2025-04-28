@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qc_control_app/constant/Exception/show_pop_error.dart';
 import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/interruption_status_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspecSampleLocalData_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/responsive_screen/tablet_body.dart';
@@ -28,14 +29,12 @@ class _EventSampleLayout extends State<EventSampleLayout> {
   // String layoutwidgetname = "Inspecparam";
   InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
    EventsampleDi eventsampleDi=EventsampleDi();
+   InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
      bool isLoading = true;
 
 @override
   void initState() {
-       WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchDatafromDatabase();
-    }); 
-    
+      fetchDatafromDatabase();    
     super.initState();
   }
 
@@ -47,27 +46,21 @@ class _EventSampleLayout extends State<EventSampleLayout> {
           Provider.of<EventqueelocaldataProvider>(context, listen: false)
               .queedata;
 
-              eventsampleDi.getEventSampleList(
-                                            context: context,
-                                            headerid:
-                                                eventlist?.iqcIieCphId ?? 0,
-                                            activityid:
-                                                eventlist?.imfgpPaId ?? 0,
-                                            eventid: eventlist?.iqcIieIeId ?? 0,
-                                            eventtriggerid:
-                                                eventlist?.iqcIiqIieId ?? 0,
-                                            imfgpid: eventlist?.imfgpId ?? 0,
-                                            processid:
-                                                eventlist?.imfgpMpmId ?? 0,
-                                            queeid: eventlist?.iqcIiqId ?? 0,
-                                            queestatus:
-                                            eventlist?.iqcIiqStatus ?? 0,
-                                            samplesize: eventlist
-                                                    ?.iqcIiqMaxSampleSize ??
-                                                0);   
+
+       await interruptionStatusDi.getInterruptionEventStatus(
+          activityId: eventlist?.imfgpPaId ?? 0,
+          context: context,
+          imfgpid: eventlist?.imfgpId ?? 0);
+
+            
+
+
+await Future.delayed(const Duration(seconds: 1));
+  if (mounted) {
       setState(() {
         isLoading = false;
       });
+  }
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -136,7 +129,9 @@ class _EventSampleLayout extends State<EventSampleLayout> {
             ),
           )
 
-        :   PopScope(
+        : 
+        
+       PopScope(
   canPop: false,
   onPopInvoked: (didPop) {
     if (!didPop) {
@@ -183,7 +178,9 @@ class _EventSampleLayout extends State<EventSampleLayout> {
                 ),
                 backgroundColor: ThemeClass.backgroundcolor,
               ),
-              body: SingleChildScrollView(
+              body:   isLoading ? Center(child: CircularProgressIndicator()) : 
+              
+              SingleChildScrollView(
                 child: Container(
                     decoration:const  BoxDecoration(
                       color: Colors.white,

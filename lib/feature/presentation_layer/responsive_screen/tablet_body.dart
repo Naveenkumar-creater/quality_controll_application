@@ -9,6 +9,7 @@ import 'package:qc_control_app/feature/presentation_layer/layout/hompagelayout.d
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/widget_mapping_file.dart';
 
+import '../provider/eventquee_provider.dart';
 import '../provider/process_provider.dart';
 
 import '../widget/homepage_widget/mydrawer.dart';
@@ -68,7 +69,9 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
     final user = Provider.of<ProcessProvider>(context, listen: true).user;
 
   
-
+        final  processName=  Provider.of<EventqueeProvider>(context, listen:false).event?.eventQueueListEntity.isNotEmpty ?? false
+        ? Provider.of<EventqueeProvider>(context, listen: false).event?.eventQueueListEntity.first.mpmName ?? "Default"
+        : "Default";
     // // final deptid = user?.listofProcessEntity?.first.deptId ?? 1057;
     // final shiftgroupId = user?.listofProcessEntity?.first.shiftgroupId ?? 1;
 
@@ -93,20 +96,30 @@ class _ResponsiveTabletHomepageState extends State<ResponsiveTabletHomepage> {
               ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
               : SingleChildScrollView(
                 child: Container(
-                          
+                              width: double.infinity,
+    height: MediaQuery.of(context).size.height, 
                                  
-                  child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            MyDrawer(),
-                            SizedBox(width: 8.w),
-                           const Hompagelayout()
-                          ],
-                        ),
-                      ],
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyDrawer(),
+                      SizedBox(width: 8.w),
+                    processName == "Default" ? Expanded(
+                                     
+                      child: Center( // This will center within the remaining space
+                  child: Text(
+                    "No Records Found",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[700],
                     ),
+                  ),
+                )
+                    ):
+                     const Hompagelayout()
+                    ],
+                  ),
                 ),
               ),
         ),

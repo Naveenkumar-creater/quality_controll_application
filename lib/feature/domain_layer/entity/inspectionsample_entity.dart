@@ -24,7 +24,8 @@ class ListOfSampleEntity {
         required this.insStatus,
         required this.samplesno,
         required this.batchNo,
-        required this.datanoenter
+        required this.datanoenter,
+        required this.samplestatus
     });
 
     final int? iqcIiqMaxSampleSize;
@@ -40,6 +41,7 @@ class ListOfSampleEntity {
     final String ? insStatus;
     final String ?  batchNo;
     final int ? datanoenter;
+    final int? samplestatus;
     
 
 }

@@ -27,9 +27,7 @@ class _HompagelayoutState extends State<Hompagelayout> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width < 600;
-        final  processName=  Provider.of<EventqueeProvider>(context, listen:false).event?.eventQueueListEntity.isNotEmpty ?? false
-        ? Provider.of<EventqueeProvider>(context, listen: false).event?.eventQueueListEntity.first.mpmName ?? "Default"
-        : "Default";
+
 
     Widget? thirdwidget = WidgetMappingFile.getwidget(layoutwidgetname);
     Widget? box1widget = WidgetMappingFile.getwidget(box1);

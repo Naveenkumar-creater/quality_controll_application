@@ -11,7 +11,7 @@ class ObsparameterDatasourceImple extends ObsparameterDatasource {
 
 @override
 Future<ObsParameterModel> getParaneter(String token, int sampleId, int orgid, int previousid) async{
- ApiRequestDataModel request=ApiRequestDataModel(apiFor: "observation_of_params",clientAuthToken: token,iqciisid:sampleId, orgid: orgid,previousId:previousid,);
+ ApiRequestDataModel request=ApiRequestDataModel(apiFor: "observation_of_params",clientAuthToken: token,iqciisid:sampleId, orgid: orgid,previouseventid:previousid,);
  final response=  await ApiConstant.makeApiRequest(requestBody: request);
 
  final result= ObsParameterModel.fromJson(response);

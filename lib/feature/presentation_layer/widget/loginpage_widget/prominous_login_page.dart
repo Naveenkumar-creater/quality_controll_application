@@ -28,7 +28,7 @@ class ProminousLoginPage extends StatelessWidget {
                 padding: const EdgeInsets.all(64),
                 child: SizedBox(
                           height: 140,
-                          child: Image.asset('assets/images/Prominous-logo-white.png'),),
+                          child: Image.asset('assets/images/sujashoeilogo.png'),),
               ),
             ],
           ),

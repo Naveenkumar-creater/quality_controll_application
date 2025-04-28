@@ -31,7 +31,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
   InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
   EventsampleDi eventsampleDi=EventsampleDi();
   InterruptionStatusDi interruptionStatusDi =InterruptionStatusDi();
-  ReactionDi reactionDi=ReactionDi(); 
+  // ReactionDi reactionDi=ReactionDi(); 
   SampleoverallstatusDi overallstaus=SampleoverallstatusDi(); 
   ActionstepDi actionstepDi =ActionstepDi();
   ListofrestartDi listofrestartDi =ListofrestartDi();
@@ -122,6 +122,7 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
         previouseventid: eventlist?.previouseventid,
         cavityflag: eventlist?.cavityflag,
         iqcpreviousid: eventlist?.iqcpreviousid,
+        toolId: eventlist?.toolid
       );
 
     Provider.of<EventqueelocaldataProvider>(context, listen: false)
@@ -587,15 +588,37 @@ class _EventqueewidgetState extends State<Eventqueewidget> {
                                       child: IconButton(
                                           onPressed: () async{
                                           getEvenqueedata(eventlist);
+    await eventsampleDi.getEventSampleList(
+                                            context: context,
+                                            headerid:
+                                                eventlist?.iqcIieCphId ?? 0,
+                                            activityid:
+                                                eventlist?.imfgpPaId ?? 0,
+                                            eventid: eventlist?.iqcIieIeId ?? 0,
+                                            eventtriggerid:
+                                                eventlist?.iqcIiqIieId ?? 0,
+                                            imfgpid: eventlist?.imfgpId ?? 0,
+                                            processid:
+                                                eventlist?.imfgpMpmId ?? 0,
+                                            queeid: eventlist?.iqcIiqId ?? 0,
+                                            queestatus:
+                                           eventlist?.iqcIiqStatus ?? 0,
+                                            samplesize: eventlist
+                                                    ?.iqcIiqMaxSampleSize ??
+                                                0); 
 
-                                          
+
+                                             
                                                              
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                              builder: (context) {
-                                                return const EventSampleLayout();
-                                              },
-                                            ));
+                                     if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EventSampleLayout(),
+            ),
+          );
+        }
+      
                                           },
                                           icon: const Icon(Icons.arrow_forward_outlined))),
                                 )

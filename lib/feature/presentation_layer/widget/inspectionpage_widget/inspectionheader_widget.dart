@@ -148,7 +148,7 @@ class _InspectionHeaderWidgetState extends State<InspectionHeaderWidget> {
               ),
               _buildInfoTile(
                 // icon: Icons.card_membership,
-                label: "Job ID",
+                label: "Production Card",
                 value: eventquee?.pcCardNo ?? "-",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,

@@ -14,7 +14,8 @@ class SampleSubmitModel {
         required this.eventid,
         required this.inspectionStatus,
         required this.imfgpid,
-        required this.listOfsampledata
+        required this.listOfsampledata,
+        required this.activityid
     });
 
     final String? clientAutToken;
@@ -31,6 +32,7 @@ class SampleSubmitModel {
     final int? eventid;
     final int ? inspectionStatus;
     final int ? imfgpid;
+    final int ? activityid;
     final List<ListSampledata>? listOfsampledata;
 
     Map<String, dynamic> toJson() => {
@@ -48,9 +50,8 @@ class SampleSubmitModel {
         "event_id" : eventid,
        "inspection_status" : inspectionStatus,
        "imfgp_id":imfgpid,
+       "activity_id":activityid,
        "sample_data": listOfsampledata?.map((listOfsampledata) => listOfsampledata.toJson()).toList(),
-
-
     };
 
 }

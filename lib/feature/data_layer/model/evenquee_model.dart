@@ -47,8 +47,10 @@ class EventQueueList extends EventQueueListEntity{
         required this.pcid,
         required this.previouseventid,
         required this.cavityflag,
-        required this.iqcpreviousid
+        required this.iqcpreviousid,
+        required this.toolid
     }) : super(
+      toolid: toolid,
       iqcpreviousid: iqcpreviousid,
       assetName: assetName,iqcIieId:iqcIieId ,iqcIieIeId: iqcIieIeId,iqcIiqId:iqcIiqId ,paId:paId ,
       iqcIiqDate: iqcIiqDate, pcCardNo: pcCardNo, imfgpPaId:imfgpPaId , mpmName: mpmName, iqcIiqSampleUomId: iqcIiqSampleUomId, itemName: itemName, pcItemCode: pcItemCode, iqcIiqIieId: iqcIiqIieId, iqcIiqMaxSampleSize:iqcIiqMaxSampleSize , pcItemId: pcItemId, paActivityName: paActivityName, 
@@ -89,6 +91,7 @@ class EventQueueList extends EventQueueListEntity{
     final int ? previouseventid;
     final int ? cavityflag;
     final int ? iqcpreviousid;
+    final int? toolid;
 
 
     factory EventQueueList.fromJson(Map<String, dynamic> json){ 
@@ -123,7 +126,8 @@ class EventQueueList extends EventQueueListEntity{
            pcid:  json['iqc_iie_pc_id'],
          previouseventid:  json["iqc_iie_prev_iie_id"],
          cavityflag: json["mpm_cavity_flag"],
-         iqcpreviousid: json["iqc_iie_prev_iie_id"]
+         iqcpreviousid: json["iqc_iie_prev_iie_id"],
+         toolid:json["iqc_iie_atm_id"]
         );
     }
 

@@ -34,9 +34,11 @@ class ListOfSample extends ListOfSampleEntity {
         required this.samplesno,
         required this. insStatus,
         required this.batchNo,
-        required this.datanoenter
+        required this.datanoenter,
+        required this.samplestatus
             }):
             super(
+              samplestatus:samplestatus ,
               datanoenter: datanoenter,
               batchNo: batchNo,
       insStatus: insStatus,nooffail: nooffail,noofpass:noofpass ,samplesno:samplesno ,
@@ -57,6 +59,7 @@ class ListOfSample extends ListOfSampleEntity {
     final String ? insStatus;
     final String ?batchNo;
     final int ? datanoenter;
+    final int ? samplestatus;
 
     factory ListOfSample.fromJson(Map<String, dynamic> json){ 
       print("Parsing JSON into ListOfSample: $json");
@@ -73,7 +76,8 @@ class ListOfSample extends ListOfSampleEntity {
             nooffail:json["no_of_fail"],
             insStatus:json["ins_status"],
             batchNo: json["iqc_iiq_sample_batch_no"],
-       datanoenter   : json["data_not_enter"]
+       datanoenter   : json["data_not_enter"],
+       samplestatus:json["sample_status"]
 
         );
     }

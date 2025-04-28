@@ -56,7 +56,7 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
               ),
               _buildInfoTile(
                 // icon: Icons.card_membership,
-                label: "Job ID",
+                label: "Production Card",
                 value: eventquee?.pcCardNo ?? "-",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,
@@ -152,7 +152,7 @@ class _ObsSampleHeaderWidgetState extends State<ObsSampleHeaderWidget> {
               ),
               _buildInfoTile(
                 // icon: Icons.card_membership,
-                label: "Job ID",
+                label: "Production Card",
                 value: eventquee?.pcCardNo ?? "-",
                 labelStyle: labelStyle,
                 valueStyle: valueStyle,

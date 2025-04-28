@@ -55,9 +55,10 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
+ 
     fetchData();
+
+    super.initState();
   }
 
   void fetchData() async {
@@ -66,14 +67,7 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
           Provider.of<EventqueelocaldataProvider>(context, listen: false)
               .queedata;
 
-      await listofrestartDi.getRestartEvent(
-          context: context,
-          imfgpid: eventlist?.imfgpId ?? 0,
-          activityid: eventlist?.imfgpPaId ?? 0);
-      await overallstaus.getAction(context: context, clgroup: "LINE_STATUS");
-      await actionstepDi.getAction(
-          clgroup: "ACTION_TAKEN_STATUS", context: context);
-      await reactionDi.getReaction(
+   await reactionDi.getReaction(
           context: context,
           queeid: eventlist?.iqcIiqId ?? 0,
           queestatus: eventlist?.iqcIiqStatus ?? 0,
@@ -81,6 +75,15 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
           imfgpid: eventlist?.imfgpId ?? 0,
           cphid: eventlist?.iqcIieCphId ?? 0,
           previouseventid: eventlist?.previouseventid ?? 0);
+
+      await listofrestartDi.getRestartEvent(
+          context: context,
+          imfgpid: eventlist?.imfgpId ?? 0,
+          activityid: eventlist?.imfgpPaId ?? 0);
+      await overallstaus.getAction(context: context, clgroup: "LINE_STATUS");
+      await actionstepDi.getAction(
+          clgroup: "ACTION_TAKEN_STATUS", context: context);
+   
 
       final reaction = Provider.of<ReactionProvider>(context, listen: false)
               .reaction
@@ -299,9 +302,8 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
             [];
 
     final restartEvent =
-        Provider.of<ListofrestarteventProvider>(context, listen: false)
-                .restartEvent
-                ?.listOfNormalEvent ??
+        Provider.of<ReactionProvider>(context, listen: false)
+                .reaction?.listOfReaction ??
             [];
 
     OutlineInputBorder borderstyle = const OutlineInputBorder(
@@ -314,6 +316,7 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
 
     return isLoading
         ? Center(child: CircularProgressIndicator())
+
         : Form(
             key: _reactionformKey,
             child: Container(
@@ -336,6 +339,7 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
                           ),
                           Row(
                             children: [
+                              if(restartEvent.isNotEmpty)
                               CustomButton(
                                 width: ThemeClass.buttonwidth,
                                 height: ThemeClass.buttonheight,
@@ -471,7 +475,23 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
                     ),
                   ),
                   Expanded(
-                    child: Consumer<ReactionProvider>(
+                    child: restartEvent.isEmpty ?   Container(
+                   
+                   
+                              child: Center( // This will center within the remaining space
+                                                child: Text(
+                                                  "No Records Found",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                ),
+                                              ),
+                            ):
+                    
+                    
+                    Consumer<ReactionProvider>(
                       builder: (context, reactionList, child) {
                         final reaction = reactionList.reaction?.listOfReaction;
 
@@ -479,7 +499,11 @@ class _ReactionTableWidgetState extends State<ReactionTableWidget> {
                           itemCount: reaction?.length,
                           itemBuilder: (context, index) {
                             final reactionItem = reaction?[index];
-                            return Container(
+                            return 
+                            
+                            
+                            
+                             Container(
                               decoration: BoxDecoration(
                                 color: index % 2 == 0
                                     ? Colors.grey.shade50

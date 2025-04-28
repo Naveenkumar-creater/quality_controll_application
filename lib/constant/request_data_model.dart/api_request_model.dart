@@ -23,7 +23,7 @@ class ApiRequestDataModel {
 int ? samplesetheaderid;
 int ?samplesetstatus;
 int ?samplesetindex;
-int ? previousId;
+int ? toolid;
     
   ApiRequestDataModel(
       {this.clientAuthToken,
@@ -50,7 +50,7 @@ int ? previousId;
     this.samplesetheaderid,
     this.samplesetindex,
     this.samplesetstatus,
-    this.previousId
+    this.toolid
   
       });
 
@@ -80,7 +80,8 @@ int ? previousId;
 "iish_id":samplesetheaderid,
 "sampleset_status":samplesetstatus,
 "sampleset_index":samplesetindex,
-"iqc_iie_prev_iie_id":previousId
+
+"iqc_iie_atm_id":toolid
     };
   }
 }

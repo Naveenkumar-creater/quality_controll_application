@@ -25,7 +25,8 @@ class InspectionsampleDi {
       required int samplesetheaderid,
       required double productionqty,
       required int samplesetstatus,
-      required int samplesetindex
+      required int samplesetindex,
+       required int toolId
       }) async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
@@ -54,7 +55,8 @@ class InspectionsampleDi {
               samplesetheaderid,
               productionqty,
                     samplesetstatus,
- samplesetindex
+ samplesetindex,
+ toolId
               );
 
  Provider.of<InspectionsampleProvider>(context, listen: false).setSample(response);

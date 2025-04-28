@@ -57,9 +57,9 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+
       fetchDatafromDatabase();
-    });
+
   }
 
   bool get isProductionQtyValid {
@@ -69,14 +69,14 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
 
   void fetchDatafromDatabase() async {
     try {
-              final eventqueedata =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata;
+        //       final eventqueedata =
+        // Provider.of<EventqueelocaldataProvider>(context, listen: false)
+        //     .queedata;
 
-               await interruptionStatusDi.getInterruptionEventStatus(
-          activityId: eventqueedata?.imfgpPaId ?? 0,
-          context: context,
-          imfgpid: eventqueedata?.imfgpId ?? 0);
+        //        await interruptionStatusDi.getInterruptionEventStatus(
+        //   activityId: eventqueedata?.imfgpPaId ?? 0,
+        //   context: context,
+        //   imfgpid: eventqueedata?.imfgpId ?? 0);
 
       final samplesetproductionqty =
           Provider.of<EventSampleSetProvider>(context, listen: false)
@@ -91,6 +91,68 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
               productionqtyvalue = int.tryParse (ProductionEntryController.text);
            
 
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ShowError.showAlert(context, e.toString());
+    }
+  }
+
+
+    void fetchinspectionsamplelistfromDatabase() async {
+    try {
+
+                  final samplesetvalues =
+          Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
+                  .sampledata;
+
+                 final eventqueedata =
+        Provider.of<EventqueelocaldataProvider>(context, listen: false)
+            .queedata;
+
+            
+
+              await inspectionsampleDi.getSampleList(
+                                                        context: context,
+                                                        headerid: eventqueedata
+                                                                ?.iqcIieCphId ??
+                                                            0,
+                                                        activityid: eventqueedata
+                                                                ?.imfgpPaId ??
+                                                            0,
+                                                        eventid: eventqueedata
+                                                                ?.iqcIieIeId ??
+                                                            0,
+                                                        eventtriggerid:
+                                                            eventqueedata
+                                                                    ?.iqcIiqIieId ??
+                                                                0,
+                                                        imfgpid: eventqueedata
+                                                                ?.imfgpId ??
+                                                            0,
+                                                        processid: eventqueedata
+                                                                ?.imfgpMpmId ??
+                                                            0,
+                                                        queeid: eventqueedata
+                                                                ?.iqcIiqId ??
+                                                            0,
+                                                        queestatus: eventqueedata
+                                                                ?.iqcIiqStatus ??
+                                                            0,
+                                                        samplesize: eventqueedata
+                                                                ?.iqcIiqMaxSampleSize ??
+                                                            0, 
+                                                            toolId: eventqueedata?.toolId ?? 0, 
+                                                            productionqty:samplesetvalues?.productionqty ?? 0.0  ,
+                                                            samplesetheaderid: samplesetvalues?.iqcIishId ?? 0,
+                                                            samplesetindex:samplesetvalues?.samplesetindex ?? 0 ,
+                                                            samplesetstatus: samplesetvalues?.status ?? 0,
+                                                        
+                                                            );
       setState(() {
         isLoading = false;
       });
@@ -218,7 +280,7 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
                         ),
                       ),
                       const SizedBox(height: 20),
-                      //  if(inspectionstatus == 2)
+                      if(inspectionstatus == 2)
                       SizedBox(
                         width: double.infinity,
                         child: DropdownButtonFormField<String>(
@@ -347,32 +409,23 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
     final eventqueelocaldata = Provider.of<EventqueelocaldataProvider>(context, listen: false)
             .queedata;
 
-    final eventtriggerid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
+    final eventtriggerid =eventqueelocaldata
             ?.iqcIiqIieId;
 
     final queid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
+       eventqueelocaldata
             ?.iqcIiqId;
 
-    final eventid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIieIeId;
+    final eventid = eventqueelocaldata?.iqcIieIeId;
 
-    final pcid = Provider.of<EventqueelocaldataProvider>(context, listen: false)
-        .queedata
-        ?.pcid;
+    final pcid =eventqueelocaldata?.pcid;
     final assetId =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIieAssetId;
+       eventqueelocaldata?.iqcIieAssetId;
 
     final headerId = eventqueelocaldata?.iqcIieCphId;
 
     final imfgpid = eventqueelocaldata?.imfgpId;
+    final activityId=eventqueelocaldata?.imfgpPaId;
 
     int? orgid = Provider.of<LoginProvider>(context, listen: false)
             .user
@@ -395,6 +448,7 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
         inspectionStatus: inspectionstatus,
         eventid: eventid,
         imfgpid: imfgpid,
+        activityid:activityId ,
         listOfsampledata: []);
 
     for (int i = 0; i < sample.length; i++) {
@@ -438,7 +492,8 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
 
     final dataenter = sample.every((e) => e.datanoenter == 0);
 
-    final samplesetcount=sampleset.every((e)=>e.samplesetstatuscount==0);
+    final samplesetcount= sampleset.every((e)=>e.samplesetstatuscount==0);
+
 
 print("samplecount:  " + "${samplesetcount}");
 
@@ -646,71 +701,44 @@ print("samplecount:  " + "${samplesetcount}");
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15.w, right: 40.w),
-                          child: Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
-    /// Title
-    Text(
-      "Sample Set List",
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Colors.black87,
-      ),
-    ),
+                     Container(
+  decoration: BoxDecoration(
 
-    /// Right side: Qty + Button
-    Padding(
-      padding: const EdgeInsets.only(right: 56.0),
-      child: Row(
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+     color:ThemeClass.backgroundcolor ,
+        blurRadius: 8,
+        offset: Offset(0, 4),
+      ),
+    ],
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          /// Production Qty Field
-          SizedBox(
-            width: 200,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              controller: ProductionEntryController,
-              onEditingComplete: () {
-                setState(() {
-                  productionqtyvalue = int.tryParse(ProductionEntryController.text);
-                });
-              },
-              enabled: (productionqtyvalue == 0 || productionqtyvalue == null),
-              decoration: InputDecoration(
-                hintText: "Enter Production Qty",
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.grey.shade400),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide( width: 1.5),
-                ),
-              ),
-              style: TextStyle(fontSize: 16, color: Colors.black),
+          Text(
+            "Sample Set List",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
           ),
-      
-          /// Spacing
-          SizedBox(width: 16),
-      
-          /// Submit Button
-          CustomButton(
-            width: ThemeClass.buttonwidth,
-            height: ThemeClass.buttonheight,
-            backgroundColor: ThemeClass.buttonColor,
-            borderRadius: BorderRadius.circular(ThemeClass.butborderradious),
+
+            CustomButton(
+           width: ThemeClass.buttonwidth,
+                                            height: ThemeClass.buttonheight,
+                                            backgroundColor:
+                                                ThemeClass.buttonColor,
+                                            borderRadius: BorderRadius.circular(
+                                                ThemeClass.butborderradious),
+          
+            onPressed: samplesetcount ? () async {
+              await _submitPop(context);
+            } : null,
             child: Text(
               "Submit",
               style: TextStyle(
@@ -719,17 +747,45 @@ print("samplecount:  " + "${samplesetcount}");
                 color: Colors.white,
               ),
             ),
-            onPressed:samplesetcount? () async {
-              await _submitPop(context);
-            }:null
           ),
         ],
       ),
-    ),
-  ],
+      SizedBox(height: 10),
+      Text(
+        "Enter Production Quantity",
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: Colors.black87,
+        ),
+      ),
+      SizedBox(height: 10),
+      TextFormField(
+        controller: ProductionEntryController,
+        keyboardType: TextInputType.number,
+        enabled: (productionqtyvalue == 0 || productionqtyvalue == null),
+        onEditingComplete: () {
+          setState(() {
+            productionqtyvalue = int.tryParse(ProductionEntryController.text);
+          });
+        },
+        decoration: InputDecoration(
+          hintText: "Enter production quantity",
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        style: TextStyle(fontSize: 16, color: Colors.black),
+      ),
+
+    ],
+  ),
 ),
-                        ),
-                      ),
+
                       const SizedBox(
                         height: 10,
                       ),
@@ -957,14 +1013,17 @@ print("samplecount:  " + "${samplesetcount}");
                                                     await liststatusDi
                                                         .getStatus(
                                                             context: context);
-
+fetchinspectionsamplelistfromDatabase();
                                                     // Navigate only after all data is loaded
-                                                    Navigator.push(
+                                                             if (context.mounted) {
+     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
                                                               const Inspectionpagelayout(),
                                                         ));
+                                                             }
+                                               
                                                   }
                                                 : null,
                                             child: Text("Next",

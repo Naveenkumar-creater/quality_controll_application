@@ -61,114 +61,97 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
 
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchDatafromDatabase();
-    });
+    fetchdata();
   }
 
-  void fetchDatafromDatabase() async {
-    try {
 
-      final samplestatus =
-          Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
-                  .sampledata
-                  ?.iqcIiqStatus ??
 
-              0;
+  void fetchdata()async{
 
-                  final samplesetvalues =
-          Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
-                  .sampledata;
+ await  Future.delayed(const Duration(seconds: 2));
+  if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+  }
 
-                 final eventqueedata =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata;
+  }
+
+  // void fetchDatafromDatabase() async {
+  //   try {
+
+  //     final samplestatus =
+  //         Provider.of<InspecsampleLocalDataProvider>(context, listen: false)
+  //                 .sampledata
+  //                 ?.iqcIiqStatus ??
+
+  //             0;
+
+  //                 final samplesetvalues =
+  //         Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
+  //                 .sampledata;
+
+  //                final eventqueedata =
+  //       Provider.of<EventqueelocaldataProvider>(context, listen: false)
+  //           .queedata;
 
             
 
-              await inspectionsampleDi.getSampleList(
-                                                        context: context,
-                                                        headerid: eventqueedata
-                                                                ?.iqcIieCphId ??
-                                                            0,
-                                                        activityid: eventqueedata
-                                                                ?.imfgpPaId ??
-                                                            0,
-                                                        eventid: eventqueedata
-                                                                ?.iqcIieIeId ??
-                                                            0,
-                                                        eventtriggerid:
-                                                            eventqueedata
-                                                                    ?.iqcIiqIieId ??
-                                                                0,
-                                                        imfgpid: eventqueedata
-                                                                ?.imfgpId ??
-                                                            0,
-                                                        processid: eventqueedata
-                                                                ?.imfgpMpmId ??
-                                                            0,
-                                                        queeid: eventqueedata
-                                                                ?.iqcIiqId ??
-                                                            0,
-                                                        queestatus: eventqueedata
-                                                                ?.iqcIiqStatus ??
-                                                            0,
-                                                        samplesize: eventqueedata
-                                                                ?.iqcIiqMaxSampleSize ??
-                                                            0,  
-                                                            productionqty:samplesetvalues?.productionqty ?? 0.0  ,
-                                                            samplesetheaderid: samplesetvalues?.iqcIishId ?? 0,
-                                                            samplesetindex:samplesetvalues?.samplesetindex ?? 0 ,
-                                                            samplesetstatus: samplesetvalues?.status ?? 0
-                                                            );
+  //             await inspectionsampleDi.getSampleList(
+  //                                                       context: context,
+  //                                                       headerid: eventqueedata
+  //                                                               ?.iqcIieCphId ??
+  //                                                           0,
+  //                                                       activityid: eventqueedata
+  //                                                               ?.imfgpPaId ??
+  //                                                           0,
+  //                                                       eventid: eventqueedata
+  //                                                               ?.iqcIieIeId ??
+  //                                                           0,
+  //                                                       eventtriggerid:
+  //                                                           eventqueedata
+  //                                                                   ?.iqcIiqIieId ??
+  //                                                               0,
+  //                                                       imfgpid: eventqueedata
+  //                                                               ?.imfgpId ??
+  //                                                           0,
+  //                                                       processid: eventqueedata
+  //                                                               ?.imfgpMpmId ??
+  //                                                           0,
+  //                                                       queeid: eventqueedata
+  //                                                               ?.iqcIiqId ??
+  //                                                           0,
+  //                                                       queestatus: eventqueedata
+  //                                                               ?.iqcIiqStatus ??
+  //                                                           0,
+  //                                                       samplesize: eventqueedata
+  //                                                               ?.iqcIiqMaxSampleSize ??
+  //                                                           0, 
+  //                                                           toolId: eventqueedata?.toolId ?? 0, 
+  //                                                           productionqty:samplesetvalues?.productionqty ?? 0.0  ,
+  //                                                           samplesetheaderid: samplesetvalues?.iqcIishId ?? 0,
+  //                                                           samplesetindex:samplesetvalues?.samplesetindex ?? 0 ,
+  //                                                           samplesetstatus: samplesetvalues?.status ?? 0,
+                                                        
+  //                                                           );
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     ShowError.showAlert(context, e.toString());
+  //   }
+  // }
 
-
-      int? status = samplestatus == 0 ? eventqueedata?.iqcIiqStatus : samplestatus;
-
-      final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
-                  .sample
-                  ?.listOfSamplesEntity ??
-              [];
-
-      // enterDescription = List.generate(sample.length, (index) {
-      //   final value = "";
-      //   return TextEditingController(text: value.toString());
-      // });
-
-//       enterDescription = List.generate(
-//   sample.length, // Replace with the actual number of fields you need
-//   (index) => TextEditingController(),
-// );
-
-      // await inspectionparam.getInpectionParam(
-      //     context: context,
-      //     headerId: eventlist?.iqcIieCphId ?? 0,
-      //     activityId: eventlist?.imfgpPaId ?? 0);
-
-      // await interruptionStatusDi.getInterruptionEventStatus(
-      //     activityId: eventlist?.imfgpPaId ?? 0,
-      //     context: context,
-      //     imfgpid: eventlist?.imfgpId ?? 0);
-
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      ShowError.showAlert(context, e.toString());
-    }
-  }
-
-  @override
-  void dispose() {
-    for (var controller in enterDescription) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   for (var controller in enterDescription) {
+  //     controller.dispose();
+  //   }
+  //   super.dispose();
+  // }
 
   void getSampledata(ListOfSampleEntity? sample) {
     final sampledata = InspectionSampleLocalModel(
@@ -232,251 +215,6 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
 
   Widget _divider() {
     return Divider(thickness: 1, color: Colors.grey.shade300, height: 16.h);
-  }
-
-  _submitPop(BuildContext context) {
-    final optionList =
-        Provider.of<InterruptioneventStatusProvider>(context, listen: false)
-                .interruptionStatus
-                ?.listOfInterruptionEvent ??
-            [];
-    final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
-            .sample
-            ?.listOfSamplesEntity ??
-        [];
-
-    final inspectionstatus =
-        sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return WillPopScope(
-                onWillPop: () async => false,
-                child: Container(
-                  width: 250,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Confirm Your Submission",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      //  if(inspectionstatus == 2)
-                      SizedBox(
-                        width: double.infinity,
-                        child: DropdownButtonFormField<String>(
-                          value: optionList
-                                  .any((e) => e.eventName == selectedValue)
-                              ? selectedValue
-                              : null, // Ensure value exists in list
-                          hint: const Text("Select"),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(8),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          icon: const Icon(Icons.keyboard_arrow_down,
-                              color: Colors.black54),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              final selectedStatus = optionList.firstWhere(
-                                  (status) => status.eventName == newValue);
-
-                              setState(() {
-                                selectedValue = newValue;
-                                selectedStatusId =
-                                    selectedStatus.iqcCppeIeId ?? 0;
-                                selectedeventtype =
-                                    selectedStatus.iqcIeEventType;
-                              });
-                            }
-                          },
-                          items: optionList
-                              .map((entry) =>
-                                  entry.eventName) // Ensure unique values
-                              .toSet() // Remove duplicates
-                              .map((eventName) {
-                            return DropdownMenuItem<String>(
-                              value: eventName,
-                              child: Text(
-                                eventName ?? "",
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.black87),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButton(
-                            width: ThemeClass.buttonwidth,
-                            height: ThemeClass.buttonheight,
-                            backgroundColor: ThemeClass.cancelbuttonColor,
-                            borderRadius: BorderRadius.circular(
-                                ThemeClass.butborderradious),
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text("Cancel",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          CustomButton(
-                            width: ThemeClass.buttonwidth,
-                            height: ThemeClass.buttonheight,
-                            backgroundColor: ThemeClass.buttonColor,
-                            borderRadius: BorderRadius.circular(
-                                ThemeClass.butborderradious),
-                            onPressed:
-
-                                //  ((selectedStatusId != 0 &&
-                                //             inspectionstatus == 2) ||
-                                //         (selectedStatusId == 0 &&
-                                //             inspectionstatus == 1))
-                                //     ?
-
-                                () async {
-                              try {
-                                await sendServerParamdata(
-                                    context, "list_of_sample_submit", 4);
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const ResponsiveTabletHomepage();
-                                }));
-                              } catch (e) {
-                                ShowError.showAlert(context, e.toString());
-                              }
-                            },
-                            // : null,
-                            child: const Text("Submit",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> sendServerParamdata(
-      BuildContext context, String apifor, int status) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String token = pref.getString("client_token") ?? "";
-
-    final observationSample =
-        Provider.of<ObsparameterProvider>(context, listen: false)
-                .obsparam
-                ?.observationBySamples ??
-            [];
-
-    final sample = Provider.of<InspectionsampleProvider>(context, listen: false)
-            .sample
-            ?.listOfSamplesEntity ??
-        [];
-
-    final inspectionstatus =
-        sample.any((e) => e.insStatus?.toLowerCase() == "failed") ? 2 : 1;
-
-    final eventqueelocaldata =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata;
-
-    final eventtriggerid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIiqIieId;
-
-    final queid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIiqId;
-
-    final eventid =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIieIeId;
-
-    final pcid = Provider.of<EventqueelocaldataProvider>(context, listen: false)
-        .queedata
-        ?.pcid;
-    final assetId =
-        Provider.of<EventqueelocaldataProvider>(context, listen: false)
-            .queedata
-            ?.iqcIieAssetId;
-
-    final headerId = eventqueelocaldata?.iqcIieCphId;
-
-    final imfgpid = eventqueelocaldata?.imfgpId;
-
-    int? orgid = Provider.of<LoginProvider>(context, listen: false)
-            .user
-            ?.userLoginEntity
-            ?.orgId ??
-        0;
-
-    final requestdata = SampleSubmitModel(
-        apiFor: apifor,
-        clientAutToken: token,
-        eventStatus: status,
-        eventQueId: queid,
-        eventTriggerId: eventtriggerid,
-        eventtype: selectedeventtype,
-        nexteventId: selectedStatusId,
-        assetId: assetId,
-        headerId: headerId,
-        pccardid: pcid,
-        orgid: orgid,
-        inspectionStatus: inspectionstatus,
-        eventid: eventid,
-        imfgpid: imfgpid,
-        listOfsampledata: []);
-
-    for (int i = 0; i < sample.length; i++) {
-      final sampleList = sample[i];
-      final sampleData = ListSampledata(
-        cavityValue: enterDescription[i].text,
-        sampleId: sampleList.iqciisId,
-      );
-
-      requestdata.listOfsampledata?.add(sampleData);
-    }
-
-    // print(requestdata);
-    try {
-      final response =
-          await ApiConstant.makeApiRequest(requestBody: requestdata);
-      // print(response);
-      return response;
-    } catch (e) {
-      ShowError.showAlert(context, e.toString());
-    }
   }
 
   @override
@@ -865,12 +603,13 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                flex: 2, // Same flex as data row
+                           
+                                   Expanded(
+                                flex: 3, // Same flex as data row
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Status",
+                                    "Observation Status",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Lexend",
@@ -880,6 +619,20 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                 ),
                               ),
                 
+                   Expanded(
+                                flex: 2, // Same flex as data row
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Overall Status",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Lexend",
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 flex: 2, // Same flex as data row
                                 child: Align(
@@ -1032,14 +785,14 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 2,
+                                        Expanded(
+                                        flex: 3,
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             sampleList?.nooffail == 0 &&
                                                     sampleList?.noofpass == 0
-                                                ? "Open"
+                                                ? ""
                                                 : "${sampleList?.insStatus}",
                                             style: TextStyle(
                                                 color: Colors.black54,
@@ -1048,6 +801,23 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                           ),
                                         ),
                                       ),
+
+                                          Expanded(
+                                        flex: 2,
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            sampleList?.samplestatus == 1  
+                                                ? "Open" : sampleList?.samplestatus == 2 ?
+                                            "In Progress"    : "Completed",
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontFamily: "Lexend",
+                                                fontSize: 15.sp),
+                                          ),
+                                        ),
+                                      ),
+                                    
                 
                                       Expanded(
                                         flex: 2,
@@ -1083,7 +853,7 @@ class _InspecSampletabelwidgetState extends State<InspecSampletabelwidget> {
                                               await liststatusDi.getStatus(
                                                   context: context);
                 
-                                              // Navigate only after all data is loaded
+
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

@@ -6,9 +6,9 @@ class InspectionsampleUsecase {
   InspectionsampleUsecase(this.inspectionsampleRepo);
 
   Future<InspectionSampleEntity>getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
-  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex){
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex,int toolId){
     return inspectionsampleRepo.getSampleList( token,  headerid,  activityid,  orgid,  processid, 
-   eventid,  imfgpid,  eventtriggerid,   samplesize,  queeid,  queestatus,samplesetheaderid,productionqty,samplesetstatus, samplesetindex);
+   eventid,  imfgpid,  eventtriggerid,   samplesize,  queeid,  queestatus,samplesetheaderid,productionqty,samplesetstatus, samplesetindex, toolId);
     
   }
 }

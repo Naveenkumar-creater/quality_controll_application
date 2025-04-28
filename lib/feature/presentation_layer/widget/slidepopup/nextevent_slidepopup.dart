@@ -100,7 +100,7 @@ class _NexteventSlidepopupState extends State<NexteventSlidepopup> {
       pcId: pcid,
       orgId: orgid,
       overallNotes: overallDescription.text,
-      reactionId: reaction.first.iqcIirId,
+      reactionId:reaction.isEmpty ? 0 : reaction.first.iqcIirId ,
       reactionData: [],
     );
 
@@ -128,6 +128,10 @@ class _NexteventSlidepopupState extends State<NexteventSlidepopup> {
 
   @override
   Widget build(BuildContext context) {
+     final reactionrestartEvent =
+        Provider.of<ReactionProvider>(context, listen: false)
+                .reaction?.listOfReaction ??
+            [];
     final restartEvent =
         Provider.of<ListofrestarteventProvider>(context, listen: false)
                 .restartEvent
@@ -315,14 +319,38 @@ class _NexteventSlidepopupState extends State<NexteventSlidepopup> {
                                     backgroundColor: ThemeClass.buttonColor,
                                     borderRadius: BorderRadius.circular(
                                         ThemeClass.butborderradious),
-                                    onPressed: (_radioSelected == 2 &&
+                                    onPressed: reactionrestartEvent.isEmpty ?   (_radioSelected == 2 &&
+                                                overallDescription
+                                                    .text.isNotEmpty &&
+                                                selectrestartStatusId != 0) ||
+                                            (_radioSelected != 2 &&
+                                                overallDescription
+                                                    .text.isNotEmpty) ?
+
+                                        () async {
+
+                                              await sendServerParamdata(context,
+                                                  "list_reaction_submit");
+                                              Navigator.pushReplacement(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return ResponsiveTabletHomepage();
+                                              }));
+                                                                                            } :null
+                                        
+                                        :(_radioSelected == 2 &&
                                                 overallDescription
                                                     .text.isNotEmpty &&
                                                 selectrestartStatusId != 0) ||
                                             (_radioSelected != 2 &&
                                                 overallDescription
                                                     .text.isNotEmpty)
-                                        ? () async {
+                                        ?
+
+                                        
+                                        
+                                        
+                                        () async {
                                             try {
                                               await sendServerParamdata(context,
                                                   "list_reaction_submit");

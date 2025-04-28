@@ -5,7 +5,7 @@ import 'package:qc_control_app/feature/data_layer/model/inspectionSample_model.d
 abstract class InspectionSampleDatasource{
 
   Future<InspectionSampleModel>getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
-  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex);
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex, int toolId);
 
 }
 
@@ -13,7 +13,7 @@ abstract class InspectionSampleDatasource{
 class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
   @override
   Future<InspectionSampleModel> getSampleList(String token, int headerid, int activityid, int orgid, int processid, 
-  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex
+  int eventid, int imfgpid, int eventtriggerid,  int samplesize, int queeid, int queestatus,int samplesetheaderid,double productionqty,int samplesetstatus, int samplesetindex, int toolId
   )async {
 
    ApiRequestDataModel request=  ApiRequestDataModel(
@@ -32,7 +32,8 @@ class InspectionsampleDatasourceImpl extends InspectionSampleDatasource{
     productionqty: productionqty,
     samplesetheaderid: samplesetheaderid,    
     samplesetindex:samplesetindex ,
-    samplesetstatus: samplesetstatus
+    samplesetstatus: samplesetstatus,
+    toolid:toolId
     );
 
 

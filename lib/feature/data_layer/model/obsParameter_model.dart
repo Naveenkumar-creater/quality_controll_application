@@ -43,8 +43,10 @@ class ObservationByParameter extends ObservationByParameterEntity{
         required this.iqcCpsIspId,
         required this.iqcIioIisId,
         required this.iqciiocavityno,
-        required this.lastcavityno
+        required this.lastcavityno,
+        required this.samplesetstatus
     }) : super(
+      samplesetstatus:samplesetstatus,
       lastcavityno: lastcavityno,
       iqciiocavityno:iqciiocavityno ,
       iqcIioDate: iqcIioDate,
@@ -79,6 +81,7 @@ class ObservationByParameter extends ObservationByParameterEntity{
     final int? iqcIioIisId;
     final int? iqciiocavityno;
     final int? lastcavityno;
+    final int? samplesetstatus;
 
    factory ObservationByParameter.fromJson(Map<String, dynamic> json) {
     return ObservationByParameter(
@@ -108,7 +111,8 @@ class ObservationByParameter extends ObservationByParameterEntity{
         iqcCpsIspId: json["iqc_cps_isp_id"],
         iqcIioIisId: json["iqc_iio_iis_id"],
         iqciiocavityno:json["iqc_iio_cavity_no"],
-       lastcavityno: json["last_cavity_no"]
+       lastcavityno: json["last_cavity_no"],
+       samplesetstatus:json["sampleset_status"]
     );
 }
 

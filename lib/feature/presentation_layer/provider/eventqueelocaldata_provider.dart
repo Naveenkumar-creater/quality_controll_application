@@ -7,7 +7,6 @@ class EventqueelocaldataProvider extends ChangeNotifier{
   EventQueuelocalDataModel? get queedata=>_queedata;
 
   void setEventqueedata(EventQueuelocalDataModel data){
-
     _queedata=data;
     notifyListeners();
 

@@ -15,7 +15,7 @@ controlplanheaderid:cphid,
 queeid: queeid,
 questatus: queestatus,
 imfgpid: imfgpid,
-previouseventid:previousevenid ,
+previouseventid:previousevenid,
 orgid:orgid,
  );
 

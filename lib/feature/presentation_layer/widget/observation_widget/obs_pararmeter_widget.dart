@@ -6,8 +6,10 @@ import 'package:qc_control_app/constant/customwidgets/custombutton.dart';
 import 'package:qc_control_app/constant/customwidgets/customtheme.dart';
 import 'package:qc_control_app/constant/request_data_model.dart/obs_parameter_save_model.dart';
 import 'package:qc_control_app/feature/domain_layer/entity/list_status_entity.dart';
+import 'package:qc_control_app/feature/presentation_layer/api_service.dart/inspectionsample_di.dart';
 import 'package:qc_control_app/feature/presentation_layer/layout/inspectionpagelayout.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/eventqueelocaldata_provider.dart';
+import 'package:qc_control_app/feature/presentation_layer/provider/eventsampleset_localdata_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/inspecSampleLocalData_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/list_status_provider.dart';
 import 'package:qc_control_app/feature/presentation_layer/provider/login_provider.dart';
@@ -30,13 +32,15 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
   // List<String> optionList = ["Passed", "Conditionally Passed", "Failed"];
   String? selectename;
   final _formKey = GlobalKey<FormState>();
-
+InspectionsampleDi inspectionsampleDi = InspectionsampleDi();
   List<TextEditingController> controllers = [];
   List<TextEditingController?> enterDescription = [];
     List<TextEditingController?> cavityvalue = [];
   List<bool> dropdownEnabled = [];
+  int serialNumber = 1;
 
   bool _isEnable = true;
+    bool isLoading = true;
 
   @override
   void initState() {
@@ -101,6 +105,80 @@ class _ObsPararmeterWidgetState extends State<ObsPararmeterWidget> {
       });
     }
   }
+
+
+ Future<void>  fetchDatafromDatabase() async {
+    try {
+
+      final samplestatus =
+          Provider.of<ObsparameterProvider>(context, listen: false)
+                  .obsparam
+                  ?.observationBySamples.first.samplesetstatus??
+
+              0;
+
+                 final sample =
+        context.read<ObsparameterProvider>().obsparam?.observationBySamples ??
+            [];
+
+                  final samplesetvalues =
+          Provider.of<EventsamplesetLocaldataProvider>(context, listen: false)
+                  .sampledata;
+
+                 final eventqueedata =
+        Provider.of<EventqueelocaldataProvider>(context, listen: false)
+            .queedata;
+
+            
+
+              await inspectionsampleDi.getSampleList(
+                                                        context: context,
+                                                        headerid: eventqueedata
+                                                                ?.iqcIieCphId ??
+                                                            0,
+                                                        activityid: eventqueedata
+                                                                ?.imfgpPaId ??
+                                                            0,
+                                                        eventid: eventqueedata
+                                                                ?.iqcIieIeId ??
+                                                            0,
+                                                        eventtriggerid:
+                                                            eventqueedata
+                                                                    ?.iqcIiqIieId ??
+                                                                0,
+                                                        imfgpid: eventqueedata
+                                                                ?.imfgpId ??
+                                                            0,
+                                                        processid: eventqueedata
+                                                                ?.imfgpMpmId ??
+                                                            0,
+                                                        queeid: eventqueedata
+                                                                ?.iqcIiqId ??
+                                                            0,
+                                                        queestatus: eventqueedata
+                                                                ?.iqcIiqStatus ??
+                                                            0,
+                                                        samplesize: eventqueedata
+                                                                ?.iqcIiqMaxSampleSize ??
+                                                            0, 
+                                                            toolId: eventqueedata?.toolId ?? 0, 
+                                                            productionqty:samplesetvalues?.productionqty ?? 0.0  ,
+                                                            samplesetheaderid: samplesetvalues?.iqcIishId ?? 0,
+                                                            samplesetindex:samplesetvalues?.samplesetindex ?? 0 ,
+                                                            samplesetstatus: samplestatus,
+                                                        
+                                                            );
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ShowError.showAlert(context, e.toString());
+    }
+  }
+
 
   @override
   void dispose() {
@@ -690,13 +768,14 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                             borderRadius: BorderRadius.circular(
                                 ThemeClass.butborderradious),
                             onPressed: () async {
-                              // obsSampleDi.getSampleList(inspectionid:parameter?.iqcIiId ?? 0 , context: context);
-                              //                       _obsSample();
-                              // getSampledata(sample);
+
 
 
                               await sendServerParamdata(
                                   context, "list_of_saved_parameter", 2);
+
+                               await fetchDatafromDatabase();
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -722,7 +801,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                 if (_formKey.currentState!.validate()) {
                                   await sendServerParamdata(
                                       context, "list_of_saved_parameter", 3);
-
+await fetchDatafromDatabase();
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -789,6 +868,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                               ),
                             ),
                           ),
+                          SizedBox(width: 5,),
                           Expanded(
                             flex: 2,
                             child: Align(
@@ -802,8 +882,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                               ),
                             ),
                           ),
-                          
-                              if (cavityflag == 0)
+                              if (cavityflag == 1)
                                 Expanded(
                                   flex: 2, // Same flex as data row
                                   child: Align(
@@ -818,13 +897,13 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                     ),
                                   ),
                                 ),
-                                 if (cavityflag == 0)
+                                 if (cavityflag == 1)
                                 Expanded(
                                   flex: 2, // Same flex as data row
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "Cavity Value",
+                                      "Cavity",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Lexend",
@@ -838,7 +917,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Actual Values",
+                                "Actual Value",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -928,18 +1007,20 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                         }
                       }
 
+final allSamples = groupedSamples.entries
+    .expand((entry) => entry.value)
+    .toList();
 
                       return SingleChildScrollView(
                         child: Column(
-                          children: groupedSamples.entries.map((entry) {
-                            return Column(
-                              children: entry.value.map((sampleList) {
-                                int index = sample.indexOf(sampleList);
-
+                              children:allSamples.asMap().entries.map((entry) {
+                    final index = entry.key;
+      final sampleList = entry.value;
+      final serial = index + 1;
                                 return Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: index % 2 == 0
+                                    color: serial % 2 == 0
                                         ? Colors.grey.shade50
                                         : Colors.grey.shade200,
                                     borderRadius: BorderRadius.only(
@@ -954,7 +1035,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "${index + 1}",
+                                            "${serial}",
                                             style: TextStyle(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600,
@@ -991,7 +1072,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                           ),
                                         ),
                                       ),
-                                    if (cavityflag == 0)
+                                    if (cavityflag == 1)
                                          Expanded(
                                         flex: 2,
                                         child: Align(
@@ -1006,7 +1087,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                           ),
                                         ),
                                       ),
-                                       if (cavityflag == 0)
+                                       if (cavityflag == 1)
                                         Expanded(
                                           flex: 2, // Matching header
                                           child: Align(
@@ -1319,8 +1400,7 @@ bool _isValueInRange(double? lowerRangeValue, double? upperRangeValue, String en
                                     ],
                                   ),
                                 );
-                              }).toList(),
-                            );
+                        
                           }).toList(),
                         ),
                       );

@@ -48,7 +48,8 @@ class EventQueueListEntity extends Equatable {
         required this.pcid,
         required this.previouseventid,
         required this.cavityflag,
-        required this.iqcpreviousid
+        required this.iqcpreviousid,
+        required this.toolid
     });
 
     final DateTime? iqcIiqDate;
@@ -82,6 +83,7 @@ class EventQueueListEntity extends Equatable {
     final int ? previouseventid;
     final int ? cavityflag;
     final int? iqcpreviousid;
+    final int? toolid;
       @override
       // TODO: implement props
       List<Object?> get props => [
