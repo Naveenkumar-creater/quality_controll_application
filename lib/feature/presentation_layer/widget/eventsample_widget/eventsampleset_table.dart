@@ -46,6 +46,7 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
   int? selectedStatusId = 0;
   int? selectedeventtype = 0; // Store the corresponding ID
  int ?productionqtyvalue;
+ int selectedProcessStatus = 0;
   void _obsSample() {
     showDialog(
         context: context,
@@ -329,6 +330,35 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
                           }).toList(),
                         ),
                       ),
+                      if(inspectionstatus != 2)
+                   Column(
+                    children: [
+   RadioListTile<int>(
+                title: const Text('Continue'),
+            
+                  value: 1,
+                  groupValue: selectedProcessStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedProcessStatus = value ?? 0;
+                    });
+                  },
+                
+              ),
+            RadioListTile<int>(
+                title: const Text('Process Complete'),
+            
+                  value: 2,
+                  groupValue: selectedProcessStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedProcessStatus = value ?? 0;
+                    });
+                  },
+              
+              )
+                    ],
+                   ),
 
                       const SizedBox(height: 20),
                       Row(
@@ -352,11 +382,12 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
                                 ThemeClass.butborderradious),
                             onPressed:
 
-                                //  ((selectedStatusId != 0 &&
-                                //             inspectionstatus == 2) ||
-                                //         (selectedStatusId == 0 &&
-                                //             inspectionstatus == 1))
-                                //     ?
+                                 ((selectedStatusId != 0 &&
+                                            inspectionstatus == 2) ||
+                                    
+                                  (selectedProcessStatus != 0 &&
+                                            inspectionstatus == 1))
+                                    ?
 
                                 () async {
                               try {
@@ -369,8 +400,8 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
                               } catch (e) {
                                 ShowError.showAlert(context, e.toString());
                               }
-                            },
-                            // : null,
+                            }
+                            : null,
                             child: const Text("Submit",
                                 style: TextStyle(color: Colors.white)),
                           ),
@@ -415,6 +446,8 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
     final queid =
        eventqueelocaldata
             ?.iqcIiqId;
+            final itemId =   eventqueelocaldata
+            ?.pcItemId;
 
     final eventid = eventqueelocaldata?.iqcIieIeId;
 
@@ -449,6 +482,8 @@ InterruptionStatusDi interruptionStatusDi=InterruptionStatusDi();
         eventid: eventid,
         imfgpid: imfgpid,
         activityid:activityId ,
+        processStatus: selectedProcessStatus,
+        itemid:itemId,
         listOfsampledata: []);
 
     for (int i = 0; i < sample.length; i++) {
@@ -735,10 +770,11 @@ print("samplecount:  " + "${samplesetcount}");
                                                 ThemeClass.buttonColor,
                                             borderRadius: BorderRadius.circular(
                                                 ThemeClass.butborderradious),
-          
-            onPressed: samplesetcount ? () async {
+
+            onPressed:  samplesetcount ?  () async {
               await _submitPop(context);
-            } : null,
+            } 
+            : null,
             child: Text(
               "Submit",
               style: TextStyle(
